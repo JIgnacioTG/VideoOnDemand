@@ -52,7 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Episodio.cs" />
+    <Compile Include="Entities\Media.cs" />
+    <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Persona.cs" />
+    <Compile Include="Entities\Serie.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
