@@ -8,5 +8,8 @@ namespace VideoOnDemand.Entities
 {
     public class Serie : Media
     {
+        public virtual ICollection<Episodio> Episodios { get; set; }
     }
+
+
 }

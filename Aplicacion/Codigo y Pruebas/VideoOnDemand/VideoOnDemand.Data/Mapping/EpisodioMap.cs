@@ -18,7 +18,7 @@ namespace VideoOnDemand.Mapping
             Property(e => e.temporada)
                 .IsRequired();
             Property(e => e.serieId)
-                .IsOptional();
+                .IsRequired();
             HasRequired(e => e.Serie)
                 .WithMany()
                 .HasForeignKey(e => e.serieId);
