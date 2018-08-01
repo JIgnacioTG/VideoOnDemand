@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoOnDemand.Entities;
+using VideoOnDemand.Mapping;
 
 namespace VideoOnDemand.Data
 {
@@ -33,15 +34,12 @@ namespace VideoOnDemand.Data
             usuarioEntity.Property(x => x.Nombre).HasMaxLength(200).IsRequired();
             usuarioEntity.Property(x => x.IdentityId).HasMaxLength(128).IsRequired();
 
-            var episodioEntity = modelBuilder.Entity<Episodio>();
-            episodioEntity.HasKey(e => e.id);
-            episodioEntity.Property(e => e.id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            episodioEntity.Property(e => e.temporada)
-                .IsRequired();
-            episodioEntity.Property(e => e.serieId)
-                .IsOptional();
-            
+            modelBuilder.Configurations.Add(new EpisodioMap());
+
+            modelBuilder.Configurations.Add(new GeneroMap());
+
+            modelBuilder.Configurations.Add(new MediaMap());
+
         }
     }
 }

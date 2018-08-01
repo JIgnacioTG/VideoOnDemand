@@ -10,6 +10,6 @@ namespace VideoOnDemand.Entities
     {
         public int? temporada { get; set; }
         public int? serieId { get; set; }
-        public Serie? Serie { get; set; }
+        public Serie Serie { get; set; }
     }
 }
