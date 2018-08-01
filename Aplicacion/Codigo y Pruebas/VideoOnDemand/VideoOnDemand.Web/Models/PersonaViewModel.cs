@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace VideoOnDemand.Entities
+namespace VideoOnDemand.Web.Models
 {
-    public class Persona
+    public class PersonaViewModel
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descipcion { get; set; }
         public DateTime? FechaNacimiento { get; set; }
-
     }
 }
