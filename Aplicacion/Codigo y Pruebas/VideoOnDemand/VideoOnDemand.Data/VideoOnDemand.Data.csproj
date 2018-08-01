@@ -52,11 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
+    <Compile Include="Entities\EEstatusMedia.cs" />
     <Compile Include="Entities\Episodio.cs" />
     <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Movie.cs" />
-
     <Compile Include="Entities\Genero.cs" />
     <Compile Include="Entities\Persona.cs" />
     <Compile Include="Entities\Serie.cs" />

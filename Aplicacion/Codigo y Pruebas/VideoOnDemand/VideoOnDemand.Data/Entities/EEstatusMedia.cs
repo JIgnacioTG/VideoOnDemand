@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace VideoOnDemand.Entities
 {
-    public class Episodio : Media
+    public enum EEstatusMedia
     {
-        public int? temporada { get; set; }
-        public int? serieId { get; set; }
-        public Serie? Serie { get; set; }
+        ELIMINADO = 0,
+        VISIBLE = 1,
+        INVISIBLE = 2
     }
 }
+    
