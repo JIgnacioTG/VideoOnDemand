@@ -17,6 +17,12 @@ namespace VideoOnDemand.Data
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Episodio> Episodios { get; set; }
+        public DbSet<Genero> Generos { get; set; }
+        public DbSet<Media> Medias { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Serie> Series { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -27,6 +33,14 @@ namespace VideoOnDemand.Data
             usuarioEntity.Property(x => x.Nombre).HasMaxLength(200).IsRequired();
             usuarioEntity.Property(x => x.IdentityId).HasMaxLength(128).IsRequired();
 
+            var episodioEntity = modelBuilder.Entity<Episodio>();
+            episodioEntity.HasKey(e => e.id);
+            episodioEntity.Property(e => e.id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            episodioEntity.Property(e => e.temporada)
+                .IsRequired();
+            episodioEntity.Property(e => e.serieId)
+                .IsOptional();
             
         }
     }
