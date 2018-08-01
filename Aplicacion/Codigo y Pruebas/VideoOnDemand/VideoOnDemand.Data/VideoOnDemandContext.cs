@@ -40,6 +40,8 @@ namespace VideoOnDemand.Data
 
             modelBuilder.Configurations.Add(new MediaMap());
 
+            modelBuilder.Configurations.Add(new PersonaMap());
+
         }
     }
 }

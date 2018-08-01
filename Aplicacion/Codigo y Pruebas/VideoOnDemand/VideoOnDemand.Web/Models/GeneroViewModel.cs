@@ -12,7 +12,7 @@ namespace VideoOnDemand.Web.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(10)]
+        [MaxLength(50)]
         [DisplayName("nombre del género")]
         public string Nombre { get; set; }
 
