@@ -17,7 +17,7 @@ namespace VideoOnDemand.Mapping
             HasKey(p => p.Id);
             Property(p => p.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(p => p.Nombre).HasMaxLength(100).IsRequired();
-            Property(p => p.Descipcion).HasMaxLength(500).IsOptional();
+            Property(p => p.Descripcion).HasMaxLength(500).IsOptional();
             Property(p => p.FechaNacimiento).IsOptional();
         }
     }
