@@ -68,6 +68,7 @@
     <Compile Include="Mapping\GeneroMap.cs" />
     <Compile Include="Mapping\MediaMap.cs" />
     <Compile Include="Mapping\MovieMap.cs" />
+    <Compile Include="Mapping\OpinionMap.cs" />
     <Compile Include="Mapping\SerieMap.cs" />
     <Compile Include="Mapping\MediaOnPlayMap.cs" />
     <Compile Include="Mapping\PersonaMap.cs" />
