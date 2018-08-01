@@ -192,9 +192,12 @@
     </Compile>
     <Compile Include="Helpers\MapHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EpisodioViewModel.cs" />
     <Compile Include="Models\GeneroViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MediaViewModel.cs" />
+    <Compile Include="Models\OpinionViewModel.cs" />
     <Compile Include="Models\PaginatorViewModel.cs" />
     <Compile Include="Models\PersonaViewModel.cs" />
     <Compile Include="Models\UsuarioViewModel.cs" />
