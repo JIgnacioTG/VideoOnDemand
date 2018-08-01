@@ -56,6 +56,7 @@
     <Compile Include="Entities\Episodio.cs" />
     <Compile Include="Entities\Favorito.cs" />
     <Compile Include="Entities\Media.cs" />
+    <Compile Include="Entities\MediaOnPlay.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Genero.cs" />
     <Compile Include="Entities\Opinion.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="Mapping\MediaMap.cs" />
     <Compile Include="Mapping\MovieMap.cs" />
     <Compile Include="Mapping\SerieMap.cs" />
+    <Compile Include="Mapping\MediaOnPlayMap.cs" />
+    <Compile Include="Mapping\PersonaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\GeneroRepository.cs" />
