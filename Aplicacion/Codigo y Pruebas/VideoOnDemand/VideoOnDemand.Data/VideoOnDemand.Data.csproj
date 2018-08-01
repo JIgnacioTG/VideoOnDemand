@@ -66,6 +66,7 @@
     <Compile Include="Mapping\GeneroMap.cs" />
     <Compile Include="Mapping\MediaMap.cs" />
     <Compile Include="Mapping\MediaOnPlayMap.cs" />
+    <Compile Include="Mapping\PersonaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\GeneroRepository.cs" />
