@@ -2,6 +2,7 @@
 using VideoOnDemand.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace VideoOnDemand.Repositories
 {
@@ -35,6 +36,8 @@ namespace VideoOnDemand.Repositories
                 {
                     serie.Actores.Add(p);
                 }
+
+                serie.fechaRegistro = DateTime.Now;
 
                 _context.Medias.Add(serie);
 
