@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
+using VideoOnDemand.Entities;
 
 namespace VideoOnDemand.Web.Models
 {
@@ -14,15 +14,27 @@ namespace VideoOnDemand.Web.Models
         [MaxLength (100)]
         [DisplayName("Nombre")]
         public string nombre { get; set; }
+
         [MaxLength (500)]
         [DisplayName("Descripción")]
         public string descripcion { get; set; }
+
         [Required]
         [DisplayName("Duración")]
         public int? duracionMin { get; set; }
+
+        
+        [DisplayName("Fecha de registro")]
+        [DataType(DataType.DateTime)]
+        public DateTime? fechaRegistro { get; set; }
+
         [Required]
         [DisplayName("Fecha Lanzamiento")]
+        [DataType(DataType.Date)]
         public DateTime? fechaLanzamiento { get; set; }
+
+
+        public EEstatusMedia? estado { get; set; }
 
        
         public ICollection<GeneroViewModel> GenerosDisponibles { get; set; }
