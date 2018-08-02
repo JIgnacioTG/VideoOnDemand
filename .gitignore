@@ -240,3 +240,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+Aplicacion/Codigo y Pruebas/VideoOnDemand/VideoOnDemand.Data/App.config
