@@ -38,8 +38,9 @@ namespace VideoOnDemand.Repositories
                 }
 
                 _context.Medias.Add(movie);
-
+                
             }
+            
         }
 
     }
