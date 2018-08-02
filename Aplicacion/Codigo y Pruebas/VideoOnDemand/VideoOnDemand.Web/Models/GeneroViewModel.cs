@@ -13,12 +13,12 @@ namespace VideoOnDemand.Web.Models
 
         [Required]
         [MaxLength(50)]
-        [DisplayName("nombre del género")]
+        [DisplayName("Nombre del género")]
         public string Nombre { get; set; }
 
         [Required]
         [MaxLength(500)]
-        [DisplayName("descripción del género")]
+        [DisplayName("Descripción del género")]
         public string Descripcion { get; set; }
     }
 }
