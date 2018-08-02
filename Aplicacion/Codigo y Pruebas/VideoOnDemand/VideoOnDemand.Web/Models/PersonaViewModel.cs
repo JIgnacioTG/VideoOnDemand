@@ -9,7 +9,7 @@ namespace VideoOnDemand.Web.Models
 {
     public class PersonaViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         public string Nombre { get; set; }

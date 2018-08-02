@@ -1,0 +1,120 @@
+﻿@model VideoOnDemand.Web.Models.MovieViewModel
+
+@{
+    ViewBag.Title = "Nueva Película";
+}
+
+<h2>Administrar Película</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4></h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.duracionMin, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.duracionMin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.duracionMin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fechaLanzamiento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fechaLanzamiento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>Generos</h3></div>
+            <div class="panel-body">
+
+                @foreach (var item in Model.GenerosDisponibles)
+                {
+                    var selecionado = "";
+                    // Activar Checkbox si de los temas selecionados
+                    //existe en los temas seleccionados
+                    if (Model.SeleccionarGeneros != null)
+                    {
+                        if (Model.SeleccionarGeneros.Contains(item.Id.Value))
+                        {
+                            selecionado = "checked";
+
+                        }
+
+                    }
+                    <div class="checkbox">
+                        <label>
+                            <input name="SeleccionarGeneros" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>Actores</h3></div>
+            <div class="panel-body">
+
+                @foreach (var item in Model.PersonasDisponibles)
+                {
+                    var selecionado = "";
+                    // Activar Checkbox si de los temas selecionados
+                    //existe en los temas seleccionados
+                    if (Model.SeleccionarGeneros != null)
+                    {
+                        if (Model.SeleccionarPersonas.Contains(item.Id.Value))
+                        {
+                            selecionado = "checked";
+
+                        }
+
+                    }
+                    <div class="checkbox">
+                        <label>
+                            <input name="SeleccionarPersonas" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
