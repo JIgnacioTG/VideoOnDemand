@@ -67,12 +67,11 @@ namespace VideoOnDemand.Web.Controllers
                     repository.InsertComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
 
                     context.SaveChanges();
-
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-
-                    return RedirectToAction("Index");
+                    return View(model);
                 }
             }
             catch
