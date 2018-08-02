@@ -7,7 +7,7 @@ using System.Linq.Dynamic;
 using AppFramework.Expressions;
 using VideoOnDemand.Data;
 
-namespace ltracker.Data.Repositories
+namespace VideoOnDemand.Repositories
 {
 
     public class BaseRepository<TEntity> where TEntity : class
