@@ -72,15 +72,6 @@
     <Compile Include="Mapping\SerieMap.cs" />
     <Compile Include="Mapping\MediaOnPlayMap.cs" />
     <Compile Include="Mapping\PersonaMap.cs" />
-    <Compile Include="Migrations\201808011541449_InitialCreate.cs" />
-    <Compile Include="Migrations\201808011541449_InitialCreate.Designer.cs">
-      <DependentUpon>201808011541449_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808021440462_Peliculas.cs" />
-    <Compile Include="Migrations\201808021440462_Peliculas.Designer.cs">
-      <DependentUpon>201808021440462_Peliculas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\EpisodioRepository.cs" />
@@ -94,14 +85,6 @@
     <Compile Include="Repositories\SerieRepository.cs" />
     <Compile Include="Repositories\UsuarioRepository.cs" />
     <Compile Include="VideoOnDemandContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808011541449_InitialCreate.resx">
-      <DependentUpon>201808011541449_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808021440462_Peliculas.resx">
-      <DependentUpon>201808021440462_Peliculas.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
