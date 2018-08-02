@@ -20,7 +20,7 @@ namespace VideoOnDemand.Web.Models
         public string Descripcion { get; set; }
 
         [DisplayName("Fecha de Nacimiento")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime? FechaNacimiento { get; set; }
 
     }
