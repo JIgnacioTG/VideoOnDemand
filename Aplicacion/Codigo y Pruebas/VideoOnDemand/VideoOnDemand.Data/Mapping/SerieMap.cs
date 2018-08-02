@@ -10,6 +10,10 @@ namespace VideoOnDemand.Mapping
         {
             ToTable("Serie");
 
+            HasKey(s => s.id);
+            Property(s => s.id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
         }
     }
 }
