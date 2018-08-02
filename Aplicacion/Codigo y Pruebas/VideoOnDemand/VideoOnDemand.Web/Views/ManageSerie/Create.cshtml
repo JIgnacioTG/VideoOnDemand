@@ -60,7 +60,7 @@
                     // Existe en los temas seleccionados
                     if (Model.GenerosSeleccionados != null)
                     {
-                        if (Model.GenerosSeleccionados.Contains(item.Id))
+                        if (Model.GenerosSeleccionados.Contains(item.Id.Value))
                         {
                             seleccionado = "checked";
                         }
@@ -68,7 +68,7 @@
 
                     <div class="checkbox">
                         <label>
-                            <input name="GenerosSeleccionados" type="checkbox" value="@item.Id.ToString()" @seleccionado> @item.Nombre
+                            <input name="GenerosSeleccionados" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
                         </label>
                     </div>
                 }
@@ -88,7 +88,7 @@
                     // Existe en los temas seleccionados
                     if (Model.PersonasSeleccionadas != null)
                     {
-                        if (Model.PersonasSeleccionadas.Contains(item.Id))
+                        if (Model.PersonasSeleccionadas.Contains(item.Id.Value))
                         {
                             seleccionado = "checked";
                         }
@@ -96,7 +96,7 @@
 
                     <div class="checkbox">
                         <label>
-                            <input name="PersonasSeleccionadas" type="checkbox" value="@item.Id.ToString()" @seleccionado> @item.Nombre
+                            <input name="PersonasSeleccionadas" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
                         </label>
                     </div>
                 }
