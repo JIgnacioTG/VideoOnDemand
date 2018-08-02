@@ -3,15 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Data;
+using VideoOnDemand.Repositories;
+using VideoOnDemand.Web.Helpers;
+using VideoOnDemand.Web.Models;
 
 namespace VideoOnDemand.Web.Controllers
 {
-    public class ManageSerieController : Controller
+    public class ManageSerieController : BaseController
     {
         // GET: ManageSerie
         public ActionResult Index()
         {
-            return View();
+
+            VideoOnDemandContext context = new VideoOnDemandContext();
+            SerieRepository repository = new SerieRepository(context);
+
+            // Consultar las series
+            var lst = repository.GetAll();
+
+            // Mapear la lista de series con una lista de SerieViewModel
+            var models = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
+
+            return View(models);
         }
 
         // GET: ManageSerie/Details/5
@@ -23,18 +37,44 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new MovieViewModel();
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+            var lst = generoRepository.GetAll();
+            var lst2 = personaRepository.GetAll();
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            return View(model);
         }
 
         // POST: ManageSerie/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(SerieViewModel model)
         {
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+            var lst = generoRepository.GetAll();
+            var lst2 = personaRepository.GetAll();
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+
             try
             {
-                // TODO: Add insert logic here
+                MovieRepository repository = new MovieRepository(context);
 
-                return RedirectToAction("Index");
+                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    Movie movie = MapHelper.Map<Movie>(model);
+                    repository.InsertComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
+
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(model);
+                }
             }
             catch
             {
