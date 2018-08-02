@@ -9,7 +9,7 @@ namespace VideoOnDemand.Web.Models
 {
     public class GeneroViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [MaxLength(50)]

@@ -25,11 +25,7 @@ namespace VideoOnDemand.Web.Controllers
         }
 
         // GET: Genero/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        
         // GET: Genero/Create
         public ActionResult Create()
         {
@@ -79,7 +75,7 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Genero/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(id);
         }
 
         // POST: Genero/Edit/5
