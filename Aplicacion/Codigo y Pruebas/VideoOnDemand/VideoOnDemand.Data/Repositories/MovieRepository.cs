@@ -38,7 +38,7 @@ namespace VideoOnDemand.Repositories
                     movie.Actores.Add(p);
                 }
                 movie.fechaRegistro = DateTime.Now;
-                movie.estado = EEstatusMedia.VISIBLE
+                movie.estado = EEstatusMedia.VISIBLE;
 
                 _context.Medias.Add(movie);
                 
