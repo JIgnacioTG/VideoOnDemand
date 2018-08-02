@@ -76,6 +76,14 @@
     <Compile Include="Migrations\201808021450383_FirstDatabase.Designer.cs">
       <DependentUpon>201808021450383_FirstDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808021528028_FixRelationship1.cs" />
+    <Compile Include="Migrations\201808021528028_FixRelationship1.Designer.cs">
+      <DependentUpon>201808021528028_FixRelationship1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808021533511_FixRelationship2.cs" />
+    <Compile Include="Migrations\201808021533511_FixRelationship2.Designer.cs">
+      <DependentUpon>201808021533511_FixRelationship2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -98,6 +106,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808021450383_FirstDatabase.resx">
       <DependentUpon>201808021450383_FirstDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808021528028_FixRelationship1.resx">
+      <DependentUpon>201808021528028_FixRelationship1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808021533511_FixRelationship2.resx">
+      <DependentUpon>201808021533511_FixRelationship2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
