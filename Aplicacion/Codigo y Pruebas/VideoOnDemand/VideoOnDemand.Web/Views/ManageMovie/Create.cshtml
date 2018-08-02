@@ -1,10 +1,10 @@
-﻿@model VideoOnDemand.Web.Models.SerieViewModel
+﻿@model VideoOnDemand.Web.Models.MovieViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Nueva Película";
 }
 
-<h2>Create</h2>
+<h2>Administrar Película</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>SerieViewModel</h4>
+        <h4></h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -48,27 +48,26 @@
         </div>
 
         <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">G&eacute;neros</h3>
-            </div>
+            <div class="panel-heading"><h3>Generos</h3></div>
             <div class="panel-body">
+
                 @foreach (var item in Model.GenerosDisponibles)
                 {
-                    var seleccionado = "";
-
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.GenerosSeleccionados != null)
+                    var selecionado = "";
+                    // Activar Checkbox si de los temas selecionados
+                    //existe en los temas seleccionados
+                    if (Model.SeleccionarGeneros != null)
                     {
-                        if (Model.GenerosSeleccionados.Contains(item.Id.Value))
+                        if (Model.SeleccionarGeneros.Contains(item.Id.Value))
                         {
-                            seleccionado = "checked";
-                        }
-                    }
+                            selecionado = "checked";
 
+                        }
+
+                    }
                     <div class="checkbox">
                         <label>
-                            <input name="GenerosSeleccionados" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
+                            <input name="SeleccionarGeneros" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
                         </label>
                     </div>
                 }
@@ -76,43 +75,44 @@
         </div>
 
         <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Actores</h3>
-            </div>
+            <div class="panel-heading"><h3>Actores</h3></div>
             <div class="panel-body">
+
                 @foreach (var item in Model.PersonasDisponibles)
                 {
-                    var seleccionado = "";
-
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.PersonasSeleccionadas != null)
+                    var selecionado = "";
+                    // Activar Checkbox si de los temas selecionados
+                    //existe en los temas seleccionados
+                    if (Model.SeleccionarGeneros != null)
                     {
-                        if (Model.PersonasSeleccionadas.Contains(item.Id.Value))
+                        if (Model.SeleccionarPersonas.Contains(item.Id.Value))
                         {
-                            seleccionado = "checked";
-                        }
-                    }
+                            selecionado = "checked";
 
+                        }
+
+                    }
                     <div class="checkbox">
                         <label>
-                            <input name="PersonasSeleccionadas" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
+                            <input name="SeleccionarPersonas" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
                         </label>
                     </div>
                 }
             </div>
         </div>
 
+
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Regresar", "Index")
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

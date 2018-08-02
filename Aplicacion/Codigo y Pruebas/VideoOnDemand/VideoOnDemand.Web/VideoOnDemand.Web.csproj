@@ -699,6 +699,8 @@
     <Content Include="Views\Persona\Edit.cshtml" />
     <Content Include="Views\Persona\Delete.cshtml" />
     <Content Include="Views\ManageSerie\Create.cshtml" />
+    <Content Include="Views\ManageMovie\Index.cshtml" />
+    <Content Include="Views\ManageMovie\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
