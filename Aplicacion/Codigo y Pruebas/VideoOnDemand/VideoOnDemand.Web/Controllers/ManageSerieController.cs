@@ -37,18 +37,44 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new MovieViewModel();
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+            var lst = generoRepository.GetAll();
+            var lst2 = personaRepository.GetAll();
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            return View(model);
         }
 
         // POST: ManageSerie/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(SerieViewModel model)
         {
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+            var lst = generoRepository.GetAll();
+            var lst2 = personaRepository.GetAll();
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+
             try
             {
-                // TODO: Add insert logic here
+                MovieRepository repository = new MovieRepository(context);
 
-                return RedirectToAction("Index");
+                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    Movie movie = MapHelper.Map<Movie>(model);
+                    repository.InsertComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
+
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(model);
+                }
             }
             catch
             {
