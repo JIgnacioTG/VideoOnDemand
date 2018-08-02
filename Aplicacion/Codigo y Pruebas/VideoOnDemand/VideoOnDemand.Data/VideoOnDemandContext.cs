@@ -39,6 +39,16 @@ namespace VideoOnDemand.Data
 
             modelBuilder.Configurations.Add(new PersonaMap());
 
+            modelBuilder.Configurations.Add(new FavoritoMap());
+
+            modelBuilder.Configurations.Add(new MediaOnPlayMap());
+
+            modelBuilder.Configurations.Add(new MovieMap());
+
+            modelBuilder.Configurations.Add(new OpinionMap());
+
+            modelBuilder.Configurations.Add(new SerieMap());
+
         }
     }
 }
