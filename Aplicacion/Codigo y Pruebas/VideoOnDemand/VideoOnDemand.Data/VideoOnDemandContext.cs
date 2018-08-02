@@ -18,12 +18,9 @@ namespace VideoOnDemand.Data
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Episodio> Episodios { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Media> Medias { get; set; }
-        public DbSet<Movie> Movies { get; set; }
         public DbSet<Persona> Personas { get; set; }
-        public DbSet<Serie> Series { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

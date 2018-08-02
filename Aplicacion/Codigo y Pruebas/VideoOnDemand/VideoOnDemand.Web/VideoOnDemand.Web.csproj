@@ -686,11 +686,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Shared\_Paginator.cshtml" />
-    <Content Include="Views\Persona\Index.cshtml" />
     <Content Include="Views\Genero\Index.cshtml" />
     <Content Include="Views\Genero\Create.cshtml" />
     <Content Include="Views\Genero\Edit.cshtml" />
     <Content Include="Views\Genero\Delete.cshtml" />
+    <Content Include="Views\Persona\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

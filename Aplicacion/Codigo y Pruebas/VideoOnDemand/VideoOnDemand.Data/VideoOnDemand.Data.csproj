@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="Entities\EEstatusMedia.cs" />
     <Compile Include="Entities\Episodio.cs" />
+    <Compile Include="Entities\Favorito.cs" />
     <Compile Include="Entities\Media.cs" />
+    <Compile Include="Entities\MediaOnPlay.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Genero.cs" />
     <Compile Include="Entities\Opinion.cs" />
@@ -62,8 +64,13 @@
     <Compile Include="Entities\Serie.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Mapping\EpisodioMap.cs" />
+    <Compile Include="Mapping\FavoritoMap.cs" />
     <Compile Include="Mapping\GeneroMap.cs" />
     <Compile Include="Mapping\MediaMap.cs" />
+    <Compile Include="Mapping\MovieMap.cs" />
+    <Compile Include="Mapping\OpinionMap.cs" />
+    <Compile Include="Mapping\SerieMap.cs" />
+    <Compile Include="Mapping\MediaOnPlayMap.cs" />
     <Compile Include="Mapping\PersonaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />

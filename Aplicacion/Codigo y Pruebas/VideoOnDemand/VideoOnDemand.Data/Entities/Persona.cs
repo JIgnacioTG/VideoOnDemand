@@ -12,6 +12,6 @@ namespace VideoOnDemand.Entities
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public DateTime? FechaNacimiento { get; set; }
-
+        public ICollection<Media> Medias { get; set; }
     }
 }
