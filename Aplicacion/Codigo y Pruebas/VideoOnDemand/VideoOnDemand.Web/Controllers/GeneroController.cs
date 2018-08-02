@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VideoOnDemand.Data;
@@ -75,6 +76,11 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Genero/Edit/5
         public ActionResult Edit(int id)
         {
+            GeneroRepository repository = new GeneroRepository(context);
+            var genero = repository.Query(t => t.Id == id).First();
+
+            var model = MapHelper.Map<GeneroViewModel>(genero);
+
             return View(model);
         }
 
@@ -115,16 +121,13 @@ namespace VideoOnDemand.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    GeneroRepository repository = new GeneroRepository(context);
+                GeneroRepository repo = new GeneroRepository(context);
 
-                    var genero = MapHelper.Map<Genero>(model);
+                var genero = MapHelper.Map<Genero>(model);
 
-                    repository.Delete(genero);
+                repo.Delete(genero);
 
-                    context.SaveChanges();
-                }
+                context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
