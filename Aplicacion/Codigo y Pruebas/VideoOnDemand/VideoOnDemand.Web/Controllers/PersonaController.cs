@@ -80,7 +80,13 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Edit(int id)
         {
 
-            return View();
+            PersonaRepository repository = new PersonaRepository(context);
+            var actor = repository.Query(t => t.Id == id).First();
+
+            var model = MapHelper.Map<PersonaViewModel>(actor);
+
+            return View(model);
+
         }
 
         // POST: Persona/Edit/5
@@ -89,7 +95,22 @@ namespace VideoOnDemand.Web.Controllers
         {
             try
             {
-                
+                if (ModelState.IsValid)
+                {
+                    PersonaRepository repository = new PersonaRepository(context);
+                    
+                    bool existeTopic = repository.Query(x => x.Nombre == model.Nombre && x.Id != model.Id).Count > 0;
+
+                    if (existeTopic)
+                    {
+                        ModelState.AddModelError("Name", "El Nombre del ACtor ya Existe");
+                        return View(model);
+                    }
+
+                    Persona topic = MapHelper.Map<Persona>(model);
+                    repository.Update(topic);
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
@@ -102,7 +123,12 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Persona/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            PersonaRepository repository = new PersonaRepository(context);
+            var actor = repository.Query(t => t.Id == id).First();
+
+            var model = MapHelper.Map<PersonaViewModel>(actor);
+
+            return View(model);
         }
 
         // POST: Persona/Delete/5
@@ -111,16 +137,13 @@ namespace VideoOnDemand.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    PersonaRepository repo = new PersonaRepository(context);
+                PersonaRepository repo = new PersonaRepository(context);
 
-                    var actor = MapHelper.Map<Persona>(model);
+                var actor = MapHelper.Map<Persona>(model);
 
-                    repo.Delete(actor);
+                repo.Delete(actor);
 
-                    context.SaveChanges();
-                }
+                context.SaveChanges();
 
                 return RedirectToAction("Index");
             }

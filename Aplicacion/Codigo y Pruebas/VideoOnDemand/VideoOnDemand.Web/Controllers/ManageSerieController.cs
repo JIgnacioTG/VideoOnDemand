@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VideoOnDemand.Data;
+using VideoOnDemand.Entities;
 using VideoOnDemand.Repositories;
 using VideoOnDemand.Web.Helpers;
 using VideoOnDemand.Web.Models;
@@ -37,7 +38,7 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie/Create
         public ActionResult Create()
         {
-            var model = new MovieViewModel();
+            var model = new SerieViewModel();
             GeneroRepository generoRepository = new GeneroRepository(context);
             PersonaRepository personaRepository = new PersonaRepository(context);
             var lst = generoRepository.GetAll();
@@ -60,13 +61,13 @@ namespace VideoOnDemand.Web.Controllers
 
             try
             {
-                MovieRepository repository = new MovieRepository(context);
+                SerieRepository repository = new SerieRepository(context);
 
                 // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
-                    Movie movie = MapHelper.Map<Movie>(model);
-                    repository.InsertComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
+                    Serie serie = MapHelper.Map<Serie>(model);
+                    repository.InsertComplete(serie, model.GenerosSeleccionados, model.PersonasSeleccionadas);
 
                     context.SaveChanges();
                     return RedirectToAction("Index");

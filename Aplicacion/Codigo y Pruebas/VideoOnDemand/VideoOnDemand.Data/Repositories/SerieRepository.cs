@@ -12,7 +12,7 @@ namespace VideoOnDemand.Repositories
 
         }
 
-        public void InsertComplete(Movie movie, int[] generoIds, int[] personaIds)
+        public void InsertComplete(Serie serie, int[] generoIds, int[] personaIds)
         {
             if (generoIds != null && personaIds != null)
             {
@@ -24,19 +24,19 @@ namespace VideoOnDemand.Repositories
                               where personaIds.Contains(p.Id.Value)
                               select p;
 
-                movie.Generos = new List<Genero>();
+                serie.Generos = new List<Genero>();
                 foreach (var g in genero)
                 {
-                    movie.Generos.Add(g);
+                    serie.Generos.Add(g);
                 }
 
-                movie.Actores = new List<Persona>();
+                serie.Actores = new List<Persona>();
                 foreach (var p in persona)
                 {
-                    movie.Actores.Add(p);
+                    serie.Actores.Add(p);
                 }
 
-                _context.Medias.Add(movie);
+                _context.Medias.Add(serie);
 
             }
         }
