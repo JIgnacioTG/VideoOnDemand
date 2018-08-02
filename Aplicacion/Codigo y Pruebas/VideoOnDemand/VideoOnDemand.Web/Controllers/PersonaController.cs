@@ -37,7 +37,7 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Persona/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PersonaViewModel model)
         {
             try
             {
