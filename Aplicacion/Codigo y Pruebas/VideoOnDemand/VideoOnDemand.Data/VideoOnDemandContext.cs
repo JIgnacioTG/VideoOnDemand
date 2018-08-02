@@ -21,6 +21,9 @@ namespace VideoOnDemand.Data
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Media> Medias { get; set; }
         public DbSet<Persona> Personas { get; set; }
+        public DbSet<Favorito> Favoritos { get; set; }
+        public DbSet<MediaOnPlay> MediaOnPlays { get; set; }
+        public DbSet<Opinion> Opinions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -33,19 +36,19 @@ namespace VideoOnDemand.Data
 
             modelBuilder.Configurations.Add(new EpisodioMap());
 
+            modelBuilder.Configurations.Add(new FavoritoMap());
+
             modelBuilder.Configurations.Add(new GeneroMap());
 
             modelBuilder.Configurations.Add(new MediaMap());
-
-            modelBuilder.Configurations.Add(new PersonaMap());
-
-            modelBuilder.Configurations.Add(new FavoritoMap());
 
             modelBuilder.Configurations.Add(new MediaOnPlayMap());
 
             modelBuilder.Configurations.Add(new MovieMap());
 
             modelBuilder.Configurations.Add(new OpinionMap());
+
+            modelBuilder.Configurations.Add(new PersonaMap());
 
             modelBuilder.Configurations.Add(new SerieMap());
 

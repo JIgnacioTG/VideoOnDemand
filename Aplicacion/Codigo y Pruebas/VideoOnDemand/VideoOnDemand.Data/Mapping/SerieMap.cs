@@ -8,7 +8,12 @@ namespace VideoOnDemand.Mapping
     {
         public SerieMap()
         {
+
             ToTable("Serie");
+
+            HasMany(s => s.Episodios)
+                .WithRequired(e => e.Serie)
+                .HasForeignKey(e => e.serieId);
 
         }
     }

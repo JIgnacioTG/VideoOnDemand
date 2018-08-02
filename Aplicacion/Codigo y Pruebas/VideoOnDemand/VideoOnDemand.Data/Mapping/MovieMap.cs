@@ -6,8 +6,10 @@ namespace VideoOnDemand.Mapping
 {
     class MovieMap : EntityTypeConfiguration<Movie>
     {
-        public MovieMap() {
+        public MovieMap()
+        {
             ToTable("Movie");
-            }
+        }
+
     }
 }

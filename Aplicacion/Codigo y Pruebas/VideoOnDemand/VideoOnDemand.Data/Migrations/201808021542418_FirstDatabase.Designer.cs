@@ -13,7 +13,7 @@ namespace VideoOnDemand.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201808021450383_FirstDatabase"; }
+            get { return "201808021542418_FirstDatabase"; }
         }
         
         string IMigrationMetadata.Source
