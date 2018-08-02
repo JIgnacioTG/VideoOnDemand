@@ -183,7 +183,7 @@
     <Compile Include="Controllers\GeneroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MovieController.cs" />
+    <Compile Include="Controllers\ManageMovieController.cs" />
     <Compile Include="Controllers\SerieController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -197,6 +197,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MediaViewModel.cs" />
+    <Compile Include="Models\MovieViewModel.cs" />
     <Compile Include="Models\OpinionViewModel.cs" />
     <Compile Include="Models\PaginatorViewModel.cs" />
     <Compile Include="Models\PersonaViewModel.cs" />
@@ -691,11 +692,11 @@
     <Content Include="Views\Genero\Edit.cshtml" />
     <Content Include="Views\Genero\Delete.cshtml" />
     <Content Include="Views\Persona\Index.cshtml" />
+    <Content Include="Views\ManageMovie\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Episodio\" />
-    <Folder Include="Views\Movie\" />
     <Folder Include="Views\Serie\" />
   </ItemGroup>
   <ItemGroup>

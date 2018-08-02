@@ -11,5 +11,14 @@ namespace VideoOnDemand.Repositories
 
         }
 
+        public void InsertComplete (Movie movie, int[] generoId, int[] personaId)
+        {
+            if(generoId != null && personaId != null)
+            {
+                var genero = from t in _context.Generos
+                             where generoId.Con
+            }
+        }
+
     }
 }
