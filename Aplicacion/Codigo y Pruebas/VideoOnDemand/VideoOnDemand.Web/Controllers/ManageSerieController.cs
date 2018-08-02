@@ -54,24 +54,24 @@ namespace VideoOnDemand.Web.Controllers
         {
             GeneroRepository generoRepository = new GeneroRepository(context);
             PersonaRepository personaRepository = new PersonaRepository(context);
-            var lst = generoRepository.GetAll();
-            var lst2 = personaRepository.GetAll();
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            var lstGeneros = generoRepository.GetAll();
+            var lstPersonas = personaRepository.GetAll();
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
 
             try
             {
-                SerieRepository repository = new SerieRepository(context);
 
                 // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
+                    SerieRepository repository = new SerieRepository(context);
                     Serie serie = MapHelper.Map<Serie>(model);
                     repository.InsertComplete(serie, model.GenerosSeleccionados, model.PersonasSeleccionadas);
 
                     context.SaveChanges();
                     return RedirectToAction("Index");
-                }
+                   }
                 else
                 {
                     return View(model);

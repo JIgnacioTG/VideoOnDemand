@@ -38,6 +38,7 @@ namespace VideoOnDemand.Repositories
                 }
 
                 serie.fechaRegistro = DateTime.Now;
+                serie.estado = EEstatusMedia.VISIBLE;
 
                 _context.Medias.Add(serie);
 
