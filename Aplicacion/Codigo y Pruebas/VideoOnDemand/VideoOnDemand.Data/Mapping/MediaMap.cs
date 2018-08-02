@@ -45,7 +45,7 @@ namespace VideoOnDemand.Mapping
                 });
 
             HasMany(m => m.Opiniones)
-                .WithRequired(o => o.Media)
+                .WithOptional(o => o.Media)
                 .HasForeignKey(o => o.MediaId);
 
         }

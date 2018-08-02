@@ -8,14 +8,19 @@ namespace VideoOnDemand.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Genero",
+                "dbo.Favorito",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(nullable: false, maxLength: 50),
-                        Descripcion = c.String(nullable: false, maxLength: 500),
+                        id = c.Int(nullable: false, identity: true),
+                        FechaAgregado = c.DateTime(nullable: false),
+                        usuarioId = c.Int(nullable: false),
+                        mediaId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Media", t => t.mediaId, cascadeDelete: true)
+                .ForeignKey("dbo.Usuarios", t => t.usuarioId, cascadeDelete: true)
+                .Index(t => t.usuarioId)
+                .Index(t => t.mediaId);
             
             CreateTable(
                 "dbo.Media",
@@ -43,6 +48,16 @@ namespace VideoOnDemand.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Genero",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(nullable: false, maxLength: 50),
+                        Descripcion = c.String(nullable: false, maxLength: 500),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Opinion",
                 c => new
                     {
@@ -51,11 +66,11 @@ namespace VideoOnDemand.Migrations
                         Descripcion = c.String(maxLength: 500),
                         FechaRegistro = c.DateTime(),
                         UsuarioId = c.Int(),
-                        MediaId = c.Int(nullable: false),
+                        MediaId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Usuarios", t => t.UsuarioId)
-                .ForeignKey("dbo.Media", t => t.MediaId, cascadeDelete: true)
+                .ForeignKey("dbo.Media", t => t.MediaId)
                 .Index(t => t.UsuarioId)
                 .Index(t => t.MediaId);
             
@@ -68,21 +83,6 @@ namespace VideoOnDemand.Migrations
                         IdentityId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Favorito",
-                c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        FechaAgregado = c.DateTime(nullable: false),
-                        usuarioId = c.Int(nullable: false),
-                        mediaId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.Media", t => t.mediaId, cascadeDelete: true)
-                .ForeignKey("dbo.Usuarios", t => t.usuarioId, cascadeDelete: true)
-                .Index(t => t.usuarioId)
-                .Index(t => t.mediaId);
             
             CreateTable(
                 "dbo.MediaOnPlay",
@@ -130,16 +130,13 @@ namespace VideoOnDemand.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false),
-                        Serie_id = c.Int(),
                         temporada = c.Int(nullable: false),
                         serieId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .ForeignKey("dbo.Media", t => t.id)
-                .ForeignKey("dbo.Serie", t => t.Serie_id)
                 .ForeignKey("dbo.Serie", t => t.serieId)
                 .Index(t => t.id)
-                .Index(t => t.Serie_id)
                 .Index(t => t.serieId);
             
             CreateTable(
@@ -169,7 +166,6 @@ namespace VideoOnDemand.Migrations
             DropForeignKey("dbo.Serie", "id", "dbo.Media");
             DropForeignKey("dbo.Movie", "id", "dbo.Media");
             DropForeignKey("dbo.Episodio", "serieId", "dbo.Serie");
-            DropForeignKey("dbo.Episodio", "Serie_id", "dbo.Serie");
             DropForeignKey("dbo.Episodio", "id", "dbo.Media");
             DropForeignKey("dbo.MediaOnPlay", "UsuarioId", "dbo.Usuarios");
             DropForeignKey("dbo.MediaOnPlay", "MediaId", "dbo.Media");
@@ -184,7 +180,6 @@ namespace VideoOnDemand.Migrations
             DropIndex("dbo.Serie", new[] { "id" });
             DropIndex("dbo.Movie", new[] { "id" });
             DropIndex("dbo.Episodio", new[] { "serieId" });
-            DropIndex("dbo.Episodio", new[] { "Serie_id" });
             DropIndex("dbo.Episodio", new[] { "id" });
             DropIndex("dbo.GenerosMedias", new[] { "GeneroId" });
             DropIndex("dbo.GenerosMedias", new[] { "MediaId" });
@@ -192,22 +187,22 @@ namespace VideoOnDemand.Migrations
             DropIndex("dbo.ActoresMedias", new[] { "MediaId" });
             DropIndex("dbo.MediaOnPlay", new[] { "UsuarioId" });
             DropIndex("dbo.MediaOnPlay", new[] { "MediaId" });
-            DropIndex("dbo.Favorito", new[] { "mediaId" });
-            DropIndex("dbo.Favorito", new[] { "usuarioId" });
             DropIndex("dbo.Opinion", new[] { "MediaId" });
             DropIndex("dbo.Opinion", new[] { "UsuarioId" });
+            DropIndex("dbo.Favorito", new[] { "mediaId" });
+            DropIndex("dbo.Favorito", new[] { "usuarioId" });
             DropTable("dbo.Serie");
             DropTable("dbo.Movie");
             DropTable("dbo.Episodio");
             DropTable("dbo.GenerosMedias");
             DropTable("dbo.ActoresMedias");
             DropTable("dbo.MediaOnPlay");
-            DropTable("dbo.Favorito");
             DropTable("dbo.Usuarios");
             DropTable("dbo.Opinion");
+            DropTable("dbo.Genero");
             DropTable("dbo.Persona");
             DropTable("dbo.Media");
-            DropTable("dbo.Genero");
+            DropTable("dbo.Favorito");
         }
     }
 }
