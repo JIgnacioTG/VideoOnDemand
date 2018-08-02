@@ -72,9 +72,9 @@
     <Compile Include="Mapping\SerieMap.cs" />
     <Compile Include="Mapping\MediaOnPlayMap.cs" />
     <Compile Include="Mapping\PersonaMap.cs" />
-    <Compile Include="Migrations\201808021450383_FirstDatabase.cs" />
-    <Compile Include="Migrations\201808021450383_FirstDatabase.Designer.cs">
-      <DependentUpon>201808021450383_FirstDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201808021542418_FirstDatabase.cs" />
+    <Compile Include="Migrations\201808021542418_FirstDatabase.Designer.cs">
+      <DependentUpon>201808021542418_FirstDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,8 +96,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808021450383_FirstDatabase.resx">
-      <DependentUpon>201808021450383_FirstDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808021542418_FirstDatabase.resx">
+      <DependentUpon>201808021542418_FirstDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
