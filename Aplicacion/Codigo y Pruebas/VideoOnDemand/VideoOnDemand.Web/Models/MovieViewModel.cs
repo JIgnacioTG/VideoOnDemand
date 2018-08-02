@@ -8,7 +8,7 @@ namespace VideoOnDemand.Web.Models
 {
     public class MovieViewModel
     {
-        public int id { get; set; }
+        public int? id { get; set; }
 
         [Required]
         [MaxLength (100)]
