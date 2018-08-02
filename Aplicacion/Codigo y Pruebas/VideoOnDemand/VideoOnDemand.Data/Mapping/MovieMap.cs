@@ -9,12 +9,6 @@ namespace VideoOnDemand.Mapping
         public MovieMap()
         {
             ToTable("Movie");
-
-            HasKey(m => m.id);
-            Property(m => m.id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
-
         }
 
     }

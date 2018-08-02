@@ -12,17 +12,10 @@ namespace VideoOnDemand.Mapping
 
             ToTable("Episodio");
 
-            HasKey(e => e.id);
-            Property(e => e.id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(e => e.temporada)
                 .IsRequired();
             Property(e => e.serieId)
                 .IsRequired();
-
-            HasRequired(e => e.Serie)
-                .WithMany()
-                .HasForeignKey(e => e.serieId);
 
         }
 
