@@ -184,7 +184,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManageMovieController.cs" />
-
     <Compile Include="Controllers\ManageSerieController.cs" />
     <Compile Include="Controllers\SerieController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
@@ -199,6 +198,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MediaViewModel.cs" />
+    <Compile Include="Models\MovieViewModel.cs" />
     <Compile Include="Models\OpinionViewModel.cs" />
     <Compile Include="Models\PaginatorViewModel.cs" />
     <Compile Include="Models\PersonaViewModel.cs" />
