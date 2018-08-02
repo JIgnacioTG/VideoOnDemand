@@ -126,5 +126,11 @@ namespace VideoOnDemand.Web.Controllers
                 return View();
             }
         }
+
+        public ActionResult Episodios(int id)
+        {
+            return RedirectToRoute("Index", "ManageEpisodio");
+        }
+
     }
 }
