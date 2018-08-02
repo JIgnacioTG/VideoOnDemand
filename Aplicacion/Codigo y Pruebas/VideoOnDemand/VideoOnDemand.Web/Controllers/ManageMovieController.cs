@@ -64,13 +64,16 @@ namespace VideoOnDemand.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     Movie movie = MapHelper.Map<Movie>(model);
-                    
-                    
+                    repository.InsertComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
+
                     context.SaveChanges();
 
                 }
+                else
+                {
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {

@@ -183,6 +183,8 @@
     <Compile Include="Controllers\GeneroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ManageMovieController.cs" />
+
     <Compile Include="Controllers\ManageSerieController.cs" />
     <Compile Include="Controllers\SerieController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
