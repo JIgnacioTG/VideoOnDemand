@@ -1,10 +1,10 @@
 ﻿@model VideoOnDemand.Web.Models.MovieViewModel
 
 @{
-    ViewBag.Title = "Nueva Película";
+    ViewBag.Title = "Create";
 }
 
-<h2>Administrar Película</h2>
+<h2>Nueva Película</h2>
 
 
 @using (Html.BeginForm()) 
@@ -47,6 +47,7 @@
             </div>
         </div>
 
+
         <div class="panel panel-primary">
             <div class="panel-heading"><h3>Generos</h3></div>
             <div class="panel-body">
@@ -54,8 +55,7 @@
                 @foreach (var item in Model.GenerosDisponibles)
                 {
                     var selecionado = "";
-                    // Activar Checkbox si de los temas selecionados
-                    //existe en los temas seleccionados
+
                     if (Model.SeleccionarGeneros != null)
                     {
                         if (Model.SeleccionarGeneros.Contains(item.Id.Value))
@@ -81,8 +81,7 @@
                 @foreach (var item in Model.PersonasDisponibles)
                 {
                     var selecionado = "";
-                    // Activar Checkbox si de los temas selecionados
-                    //existe en los temas seleccionados
+
                     if (Model.SeleccionarGeneros != null)
                     {
                         if (Model.SeleccionarPersonas.Contains(item.Id.Value))
@@ -100,6 +99,7 @@
                 }
             </div>
         </div>
+
 
 
 

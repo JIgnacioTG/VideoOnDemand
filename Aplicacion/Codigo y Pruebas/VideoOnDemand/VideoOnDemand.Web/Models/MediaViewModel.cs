@@ -23,13 +23,16 @@ namespace VideoOnDemand.Web.Models
 
         [Required]
         [DisplayName("Duración")]
+        [DataType(DataType.Duration)]
         public int? duracionMin { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [DisplayName("Fecha registro")]
         public DateTime? fechaRegistro { get; set; }
 
         [DisplayName("Fecha lanzamiento")]
+        [DataType(DataType.Date)]
         public DateTime? fechaLanzamiento { get; set; }
 
         [Required]
