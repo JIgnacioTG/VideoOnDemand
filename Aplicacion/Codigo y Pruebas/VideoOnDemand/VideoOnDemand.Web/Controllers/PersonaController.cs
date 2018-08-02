@@ -123,7 +123,12 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Persona/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            PersonaRepository repository = new PersonaRepository(context);
+            var actor = repository.Query(t => t.Id == id).First();
+
+            var model = MapHelper.Map<PersonaViewModel>(actor);
+
+            return View(model);
         }
 
         // POST: Persona/Delete/5
