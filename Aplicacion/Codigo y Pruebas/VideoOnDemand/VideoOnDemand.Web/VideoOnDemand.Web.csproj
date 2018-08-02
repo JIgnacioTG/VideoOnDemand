@@ -184,7 +184,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ManageSerieController.cs" />
-    <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="Controllers\SerieController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -697,11 +696,11 @@
     <Content Include="Views\Persona\Create.cshtml" />
     <Content Include="Views\Persona\Edit.cshtml" />
     <Content Include="Views\Persona\Delete.cshtml" />
+    <Content Include="Views\ManageSerie\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Episodio\" />
-    <Folder Include="Views\Movie\" />
     <Folder Include="Views\Serie\" />
   </ItemGroup>
   <ItemGroup>
