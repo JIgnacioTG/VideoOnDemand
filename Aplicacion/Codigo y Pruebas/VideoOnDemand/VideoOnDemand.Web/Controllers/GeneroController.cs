@@ -75,7 +75,7 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Genero/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(id);
+            return View(model);
         }
 
         // POST: Genero/Edit/5
