@@ -42,21 +42,36 @@ namespace VideoOnDemand.Web.Controllers
         {
             try
             {
-                GeneroRepository repository = new GeneroRepository(context);
-                #region Validaciones
-                var nombreGenero = new Genero { Nombre = model.Nombre };
-
-                bool existeGenero = repository.QueryByExample(nombreGenero).Count>0;
-
-                if (existeGenero)
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("Nombre", "El nombre de género ya existe");
-                    return View(model);
+                    GeneroRepository repository = new GeneroRepository(context);
+
+                    #region Validaciones
+                    //Nombre Unico
+                    var generoName = new Genero { Nombre = model.Nombre };
+
+                    bool existeGenero = repository.QueryByExample(generoName).Count > 0;
+
+                    if (existeGenero)
+                    {
+                        ModelState.AddModelError("Nombre", "El Nombre del género ya existe");
+                        return View(model);
+                    }
+
+                    #endregion
+
+                    Genero genero = MapHelper.Map<Genero>(model);
+
+                    repository.Insert(genero);
+
+                    context.SaveChanges();
                 }
+
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 return View();
             }
         }
@@ -69,11 +84,20 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Genero/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, GeneroViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    GeneroRepository repository = new GeneroRepository(context);
+
+                    var genero = MapHelper.Map<Genero>(model);
+
+                    repository.Update(genero);
+
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
@@ -91,11 +115,20 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Genero/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, GeneroViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                if (ModelState.IsValid)
+                {
+                    GeneroRepository repository = new GeneroRepository(context);
+
+                    var genero = MapHelper.Map<Genero>(model);
+
+                    repository.Delete(genero);
+
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
