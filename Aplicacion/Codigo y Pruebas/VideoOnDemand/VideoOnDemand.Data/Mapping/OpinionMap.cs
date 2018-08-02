@@ -18,7 +18,11 @@ namespace VideoOnDemand.Mapping
             Property(o => o.Puntuacion)
                 .IsOptional();
             Property(o => o.Descripcion)
+                .HasMaxLength(500)
                 .IsOptional();
+            Property(o => o.FechaRegistro)
+                .IsOptional();
+
         }
 
     }
