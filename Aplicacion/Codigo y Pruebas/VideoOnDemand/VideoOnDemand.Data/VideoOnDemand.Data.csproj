@@ -74,10 +74,15 @@
     <Compile Include="Mapping\PersonaMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\EpisodioRepository.cs" />
+    <Compile Include="Repositories\FavoritoRepository.cs" />
     <Compile Include="Repositories\GeneroRepository.cs" />
+    <Compile Include="Repositories\MediaOnPlayRepository.cs" />
+    <Compile Include="Repositories\MediaRepository.cs" />
     <Compile Include="Repositories\MovieRepository.cs" />
     <Compile Include="Repositories\OpinionRepository.cs" />
     <Compile Include="Repositories\PersonaRepository.cs" />
+    <Compile Include="Repositories\SerieRepository.cs" />
     <Compile Include="Repositories\UsuarioRepository.cs" />
     <Compile Include="VideoOnDemandContext.cs" />
   </ItemGroup>
