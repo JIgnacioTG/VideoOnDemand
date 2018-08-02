@@ -38,7 +38,7 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie/Create
         public ActionResult Create()
         {
-            var model = new MovieViewModel();
+            var model = new SerieViewModel();
             GeneroRepository generoRepository = new GeneroRepository(context);
             PersonaRepository personaRepository = new PersonaRepository(context);
             var lst = generoRepository.GetAll();

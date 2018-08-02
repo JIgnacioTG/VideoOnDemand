@@ -10,7 +10,9 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+    @Html.HiddenFor(model => model.Id)
+    @Html.LabelFor(model => model.Id)
+
     <div class="form-horizontal">
         <h4>Editar Actor</h4>
         <hr />
