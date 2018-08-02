@@ -94,7 +94,7 @@ namespace VideoOnDemand.Web.Controllers
 
                     var genero = MapHelper.Map<Genero>(model);
 
-                    repository.Delete(genero);
+                    repository.Update(genero);
 
                     context.SaveChanges();
                 }
@@ -115,11 +115,20 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Genero/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, GeneroViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                if (ModelState.IsValid)
+                {
+                    GeneroRepository repository = new GeneroRepository(context);
+
+                    var genero = MapHelper.Map<Genero>(model);
+
+                    repository.Delete(genero);
+
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
