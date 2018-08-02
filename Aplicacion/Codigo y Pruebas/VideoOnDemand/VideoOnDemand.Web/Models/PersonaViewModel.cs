@@ -12,12 +12,16 @@ namespace VideoOnDemand.Web.Models
         public int? Id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Nombre { get; set; }
 
         [DisplayName("Descripción")]
+        [MaxLength(500)]
         public string Descripcion { get; set; }
 
         [DisplayName("Fecha de Nacimiento")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? FechaNacimiento { get; set; }
+
     }
 }
