@@ -25,13 +25,7 @@ namespace VideoOnDemand.Web.Controllers
 
             return View(model);
         }
-
-        // GET: Movie/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+       
         // GET: Movie/Create
         public ActionResult Create()
         {

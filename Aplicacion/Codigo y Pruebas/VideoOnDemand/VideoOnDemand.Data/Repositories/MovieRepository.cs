@@ -15,8 +15,8 @@ namespace VideoOnDemand.Repositories
         {
             if(generoId != null && personaId != null)
             {
-                var genero = from t in _context.Generos
-                             where generoId.Con
+                //var genero = from t in _context.Generos
+                //             where generoId.Con
             }
         }
 
