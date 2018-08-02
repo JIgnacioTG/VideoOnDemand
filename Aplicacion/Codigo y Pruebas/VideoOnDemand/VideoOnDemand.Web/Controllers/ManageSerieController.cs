@@ -6,27 +6,27 @@ using System.Web.Mvc;
 
 namespace VideoOnDemand.Web.Controllers
 {
-    public class MovieController : BaseController
+    public class ManageSerieController : Controller
     {
-        // GET: Movie
+        // GET: ManageSerie
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Movie/Details/5
+        // GET: ManageSerie/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Movie/Create
+        // GET: ManageSerie/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Movie/Create
+        // POST: ManageSerie/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -42,13 +42,13 @@ namespace VideoOnDemand.Web.Controllers
             }
         }
 
-        // GET: Movie/Edit/5
+        // GET: ManageSerie/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Movie/Edit/5
+        // POST: ManageSerie/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -64,13 +64,13 @@ namespace VideoOnDemand.Web.Controllers
             }
         }
 
-        // GET: Movie/Delete/5
+        // GET: ManageSerie/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Movie/Delete/5
+        // POST: ManageSerie/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
