@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Data;
+using VideoOnDemand.Entities;
+using VideoOnDemand.Repositories;
+using VideoOnDemand.Web.Helpers;
+using VideoOnDemand.Web.Models;
 
 namespace VideoOnDemand.Web.Controllers
 {
-    public class GeneroController : Controller
+    public class GeneroController : BaseController
     {
         // GET: Genero
         public ActionResult Index()
         {
-            return View();
+            GeneroRepository repository = new GeneroRepository(context);
+            //consulte los cursos del repositorio
+            var lst = repository.GetAll();
+            //mapeamos la lista de cursos con una lista de cursos view model
+            var models = MapHelper.Map<IEnumerable<GeneroViewModel>>(lst);
+            return View(models);
         }
 
         // GET: Genero/Details/5
@@ -28,12 +38,21 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Genero/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(GeneroViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                GeneroRepository repository = new GeneroRepository(context);
+                #region Validaciones
+                var nombreGenero = new Genero { Nombre = model.Nombre };
 
+                bool existeGenero = repository.QueryByExample(nombreGenero).Count>0;
+
+                if (existeGenero)
+                {
+                    ModelState.AddModelError("Nombre", "El nombre de género ya existe");
+                    return View(model);
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -41,7 +60,7 @@ namespace VideoOnDemand.Web.Controllers
                 return View();
             }
         }
-
+        
         // GET: Genero/Edit/5
         public ActionResult Edit(int id)
         {
@@ -85,5 +104,7 @@ namespace VideoOnDemand.Web.Controllers
                 return View();
             }
         }
+
+
     }
 }

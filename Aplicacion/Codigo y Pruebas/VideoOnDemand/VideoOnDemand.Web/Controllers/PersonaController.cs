@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Entities;
 using VideoOnDemand.Repositories;
 using VideoOnDemand.Web.Helpers;
 using VideoOnDemand.Web.Models;
@@ -37,16 +38,40 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Persona/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PersonaViewModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    PersonaRepository repository = new PersonaRepository(context);
+
+                    #region Validaciones
+                    //Nombre Unico
+                    var actorName = new Persona { Nombre = model.Nombre };
+
+                    bool existPersona = repository.QueryByExample(actorName).Count > 0;
+
+                    if (existPersona)
+                    {
+                        ModelState.AddModelError("Nombre", "El Nombre del Actor ya Existe");
+                        return View(model);
+                    }
+
+                    #endregion
+
+                    Persona persona = MapHelper.Map<Persona>(model);
+
+                    repository.Insert(persona);
+
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 return View();
             }
         }
@@ -54,16 +79,17 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Persona/Edit/5
         public ActionResult Edit(int id)
         {
+
             return View();
         }
 
         // POST: Persona/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, PersonaViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                
 
                 return RedirectToAction("Index");
             }
@@ -81,11 +107,20 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Persona/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, PersonaViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                if (ModelState.IsValid)
+                {
+                    PersonaRepository repo = new PersonaRepository(context);
+
+                    var actor = MapHelper.Map<Persona>(model);
+
+                    repo.Delete(actor);
+
+                    context.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
