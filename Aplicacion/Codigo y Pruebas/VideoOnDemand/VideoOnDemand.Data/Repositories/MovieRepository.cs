@@ -46,10 +46,5 @@ namespace VideoOnDemand.Repositories
             
         }
 
-        public void getGeneros(int[] select)
-        {
-            
-        }
-
     }
 }
