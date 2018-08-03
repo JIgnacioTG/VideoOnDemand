@@ -36,9 +36,9 @@ namespace VideoOnDemand.Web.Models
 
         public EEstatusMedia? estado { get; set; }
 
-        public ICollection<Genero> Generos { get; set; }
-        public ICollection<Persona> Actores { get; set; }
-        public ICollection<Opinion> Opiniones { get; set; }
+        public virtual ICollection<Genero> Generos { get; set; }
+        public virtual ICollection<Persona> Actores { get; set; }
+        public virtual ICollection<Opinion> Opiniones { get; set; }
 
         public ICollection<GeneroViewModel> GenerosDisponibles { get; set; }
         public int[] SeleccionarGeneros { get; set;}

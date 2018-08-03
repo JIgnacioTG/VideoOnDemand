@@ -1,51 +1,76 @@
-﻿@model IEnumerable<VideoOnDemand.Web.Models.MovieViewModel>
+﻿@using VideoOnDemand.Web.Models
+@model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
 
 @{
     ViewBag.Title = "Index";
+    ViewBag.Action = "Index";
 }
 
 <h2>Películas</h2>
 
-<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-@foreach (var item in Model)
+<br />
+<input id="buscar" type="search" name="buscar" placeholder="Buscar" />
+<br />
+
+@if (Model.Results.Count() > 0)
 {
-<div id="serie">
-    <div id="serie1">
-        <h2>
-            @Html.DisplayFor(model => item.nombre)
-        </h2>
-        <div id="fecha">
-            <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
-        </div>
-        @{ 
-            int? hrs = item.duracionMin / 60;
-            int? min = item.duracionMin - (hrs * 60);
-            string aux = "";
-            if (min < 10)
-            {
-                aux = "0";
-            }
-        }
-        <div id="duracion">
-            <h4>@hrs : @aux@min : 00</h4>
-        </div>
-        
-        
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 
-        <h6>Generos:</h6>
-    </div>
-    <div id="Descripcion">
-        <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
-    </div>
-    <br />
-    <div>
-        <div id="duracion">
-            <input type="submit" value="+ Mi lista" class="btn btn-default" />
-        </div>
-        <div id="fecha">
-            <input type="submit" value="Detalles" class="btn btn-default" />
-        </div>
-    </div>
+    foreach (var item in Model.Results)
+    {
+        <div id="serie">
+            <div id="serie1">
+                <h2>
+                    @Html.DisplayFor(model => item.nombre)
+                </h2>
+                <div id="fecha">
+                    <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
+                </div>
+                @{
+                    int? hrs = item.duracionMin / 60;
+                    int? min = item.duracionMin - (hrs * 60);
+                    string aux = "";
+                    if (min < 10)
+                    {
+                        aux = "0";
+                    }
+                }
+                <div id="duracion">
+                    <h4>@hrs : @aux@min : 00</h4>
+                </div>
+                @{
+                    string gen = "";
+                    foreach (var g in item.Generos)
+                    {
+                        gen += g.Nombre + ", ";
+                    }
+                }
 
-</div>
+                <h6>Generos: @gen</h6>
+            </div>
+            <div id="Descripcion">
+                <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
+            </div>
+            <br />
+            <div>
+                <div id="fecha">
+                    <input type="submit" value="+ Mi lista" class="btn btn-default" />
+                </div>
+                <div id="duracion">
+                    <input type="submit" value="Detalles" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+    }
+
+    @Html.Partial("_Paginator")
+}
+else
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            Sin resultados
+        </div>
+    </div>
 }
