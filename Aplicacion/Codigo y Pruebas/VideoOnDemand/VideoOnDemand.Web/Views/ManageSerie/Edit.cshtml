@@ -66,13 +66,16 @@
                 {
                     var seleccionado = "";
 
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.GenerosSeleccionados != null)
+                    foreach (var genSel in Model.Generos)
                     {
-                        if (Model.GenerosSeleccionados.Contains(item.Id.Value))
+                        // Activar el checkbox si de los temas disponibles
+                        // Existe en los temas seleccionados
+                        if (genSel.Id != null)
                         {
-                            seleccionado = "checked";
+                            if (genSel.Id == item.Id.Value)
+                            {
+                                seleccionado = "checked";
+                            }
                         }
                     }
 
@@ -94,13 +97,16 @@
                 {
                     var seleccionado = "";
 
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.PersonasSeleccionadas != null)
+                    foreach (var genSel in Model.Generos)
                     {
-                        if (Model.PersonasSeleccionadas.Contains(item.Id.Value))
+                        // Activar el checkbox si de los temas disponibles
+                        // Existe en los temas seleccionados
+                        if (genSel.Id != null)
                         {
-                            seleccionado = "checked";
+                            if (genSel.Id == item.Id.Value)
+                            {
+                                seleccionado = "checked";
+                            }
                         }
                     }
 
