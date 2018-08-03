@@ -15,7 +15,9 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Index()
         {
             MovieRepository repository = new MovieRepository(context);
+            
             var lst = repository.GetAll();
+            lst.ElementAt(0);
             var models = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
             return View(models);
         }

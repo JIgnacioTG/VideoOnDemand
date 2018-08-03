@@ -30,10 +30,10 @@ namespace VideoOnDemand.Web.Models
 
         [Required]
         [DisplayName("Fecha Lanzamiento")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true,DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? fechaLanzamiento { get; set; }
 
-
+        [DisplayName("Estado")]
         public EEstatusMedia? estado { get; set; }
 
         public ICollection<Genero> Generos { get; set; }
@@ -45,6 +45,6 @@ namespace VideoOnDemand.Web.Models
 
         public ICollection<PersonaViewModel> PersonasDisponibles { get; set; }
         public int[] SeleccionarPersonas { get; set; }
-    } 
+    }
 
 }
