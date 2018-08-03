@@ -1,4 +1,4 @@
-﻿@model VideoOnDemand.Web.Models.MovieViewModel
+﻿@model IEnumerable<VideoOnDemand.Web.Models.MovieViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,38 +6,25 @@
 
 <h2>Películas</h2>
 
-<head>
-<style>
-    .grid-container {
-        display: grid;
-        grid-template-columns: auto auto auto;
-        background-color: #FFFFFF;
-        padding: 10px;
-        grid-column-gap: 50px;
-    }
-.grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 0px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
-}
-</style>
-</head>
-<body>
-    <div>
-        <h3>Buscar</h3>
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+@foreach (var item in Model)
+{
+<div class="form-group">
+    <div id="movie">
+        <h2>
+            @Html.DisplayFor(model => item.nombre)
+        </h2>
 
-    </div>
+        <div class="form-group">
 
-    <div class="grid-container">
-        @foreach (var item in Model)
-        {
-            <div class="grid-item">
-                @Html.DisplayFor(model => model.nombre)
-            </div>
+            @Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)
+
+            @Html.DisplayFor(model => item.duracionMin)
+        </div>
+        @{ 
+            
         }
-
+        <h4>Generos: </h4>
     </div>
-
-</body>
+</div>
+}
