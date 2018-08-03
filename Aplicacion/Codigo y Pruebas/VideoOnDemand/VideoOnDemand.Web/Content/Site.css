@@ -26,10 +26,12 @@ textarea {
         {
             font-family: Tahoma;
 	        width: 30%;
-	        height: 400px;
+	        height: 420px;
 	        padding: 20px;
 	        text-align: left;
             border: 1px solid black;
+            float: left;
+            margin-left: 30px;
         }
 #duracion{
 	        width: 45%;
