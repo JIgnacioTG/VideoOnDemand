@@ -1,0 +1,43 @@
+﻿@model VideoOnDemand.Web.Models.MovieViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Películas</h2>
+
+<head>
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        background-color: #FFFFFF;
+        padding: 10px;
+        grid-column-gap: 50px;
+    }
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 0px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+    <div>
+        <h3>Buscar</h3>
+
+    </div>
+
+    <div class="grid-container">
+        @foreach (var item in Model)
+        {
+            <div class="grid-item">
+                @Html.DisplayFor(model => model.nombre)
+            </div>
+        }
+
+    </div>
+
+</body>
