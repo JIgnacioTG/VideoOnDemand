@@ -701,6 +701,7 @@
     <Content Include="Views\ManageSerie\Create.cshtml" />
     <Content Include="Views\ManageMovie\Index.cshtml" />
     <Content Include="Views\ManageMovie\Create.cshtml" />
+    <Content Include="Views\ManageMovie\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
