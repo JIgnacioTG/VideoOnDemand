@@ -14,9 +14,9 @@ namespace VideoOnDemand.Entities
         public int? duracionMin { get; set; }
         public DateTime? fechaRegistro { get; set; }
         public DateTime? fechaLanzamiento { get; set; }
-        public ICollection<Genero> Generos { get; set; }
-        public ICollection<Persona> Actores { get; set; }
-        public ICollection<Opinion> Opiniones { get; set; }
+        public virtual ICollection<Genero> Generos { get; set; }
+        public virtual ICollection<Persona> Actores { get; set; }
+        public virtual ICollection<Opinion> Opiniones { get; set; }
         public EEstatusMedia? estado { get; set; }
     }
 }
