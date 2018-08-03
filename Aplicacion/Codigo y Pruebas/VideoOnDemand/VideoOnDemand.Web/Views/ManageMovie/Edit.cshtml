@@ -4,15 +4,14 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
+<h2>Editar película</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>MovieViewModel</h4>
+        <h4></h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
@@ -41,19 +40,99 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" hidden >
             @Html.LabelFor(model => model.fechaRegistro, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.fechaRegistro, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.fechaRegistro, "", new { @class = "text-danger" })
             </div>
         </div>
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.fechaLanzamiento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.fechaLanzamiento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.estado.ToString() == "INVISIBLE")
+                {
+                    <input name="estado" type="radio" value="INVISIBLE" checked /> @Html.Label("INVISIBLE")
+                    <input name="estado" type="radio" value="VISIBLE" /> @Html.Label("VISIBLE")
+                }
+                else if (Model.estado.ToString() == "VISIBLE")
+                {
+                    <input name="estado" type="radio" value="INVISIBLE" /> @Html.Label("INVISIBLE")
+                    <input name="estado" type="radio" value="VISIBLE" checked /> @Html.Label("VISIBLE")
+                }
+                else
+                {
+                    <input name="estado" type="radio" value="INVISIBLE"/> @Html.Label("INVISIBLE")
+                    <input name="estado" type="radio" value="VISIBLE" /> @Html.Label("VISIBLE")
+                }
+
+
+
+                @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
+                
+            </div>
+        </div>
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>Generos</h3></div>
+            <div class="panel-body">
+
+                @foreach (var item in Model.GenerosDisponibles)
+                {
+                    var selecionado = "";
+
+                    if (Model.SeleccionarGeneros != null)
+                    {
+                        if (Model.SeleccionarGeneros.Contains(item.Id.Value))
+                        {
+                            selecionado = "checked";
+
+                        }
+
+                    }
+                    <div class="checkbox">
+                        <label>
+                            <input name="SeleccionarGeneros" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>Actores</h3></div>
+            <div class="panel-body">
+
+                @foreach (var item in Model.PersonasDisponibles)
+                {
+                    var selecionado = "";
+
+                    if (Model.SeleccionarGeneros != null)
+                    {
+                        if (Model.SeleccionarPersonas.Contains(item.Id.Value))
+                        {
+                            selecionado = "checked";
+
+                        }
+
+                    }
+                    <div class="checkbox">
+                        <label>
+                            <input name="SeleccionarPersonas" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                        </label>
+                    </div>
+                }
             </div>
         </div>
 
