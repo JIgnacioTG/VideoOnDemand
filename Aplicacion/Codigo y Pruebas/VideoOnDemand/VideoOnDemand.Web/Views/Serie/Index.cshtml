@@ -1,5 +1,4 @@
-﻿@model VideoOnDemand.Web.Models.SerieViewModel
-
+﻿@model IEnumerable<VideoOnDemand.Web.Models.SerieViewModel>
 @{
     ViewBag.Title = "Index";
 }
@@ -7,19 +6,23 @@
 <h1>Series</h1>
 <br />
 <br />
+@foreach (var item in Model)
+{
 <div id="serie">
-    <div id="serie1">
-        <h2>Nombre serie</h2>
+        <h2>@Html.DisplayFor(model => item.nombre)</h2>
         <div id="duracion">
-            <h4>Fecha</h4>
+            <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
         </div>
         <div id="fecha">
-            <h4>Duracion</h4>
+            <h4>@Html.DisplayFor(model => item.duracionMin)</h4>
         </div>
-        <h6>Generos: </h6>
-    </div>
+        <h6>@Html.DisplayFor(model => item.GenerosDisponibles)</h6>
+    <br />
+    <br />
+    <br />
+    <br />
     <div id="Descripcion">
-        <h6>Descripcion: </h6>
+        <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
     </div>
     <br />
     <div>
@@ -32,4 +35,4 @@
     </div>
     
     </div>
-
+}
