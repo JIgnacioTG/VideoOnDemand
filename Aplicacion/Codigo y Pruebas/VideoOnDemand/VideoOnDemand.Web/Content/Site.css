@@ -30,6 +30,8 @@ textarea {
 	        padding: 20px;
 	        text-align: left;
             border: 1px solid black;
+            float: left;
+            margin-right:10px;
 
         }
 #duracion{

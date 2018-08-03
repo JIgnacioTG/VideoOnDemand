@@ -42,5 +42,5 @@ namespace VideoOnDemand.Web.Models
 
         public ICollection<PersonaViewModel> PersonasDisponibles { get; set; }
         public int[] SeleccionarPersonas { get; set; }
-    }
+    } 
 }

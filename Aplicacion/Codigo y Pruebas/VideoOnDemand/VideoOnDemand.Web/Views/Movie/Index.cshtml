@@ -17,9 +17,19 @@
         <div id="fecha">
             <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
         </div>
+        @{ 
+            int? hrs = item.duracionMin / 60;
+            int? min = item.duracionMin - (hrs * 60);
+            string aux = "";
+            if (min < 10)
+            {
+                aux = "0";
+            }
+        }
         <div id="duracion">
-            <h4>@Html.DisplayFor(model => item.duracionMin)</h4>
+            <h4>@hrs : @aux@min : 00</h4>
         </div>
+ 
 
 
         <h6>Generos:</h6>
