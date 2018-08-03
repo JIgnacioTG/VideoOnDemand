@@ -183,6 +183,7 @@
     <Compile Include="Controllers\GeneroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ManageEpisodioController.cs" />
     <Compile Include="Controllers\ManageMovieController.cs" />
     <Compile Include="Controllers\ManageSerieController.cs" />
     <Compile Include="Controllers\SerieController.cs" />
@@ -701,11 +702,14 @@
     <Content Include="Views\ManageSerie\Create.cshtml" />
     <Content Include="Views\ManageMovie\Index.cshtml" />
     <Content Include="Views\ManageMovie\Create.cshtml" />
+
     <Content Include="Views\ManageMovie\Edit.cshtml" />
+
+    <Content Include="Views\ManageEpisodio\Index.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Episodio\" />
     <Folder Include="Views\Serie\" />
   </ItemGroup>
   <ItemGroup>
