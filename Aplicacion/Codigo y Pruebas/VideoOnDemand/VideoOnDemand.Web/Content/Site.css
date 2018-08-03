@@ -22,18 +22,17 @@ select,
 textarea {
     max-width: 280px;
 }
-#serie
-        {
-            font-family: Tahoma;
-	        width: 30%;
-	        height: 400px;
-	        padding: 20px;
-	        text-align: left;
-            border: 1px solid black;
-            float: left;
-            margin-right:10px;
-
-        }
+#serie {
+    font-family: Tahoma;
+    width: 30%;
+    height: 420px;
+    padding: 20px;
+    text-align: left;
+    border: 1px solid black;
+    float: left;
+    margin-top: 20px;
+    margin-left: 30px;
+}
 #duracion{
 	        width: 45%;
 	        height: 40px;
@@ -50,14 +49,17 @@ textarea {
 	        text-align: right;
             float:right;
 }
-#serie1{
-    border-bottom: 2px solid black;
-}
 #Descripcion{
+             border-top: 2px solid black;
             font-family: Tahoma;
 	        width: 100%;
 	        height: 180px;
 	        padding: 20px;
 	        text-align: left;
             border-bottom: 2px solid black;
+           
+}
+#buscar{
+    border-radius: 90px;
+    padding:5px;
 }

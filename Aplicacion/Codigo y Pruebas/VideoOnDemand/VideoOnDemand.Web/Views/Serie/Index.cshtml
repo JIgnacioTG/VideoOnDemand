@@ -1,25 +1,24 @@
-﻿@model VideoOnDemand.Web.Models.SerieViewModel
-
+﻿@model IEnumerable<VideoOnDemand.Web.Models.SerieViewModel>
 @{
     ViewBag.Title = "Index";
 }
 <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 <h1>Series</h1>
 <br />
+<input id="buscar" type="search" name="buscar" placeholder="Buscar"/>
 <br />
+@foreach (var item in Model)
+{
 <div id="serie">
-    <div id="serie1">
-        <h2>Nombre serie</h2>
+        <h2 id="titulo">@Html.DisplayFor(model => item.nombre)</h2>
         <div id="duracion">
-            <h4>Fecha</h4>
+            <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
         </div>
         <div id="fecha">
-            <h4>Duracion</h4>
         </div>
-        <h6>Generos: </h6>
-    </div>
+        <h6>Géneros: @Html.DisplayFor(model => item.GenerosDisponibles)</h6>
     <div id="Descripcion">
-        <h6>Descripcion: </h6>
+        <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
     </div>
     <br />
     <div>
@@ -32,4 +31,4 @@
     </div>
     
     </div>
-
+}

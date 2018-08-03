@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Repositories;
+using VideoOnDemand.Web.Helpers;
+using VideoOnDemand.Web.Models;
 
 namespace VideoOnDemand.Web.Controllers
 {
@@ -11,7 +14,10 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Serie
         public ActionResult Index()
         {
-            return View();
+            SerieRepository repository = new SerieRepository(context);
+            var lst = repository.GetAll();
+            var models = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
+            return View(models);
         }
 
         // GET: Serie/Details/5
