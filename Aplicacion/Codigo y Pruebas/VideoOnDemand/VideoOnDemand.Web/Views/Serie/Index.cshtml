@@ -9,18 +9,13 @@
 @foreach (var item in Model)
 {
 <div id="serie">
-        <h2>@Html.DisplayFor(model => item.nombre)</h2>
+        <h2 id="titulo">@Html.DisplayFor(model => item.nombre)</h2>
         <div id="duracion">
             <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
         </div>
         <div id="fecha">
-            <h4>@Html.DisplayFor(model => item.duracionMin)</h4>
         </div>
-        <h6>@Html.DisplayFor(model => item.GenerosDisponibles)</h6>
-    <br />
-    <br />
-    <br />
-    <br />
+        <h6>Géneros: @Html.DisplayFor(model => item.GenerosDisponibles)</h6>
     <div id="Descripcion">
         <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
     </div>
