@@ -148,7 +148,7 @@ namespace VideoOnDemand.Web.Controllers
             try
             {
                 MovieRepository repository = new MovieRepository(context);
-                Movie movie = MapHelper.Map<Movie>(model);
+                var movie = repository.Query(t => t.id == id).First();
 
                 repository.DeleteIncomplete(movie);
                 context.SaveChanges();

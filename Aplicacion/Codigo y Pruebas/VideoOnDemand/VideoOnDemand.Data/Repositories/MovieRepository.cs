@@ -86,6 +86,7 @@ namespace VideoOnDemand.Repositories
         {
             _context.Medias.Attach(movie);
             _context.Entry(movie).State = System.Data.Entity.EntityState.Modified;
+            
 
             movie.estado = EEstatusMedia.ELIMINADO;
         }
