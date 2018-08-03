@@ -3,15 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Data;
+using VideoOnDemand.Entities;
+using VideoOnDemand.Repositories;
+using VideoOnDemand.Web.Helpers;
+using VideoOnDemand.Web.Models;
 
 namespace VideoOnDemand.Web.Controllers
 {
+    [RoutePrefix("ManageEpisodio")]
     public class ManageEpisodioController : BaseController
     {
         // GET: ManageEpisodio
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            VideoOnDemandContext context = new VideoOnDemandContext();
+            EpisodioRepository episodioRepository = new EpisodioRepository(context);
+            SerieRepository serieRepository = new SerieRepository(context);
+
+            // Consultar los episodios de la serie asignada
+            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id);
+            var serie = serieRepository.Query(s => s.id == id).FirstOrDefault();
+
+            foreach (var item in lstEpisodio)
+            {
+                item.Serie = serie;
+            }
+
+            // Mapear la lista de series con una lista de SerieViewModel
+            var models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
+
+            return View(models);
         }
 
         // GET: ManageEpisodio/Details/5
