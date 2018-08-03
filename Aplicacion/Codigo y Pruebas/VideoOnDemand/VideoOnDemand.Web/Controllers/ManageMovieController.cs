@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using VideoOnDemand.Entities;
@@ -77,7 +78,27 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Movie/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var repository = new MovieRepository(context);
+            var generoRepository = new GeneroRepository(context);
+            var personaRepository = new PersonaRepository(context);
+
+            var includes = new Expression<Func<Movie, object>>[] { x => x.Generos };
+            var includes2 = new Expression<Func<Movie, object>>[] { x => x.Actores };
+            var movie = repository.QueryIncluding(x => x.id == id, includes).SingleOrDefault();
+            var movie2 = repository.QueryIncluding(x => x.id == id, includes2).SingleOrDefault();
+
+            var model = MapHelper.Map<MovieViewModel>(movie);
+
+            var generos = generoRepository.Query(null, "Nombre");
+            var personas = personaRepository.Query(null, "Nombre");
+
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(generos);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(personas);
+
+            model.SeleccionarGeneros = movie.Generos.Select(x => x.Id.Value).ToArray();
+            model.SeleccionarPersonas = movie.Actores.Select(x => x.Id.Value).ToArray();
+
+            return View(model);
         }
 
         // POST: Movie/Edit/5
