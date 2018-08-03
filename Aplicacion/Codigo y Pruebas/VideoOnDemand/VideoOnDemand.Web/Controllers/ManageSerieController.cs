@@ -86,7 +86,20 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            SerieRepository serieRepository = new SerieRepository(context);
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+
+            var serie = serieRepository.Query(t => t.id == id).First();
+            var lstGeneros = generoRepository.GetAll();
+            var lstPersonas = personaRepository.GetAll();
+
+            var model = MapHelper.Map<SerieViewModel>(serie);
+
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
+
+            return View(model);
         }
 
         // POST: ManageSerie/Edit/5

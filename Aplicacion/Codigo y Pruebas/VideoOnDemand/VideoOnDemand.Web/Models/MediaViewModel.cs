@@ -35,9 +35,15 @@ namespace VideoOnDemand.Web.Models
         [DataType(DataType.Date)]
         public DateTime? fechaLanzamiento { get; set; }
 
-        public ICollection<Genero> Generos { get; set; }
-        public ICollection<Persona> Actores { get; set; }
-        public ICollection<Opinion> Opiniones { get; set; }
+        public virtual ICollection<GeneroViewModel> Generos { get; set; }
+        public virtual ICollection<PersonaViewModel> Actores { get; set; }
+        public virtual ICollection<OpinionViewModel> Opiniones { get; set; }
+
+        public ICollection<GeneroViewModel> GenerosDisponibles { get; set; }
+        public int[] GenerosSeleccionados { get; set; }
+
+        public ICollection<PersonaViewModel> PersonasDisponibles { get; set; }
+        public int[] PersonasSeleccionadas { get; set; }
 
         [DisplayName("Estado")]
         public EEstatusMedia? estado { get; set; }

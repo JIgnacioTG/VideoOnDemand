@@ -103,39 +103,60 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: Movie/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, MovieViewModel model)
         {
+            var generoRepository = new GeneroRepository(context);
+            var personaRepository = new PersonaRepository(context);
+
             try
             {
-                // TODO: Add update logic here
+                var repository = new MovieRepository(context);
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var movie = MapHelper.Map<Movie>(model);
+                    repository.UpdateComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                
+                var genero = generoRepository.Query(null, "Nombre");
+                var actores = personaRepository.Query(null, "Nombre");
+                model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(genero);
+                model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(actores);
+                return View(model);
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                return View(model);
             }
         }
 
         // GET: Movie/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            MovieRepository repository = new MovieRepository(context);
+            var movie = repository.Query(t => t.id == id).First();
+            var model = MapHelper.Map<MovieViewModel>(movie);
+            return View(model);
         }
 
         // POST: Movie/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, MovieViewModel   model)
         {
             try
             {
-                // TODO: Add delete logic here
+                MovieRepository repository = new MovieRepository(context);
+                Movie movie = MapHelper.Map<Movie>(model);
 
+                repository.DeleteIncomplete(movie);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }

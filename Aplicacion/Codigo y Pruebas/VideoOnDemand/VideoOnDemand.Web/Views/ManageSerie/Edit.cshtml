@@ -49,11 +49,40 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.estado, "Estado", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Estado</h3>
+            </div>
+            <div class="panel-body">
+
+                @if (Model.estado.Value.ToString().Equals("VISIBLE"))
+                {
+                    <div class="radio">
+                        <label>
+                            <input name="estado" type="radio" value="1" checked> Visible
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input name="estado" type="radio" value="2"> Invisible
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="radio">
+                        <label>
+                            <input name="estado" type="radio" value="1"> Visible
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input name="estado" type="radio" value="2" checked > Invisible
+                        </label>
+                    </div>
+                }
+
+
             </div>
         </div>
 
@@ -66,13 +95,16 @@
                 {
                     var seleccionado = "";
 
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.GenerosSeleccionados != null)
+                    foreach (var genSel in Model.Generos)
                     {
-                        if (Model.GenerosSeleccionados.Contains(item.Id.Value))
+                        // Activar el checkbox si de los temas disponibles
+                        // Existe en los temas seleccionados
+                        if (genSel.Id != null)
                         {
-                            seleccionado = "checked";
+                            if (genSel.Id == item.Id.Value)
+                            {
+                                seleccionado = "checked";
+                            }
                         }
                     }
 
@@ -94,13 +126,16 @@
                 {
                     var seleccionado = "";
 
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.PersonasSeleccionadas != null)
+                    foreach (var genSel in Model.Generos)
                     {
-                        if (Model.PersonasSeleccionadas.Contains(item.Id.Value))
+                        // Activar el checkbox si de los temas disponibles
+                        // Existe en los temas seleccionados
+                        if (genSel.Id != null)
                         {
-                            seleccionado = "checked";
+                            if (genSel.Id == item.Id.Value)
+                            {
+                                seleccionado = "checked";
+                            }
                         }
                     }
 
