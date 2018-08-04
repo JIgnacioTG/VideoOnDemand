@@ -15,17 +15,24 @@ namespace VideoOnDemand.Web.Controllers
     public class ManageMovieController : BaseController
     {
         // GET: Movie
-        public ActionResult Index()
+        public ActionResult Index(string nombre = "")
         {
             MovieRepository repository = new MovieRepository(context);
+            GeneroRepository generoRepository = new GeneroRepository(context);
 
-            var lst = repository.GetAll();
+            //var lst = repository.GetAll();
+
+            //var lst = repository.Query(x => x.estado.ToString() != "ELIMINADO");
+
+            var lst = repository.Query(x => x.estado.ToString() != "ELIMINADO" && x.nombre.Contains(nombre));
 
             var model = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
 
 
             return View(model);
         }
+
+
        
         // GET: Movie/Create
         public ActionResult Create()

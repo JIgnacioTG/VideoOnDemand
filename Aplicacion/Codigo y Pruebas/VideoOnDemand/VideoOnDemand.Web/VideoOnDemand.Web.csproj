@@ -704,15 +704,13 @@
     <Content Include="Views\ManageMovie\Index.cshtml" />
     <Content Include="Views\ManageEpisodio\Index.cshtml" />
     <Content Include="Views\ManageMovie\Create.cshtml" />
-
     <Content Include="Views\ManageMovie\Edit.cshtml" />
     <Content Include="Views\ManageMovie\Delete.cshtml" />
-
     <Content Include="Views\ManageEpisodio\Index.cshtml" />
     <Content Include="Views\Movie\Index.cshtml" />
     <Content Include="Views\Serie\Index.cshtml" />
     <Content Include="Views\ManageSerie\Edit.cshtml" />
-
+    <Content Include="Views\ManageMovie\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
