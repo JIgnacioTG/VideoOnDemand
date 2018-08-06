@@ -10,6 +10,12 @@ namespace VideoOnDemand.Repositories
         {
 
         }
+        public void LogicalDelete(Persona persona)
+        {
+            _context.Personas.Attach(persona);
+            _context.Entry(persona).State = System.Data.Entity.EntityState.Modified;
 
+            persona.Eliminado = true;
+        }
     }
 }

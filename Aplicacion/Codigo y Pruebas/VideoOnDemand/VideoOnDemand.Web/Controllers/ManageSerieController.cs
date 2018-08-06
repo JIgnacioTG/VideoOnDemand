@@ -19,7 +19,6 @@ namespace VideoOnDemand.Web.Controllers
 
             VideoOnDemandContext context = new VideoOnDemandContext();
             SerieRepository repository = new SerieRepository(context);
-
             // Consultar las series
             var lst = repository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
 
@@ -160,21 +159,6 @@ namespace VideoOnDemand.Web.Controllers
             {
                 return View(model);
             }
-        }
-
-        public ActionResult Episodios(int id)
-        {
-            return RedirectToRoute("Index", "ManageEpisodio");
-        }
-
-        public SerieViewModel ModelUpdate(Serie serie, SerieViewModel model)
-        {
-            model.Actores = MapHelper.Map<ICollection<PersonaViewModel>>(serie.Actores);
-            model.Episodios = MapHelper.Map<ICollection<EpisodioViewModel>>(serie.Episodios);
-            model.Generos = MapHelper.Map<ICollection<GeneroViewModel>>(serie.Generos);
-            model.Opiniones = MapHelper.Map<ICollection<OpinionViewModel>>(serie.Opiniones);
-            model.fechaRegistro = serie.fechaRegistro;
-            return model;
         }
 
         public Serie Update(Serie serie, SerieViewModel model)

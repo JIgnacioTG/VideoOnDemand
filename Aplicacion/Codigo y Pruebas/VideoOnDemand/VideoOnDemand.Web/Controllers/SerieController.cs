@@ -13,6 +13,7 @@ namespace VideoOnDemand.Web.Controllers
 {
     public class SerieController : BaseController
     {
+        
         // GET: Serie
         public ActionResult Index(int? idg, string nombre = "")
         {

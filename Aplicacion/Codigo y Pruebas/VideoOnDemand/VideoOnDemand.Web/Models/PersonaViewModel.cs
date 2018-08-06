@@ -23,5 +23,6 @@ namespace VideoOnDemand.Web.Models
         [DataType(DataType.Date)]
         public DateTime? FechaNacimiento { get; set; }
 
+        public bool Eliminado { get; set; }
     }
 }
