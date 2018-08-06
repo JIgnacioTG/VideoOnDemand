@@ -17,6 +17,7 @@ namespace VideoOnDemand.Web.Models
         [MaxLength(100)]
         public string nombre { get; set; }
 
+        [Required]
         [DisplayName("Descripción")]
         [MaxLength(500)]
         public string descripcion { get; set; }

@@ -9,7 +9,7 @@
 
 <h3>Serie: @serie</h3>
 <p>
-    @Html.ActionLink("Crear nuevo episodio", "Create")
+    @Html.ActionLink("Crear nuevo episodio", "Create", new { id = Model.FirstOrDefault().serieId })
 </p>
 <table class="table">
     <tr>
@@ -38,3 +38,7 @@
 }
 
 </table>
+
+<div>
+    @Html.ActionLink("Regresar", "Index", "ManageSerie")
+</div>
