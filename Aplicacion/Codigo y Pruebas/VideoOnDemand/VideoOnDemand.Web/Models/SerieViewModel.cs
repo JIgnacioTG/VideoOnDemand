@@ -7,6 +7,6 @@ namespace VideoOnDemand.Web.Models
 {
     public class SerieViewModel : MediaViewModel
     {
-
+        public virtual ICollection<EpisodioViewModel> Episodios { get; set; }
     }
 }
