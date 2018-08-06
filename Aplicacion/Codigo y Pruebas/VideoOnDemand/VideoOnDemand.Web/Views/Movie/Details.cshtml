@@ -17,7 +17,6 @@
                     (@Html.DisplayFor(m => m.fechaLanzamiento.Value.Year))
                 </strong>
             </h3>
-
             @{
                 int? hrs = Model.duracionMin / 60;
                 int? min = Model.duracionMin - (hrs * 60);
@@ -65,6 +64,8 @@
                 <h4>
                     @Html.ActionLink("+ Mi Lista", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
                     @Html.ActionLink("> Repoducir", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("~ Opiniones", "Details", new { id = Model.id }, new { @class = "btn btn-default"})
+                    @Html.ActionLink("+ Opinión","Details", new { id = Model.id },new { @class = "btn btn-default" })
                 </h4>
             </div>
         </div>
@@ -73,6 +74,16 @@
 
 </div>
 <h2></h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading" style="background:black"><h3>Mi reseña</h3></div>
+    <div class="panel-body">
+            @Html.TextArea("Reseña",null, new { @class = "form-control",cols="20", rows="5", placeholder="Agregar una reseña."})
+            <br />
+            <input type="submit" value="Agregar" class="btn btn-default"/>
+    </div>
+</div>
+
 <div class="container">
     @Html.ActionLink("Regresar", "Index")
 </div>
