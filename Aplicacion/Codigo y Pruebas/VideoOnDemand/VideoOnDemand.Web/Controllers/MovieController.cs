@@ -20,7 +20,7 @@ namespace VideoOnDemand.Web.Controllers
             //paginacion
             int totalPages = 0;
             int totalRows = 0;
-            int pageSize = 3;
+            int pageSize = 40;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
             MovieRepository repository = new MovieRepository(context);
