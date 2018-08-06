@@ -18,7 +18,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             int totalPages = 0;
             int totalRows = 0;
-            int pageSize = 3;
+            int pageSize = 40;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
             SerieRepository repository = new SerieRepository(context);
@@ -42,7 +42,7 @@ namespace VideoOnDemand.Web.Controllers
                 models.First().GenerosDisponibles = generos;
             }
 
-            var model = new PaginatorViewModel<MovieViewModel>
+            var model = new PaginatorViewModel<SerieViewModel>
             {
                 Page = page,
                 TotalPages = totalPages,

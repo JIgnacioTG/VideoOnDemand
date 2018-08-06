@@ -1,5 +1,5 @@
 ﻿@using VideoOnDemand.Web.Models
-@model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
+@model PaginatorViewModel<VideoOnDemand.Web.Models.SerieViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -58,22 +58,9 @@
                         <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
                     </div>
 
-                    @{
-                        int? hrs = item.duracionMin / 60;
-                        int? min = item.duracionMin - (hrs * 60);
-                        string aux = "";
-                        string auxh = "";
-                        if (min < 10)
-                        {
-                            aux = "0";
-                        }
-                        if (hrs < 10)
-                        {
-                            auxh = "0";
-                        }
-                    }
+                    
                     <div id="fecha">
-                        <h4>@auxh@hrs : @aux@min : 00</h4>
+                        <h4></h4>
                     </div>
                     @{
                         string gen = "";
@@ -83,10 +70,10 @@
                         }
                     }
 
-                    <h6>Generos: @gen</h6>
+                    <h6><b>Generos:</b> @gen</h6>
                 </div>
                 <div id="Descripcion">
-                    <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
+                    <h6><b>Descripcion:</b> @Html.DisplayFor(model => item.descripcion)</h6>
                 </div>
                 <br />
                 <div>
