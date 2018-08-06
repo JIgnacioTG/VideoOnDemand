@@ -15,13 +15,21 @@
 {
     <div class="panel panel-default">
         <div class="panel-heading">
-            Busqueda por nombre
+            Busqueda por nombre o genero
         </div>
+        
         <div class="panel-body">
+            Nombre:
             @Html.TextBox("nombre","",new {@class="form-control"})
+            Genero:
+            @Html.DropDownList("idGenero",(IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
+            
             <button type="submit" class="btn btn-default">Buscar</button>
         </div>
     </div>
+
+
+
 }
 <br />
 <table class="table">
