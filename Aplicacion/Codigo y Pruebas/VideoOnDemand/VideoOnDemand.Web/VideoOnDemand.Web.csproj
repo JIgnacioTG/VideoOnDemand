@@ -216,6 +216,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\sample.PNG" />
     <Content Include="Scripts\bootstrap-datepicker-globalize.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -711,6 +712,7 @@
     <Content Include="Views\Serie\Index.cshtml" />
     <Content Include="Views\ManageSerie\Edit.cshtml" />
     <Content Include="Views\ManageMovie\Search.cshtml" />
+    <Content Include="Views\Movie\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

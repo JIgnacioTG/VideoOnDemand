@@ -30,7 +30,7 @@ textarea {
     text-align: left;
     border: 1px solid black;
     float: left;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: 30px;
 }
 
@@ -62,4 +62,40 @@ textarea {
 #buscar{
     border-radius: 90px;
     padding:5px;
+}
+#leftAll {
+    height: 40px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    text-align: left;
+    float: left;
+}
+#rightAll {
+    height: 40px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    text-align: right;
+    float: right;
+}
+div#general {
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+    height: 350px;
+    border-bottom: 2px solid black;
+}
+div#imagen{
+    float: left;
+    margin-right: 1%;
+    width: 36%;
+    height: 350px;
+}
+div#detalles{
+    float: left;
+    margin-left: 2%;
+    width: 500px;
+    height: 350px;
+}
+div#reseñas{
+    
 }
