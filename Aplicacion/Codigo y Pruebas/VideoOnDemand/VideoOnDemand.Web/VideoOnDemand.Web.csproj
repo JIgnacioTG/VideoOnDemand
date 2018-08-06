@@ -717,6 +717,7 @@
     <Content Include="Views\ManageSerie\Edit.cshtml" />
     <Content Include="Views\ManageMovie\Search.cshtml" />
     <Content Include="Views\Movie\Details.cshtml" />
+    <Content Include="Views\ManageSerie\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
