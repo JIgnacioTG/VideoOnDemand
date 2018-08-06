@@ -19,7 +19,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             GeneroRepository repository = new GeneroRepository(context);
             //consulte los cursos del repositorio
-            var lst = repository.GetAll();
+            var lst = repository.Query(g => g.Eliminado != true);
             //mapeamos la lista de cursos con una lista de cursos view model
             var models = MapHelper.Map<IEnumerable<GeneroViewModel>>(lst);
             return View(models);
@@ -58,7 +58,7 @@ namespace VideoOnDemand.Web.Controllers
                     #endregion
 
                     Genero genero = MapHelper.Map<Genero>(model);
-
+                    genero.Eliminado = false;
                     repository.Insert(genero);
 
                     context.SaveChanges();
@@ -123,9 +123,9 @@ namespace VideoOnDemand.Web.Controllers
             {
                 GeneroRepository repo = new GeneroRepository(context);
 
-                var genero = MapHelper.Map<Genero>(model);
+                var genero = repo.Query(g => g.Id == id).FirstOrDefault();
 
-                repo.Delete(genero);
+                repo.LogicalDelete(genero);
 
                 context.SaveChanges();
 
