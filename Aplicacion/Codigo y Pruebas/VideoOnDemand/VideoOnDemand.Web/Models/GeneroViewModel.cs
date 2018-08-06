@@ -20,5 +20,7 @@ namespace VideoOnDemand.Web.Models
         [MaxLength(500)]
         [DisplayName("Descripción del género")]
         public string Descripcion { get; set; }
+
+        public bool Eliminado { get; set; }
     }
 }

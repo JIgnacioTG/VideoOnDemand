@@ -1,0 +1,78 @@
+﻿@model VideoOnDemand.Web.Models.SerieViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+
+    <div id="general">
+        <div id="imagen">
+            <img src="~/images/sample.PNG" alt="" width="390" height="265" />
+        </div>
+        <div id="detalles">
+            <h3>
+                <strong>
+                    @Html.DisplayFor(m => m.nombre)
+                    (@Html.DisplayFor(m => m.fechaLanzamiento.Value.Year))
+                </strong>
+            </h3>
+
+            @{
+                int? hrs = Model.duracionMin / 60;
+                int? min = Model.duracionMin - (hrs * 60);
+                string aux = "";
+                string auxh = "";
+                if (min < 10)
+                {
+                    aux = "0";
+                }
+                if (hrs < 10)
+                {
+                    auxh = "0";
+                }
+            }
+
+            <h4>@auxh@hrs h @aux@min m</h4>
+
+            <h4>
+                <strong>Descrpción: </strong>
+                @Html.DisplayFor(m => m.descripcion)
+            </h4>
+            @{
+                string gen = "";
+                foreach (var g in Model.Generos)
+                {
+                    gen += g.Nombre + ", ";
+                }
+            }
+            <h4>
+                <strong>Género: </strong>
+                @gen
+            </h4>
+            @{
+                string act = "";
+                foreach (var g in Model.Actores)
+                {
+                    act += g.Nombre + ", ";
+                }
+            }
+            <h4>
+                <strong>Actores: </strong>
+                @act
+            </h4>
+            <div id="leftAll">
+                <h4>
+                    @Html.ActionLink("+ Mi Lista", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("> Reproducir", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
+                </h4>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<h2></h2>
+<div class="container">
+    @Html.ActionLink("Regresar", "Index")
+</div>
