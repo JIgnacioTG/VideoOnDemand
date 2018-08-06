@@ -9,27 +9,51 @@ using VideoOnDemand.Entities;
 using VideoOnDemand.Repositories;
 using VideoOnDemand.Web.Helpers;
 using VideoOnDemand.Web.Models;
+using AppFramework.Expressions;
+
 
 namespace VideoOnDemand.Web.Controllers
 {
     public class ManageMovieController : BaseController
     {
+
+        public SelectList GeneroList(object selectecItem = null)
+        {
+            var repository = new GeneroRepository(context);
+            var genero = repository.Query(null, "Nombre").ToList();
+            genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
+            return new SelectList(genero, "Id", "Nombre", selectecItem);
+        }
+
         // GET: Movie
-        public ActionResult Index(string nombre = "")
+        public ActionResult Index(int? idGenero,string nombre = "")
         {
             MovieRepository repository = new MovieRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
-
-            //var lst = repository.GetAll();
-
-            //var lst = repository.Query(x => x.estado.ToString() != "ELIMINADO");
-
-            var lst = repository.Query(x => x.estado.ToString() != "ELIMINADO" && x.nombre.Contains(nombre));
-
+            var genero = generoRepository.GetAll();
+            
+            Expression<Func<Movie, bool>> expr = m => m.estado != EEstatusMedia.ELIMINADO;
+            if (idGenero != null)
+            {
+                expr = expr.And(x => x.Generos.Any(y => y.Id == idGenero));
+                
+            }
+            if(!string.IsNullOrEmpty(nombre))
+            {
+                expr = expr.And(x => x.nombre.Contains(nombre));              
+            }
+            var lst = repository.Query(expr);
             var model = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
+            var lstGenero = generoRepository.GetAll();
+
+
+            ViewBag.ListaGenero = GeneroList(lstGenero);
+
 
 
             return View(model);
+
+
         }
 
 
