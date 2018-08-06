@@ -21,7 +21,7 @@ namespace VideoOnDemand.Web.Controllers
             SerieRepository repository = new SerieRepository(context);
 
             // Consultar las series
-            var lst = repository.GetAll();
+            var lst = repository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
 
             // Mapear la lista de series con una lista de SerieViewModel
             var models = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
@@ -131,22 +131,34 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            SerieRepository serieRepository = new SerieRepository(context);
+
+            var serie = serieRepository.Query(s => s.id == id).First();
+
+            var model = MapHelper.Map<SerieViewModel>(serie);
+
+            return View(model);
         }
 
         // POST: ManageSerie/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, MovieViewModel model)
+        public ActionResult Delete(int id, SerieViewModel model)
         {
             try
             {
                 // TODO: Add delete logic here
+                var serieRepository = new SerieRepository(context);
 
+                var serie = serieRepository.Query(s => s.id == id).First();
+
+                serieRepository.LogicalDelete(serie);
+                context.SaveChanges();
                 return RedirectToAction("Index");
+
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

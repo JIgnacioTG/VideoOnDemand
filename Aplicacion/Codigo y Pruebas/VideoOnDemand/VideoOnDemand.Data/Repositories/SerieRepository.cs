@@ -79,5 +79,13 @@ namespace VideoOnDemand.Repositories
             }
         }
 
+        public void LogicalDelete(Serie serie)
+        {
+            _context.Medias.Attach(serie);
+            _context.Entry(serie).State = System.Data.Entity.EntityState.Modified;
+
+            serie.estado = EEstatusMedia.ELIMINADO;
+        }
+
     }
 }
