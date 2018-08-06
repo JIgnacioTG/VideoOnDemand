@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Entities;
 using VideoOnDemand.Repositories;
 using VideoOnDemand.Web.Helpers;
 using VideoOnDemand.Web.Models;
@@ -12,18 +14,55 @@ namespace VideoOnDemand.Web.Controllers
     public class SerieController : BaseController
     {
         // GET: Serie
-        public ActionResult Index()
+        public ActionResult Index(int? idg, string nombre = "")
         {
+            int totalPages = 0;
+            int totalRows = 0;
+            int pageSize = 3;
+            int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
+
             SerieRepository repository = new SerieRepository(context);
-            var lst = repository.GetAll();
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            var genero = generoRepository.GetAll();
+            Expression<Func<Serie, bool>> expr = m => m.nombre.Contains(nombre);
+
+            if (idg != null)
+            {
+                Genero genFind = genero.FirstOrDefault(m => m.Id == idg);
+
+                expr = m => m.Generos.Any(x => x.Id == idg);
+            }
+
+            var lst = repository.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
+
             var models = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
-            return View(models);
+            var generos = MapHelper.Map<ICollection<GeneroViewModel>>(generoRepository.GetAll());
+            if (models.Count() != 0)
+            {
+                models.First().GenerosDisponibles = generos;
+            }
+
+            var model = new PaginatorViewModel<MovieViewModel>
+            {
+                Page = page,
+                TotalPages = totalPages,
+                TotalRows = totalRows,
+                PageSize = pageSize,
+                Results = models
+            };
+
+            return View(model);
         }
 
         // GET: Serie/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            SerieRepository repository = new SerieRepository(context);
+            var topic = repository.Query(t => t.id == id).First();
+
+            var model = MapHelper.Map<SerieViewModel>(topic);
+
+            return View(model);
         }
 
         // GET: Serie/Create

@@ -1,34 +1,122 @@
-﻿@model IEnumerable<VideoOnDemand.Web.Models.SerieViewModel>
+﻿@using VideoOnDemand.Web.Models
+@model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
+
 @{
     ViewBag.Title = "Index";
+    ViewBag.Action = "Index";
 }
-<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-<h1>Series</h1>
-<br />
-<input id="buscar" type="search" name="buscar" placeholder="Buscar"/>
-<br />
-@foreach (var item in Model)
+
+<h2>Serie</h2>
+
+@using (Html.BeginForm("Index", "Serie", FormMethod.Get))
 {
-<div id="serie">
-        <h2 id="titulo">@Html.DisplayFor(model => item.nombre)</h2>
-        <div id="duracion">
-            <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
+    <div class="container">
+        <div id="leftAll">
+            @Html.TextBox("nombre", "", new { @class = "form-control" })
         </div>
-        <div id="fecha">
+        <div id="leftAll">
+            <input type="submit" value="Buscar" class="btn btn-default" />
         </div>
-        <h6><b>Géneros:</b> @Html.DisplayFor(model => item.GenerosDisponibles)</h6>
-    <div id="Descripcion">
-        <h6><b>Descripcion:</b> @Html.DisplayFor(model => item.descripcion)</h6>
-    </div>
-    <br />
-    <div>
-        <div id="duracion">
-            <input type="submit" value="+ Mi lista" class="btn btn-default" onclick="" />
+        <div id="leftAll">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Géneros
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    @if (Model.Results.Count() != 0)
+                {
+                    foreach (var generosTotal in Model.Results.First().GenerosDisponibles)
+                    {
+                            <li>
+                                @Html.ActionLink(generosTotal.Nombre, "Index", new { idg = generosTotal.Id })
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+
         </div>
-        <div id="fecha">
-            <input type="submit" value="Detalles" class="btn btn-default" onclick="" />
-        </div>
-    </div>
-    
     </div>
 }
+
+
+<div class="container">
+
+    @if (Model.Results.Count() > 0)
+    {
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+        foreach (var item in Model.Results)
+        {
+            <div id="serie">
+                <div id="serie1">
+                    <h2>
+                        @Html.DisplayFor(model => item.nombre)
+                    </h2>
+                    <div id="duracion">
+                        <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
+                    </div>
+
+                    @{
+                        int? hrs = item.duracionMin / 60;
+                        int? min = item.duracionMin - (hrs * 60);
+                        string aux = "";
+                        string auxh = "";
+                        if (min < 10)
+                        {
+                            aux = "0";
+                        }
+                        if (hrs < 10)
+                        {
+                            auxh = "0";
+                        }
+                    }
+                    <div id="fecha">
+                        <h4>@auxh@hrs : @aux@min : 00</h4>
+                    </div>
+                    @{
+                        string gen = "";
+                        foreach (var g in item.Generos)
+                        {
+                            gen += g.Nombre + ", ";
+                        }
+                    }
+
+                    <h6>Generos: @gen</h6>
+                </div>
+                <div id="Descripcion">
+                    <h6>Descripcion: @Html.DisplayFor(model => item.descripcion)</h6>
+                </div>
+                <br />
+                <div>
+                    <div id="duracion">
+
+                        @Html.ActionLink("+ Mi Lista", "Details", new { id = item.id }, new { @class = "btn btn-default" })
+
+                    </div>
+                    <div id="fecha">
+
+                        @Html.ActionLink("Detalles", "Details", new { id = item.id }, new { @class = "btn btn-default" })
+
+                    </div>
+                </div>
+
+            </div>
+                            }
+
+
+                        }
+                        else
+                        {
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    Sin resultados
+                                </div>
+                            </div>
+                        }
+</div>
+
+<div class="container">
+    @Html.Partial("_Paginator")
+</div>
