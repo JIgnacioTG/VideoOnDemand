@@ -19,6 +19,8 @@ namespace VideoOnDemand.Mapping
             Property(p => p.Nombre).HasMaxLength(100).IsRequired();
             Property(p => p.Descripcion).HasMaxLength(500).IsOptional();
             Property(p => p.FechaNacimiento).IsOptional();
+            Property(p => p.Eliminado).IsRequired();
+
         }
     }
 }

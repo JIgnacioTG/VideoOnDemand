@@ -71,7 +71,7 @@ namespace VideoOnDemand.Web.Controllers
 
                     context.SaveChanges();
                     return RedirectToAction("Index");
-                   }
+                }
                 else
                 {
                     return View(model);
@@ -104,17 +104,27 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: ManageSerie/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, SerieViewModel model)
         {
+
             try
             {
-                // TODO: Add update logic here
+                var serieRepository = new SerieRepository(context);
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var serie = serieRepository.Query(s => s.id == id).First();
+                    serie = Update(serie, model);
+                    serieRepository.UpdateComplete(serie, model.GenerosSeleccionados, model.PersonasSeleccionadas);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -126,7 +136,7 @@ namespace VideoOnDemand.Web.Controllers
 
         // POST: ManageSerie/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, MovieViewModel model)
         {
             try
             {
@@ -143,6 +153,26 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Episodios(int id)
         {
             return RedirectToRoute("Index", "ManageEpisodio");
+        }
+
+        public SerieViewModel ModelUpdate(Serie serie, SerieViewModel model)
+        {
+            model.Actores = MapHelper.Map<ICollection<PersonaViewModel>>(serie.Actores);
+            model.Episodios = MapHelper.Map<ICollection<EpisodioViewModel>>(serie.Episodios);
+            model.Generos = MapHelper.Map<ICollection<GeneroViewModel>>(serie.Generos);
+            model.Opiniones = MapHelper.Map<ICollection<OpinionViewModel>>(serie.Opiniones);
+            model.fechaRegistro = serie.fechaRegistro;
+            return model;
+        }
+
+        public Serie Update(Serie serie, SerieViewModel model)
+        {
+            serie.descripcion = model.descripcion;
+            serie.duracionMin = model.duracionMin;
+            serie.estado = model.estado;
+            serie.fechaLanzamiento = model.fechaLanzamiento;
+            serie.nombre = model.nombre;
+            return serie;
         }
 
     }

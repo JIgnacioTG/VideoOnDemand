@@ -45,5 +45,39 @@ namespace VideoOnDemand.Repositories
             }
         }
 
+        public void UpdateComplete(Serie serie, int[] generoIds, int[] personaIds)
+        {
+            _context.Medias.Attach(serie);
+            _context.Entry(serie).State = System.Data.Entity.EntityState.Modified;
+
+            //Recargamos la entidad
+            _context.Entry(serie).Collection(x => x.Generos).Load();
+            _context.Entry(serie).Collection(x => x.Actores).Load();
+
+            //Limpiamos la lista
+            serie.Generos.Clear();
+            serie.Actores.Clear();
+
+            if (generoIds != null && personaIds != null)
+            {
+                var generos = from g in _context.Generos
+                              where generoIds.Contains((int)g.Id)
+                              select g;
+
+                var actores = from a in _context.Personas
+                              where personaIds.Contains((int)a.Id)
+                              select a;
+
+                serie.Generos = new List<Genero>();
+                serie.Actores = new List<Persona>();
+
+                foreach (var g in generos)
+                    serie.Generos.Add(g);
+
+                foreach (var a in actores)
+                    serie.Actores.Add(a);
+            }
+        }
+
     }
 }
