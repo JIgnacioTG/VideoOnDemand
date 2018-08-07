@@ -41,12 +41,14 @@ namespace VideoOnDemand.Web.Controllers
             GeneroRepository generoRepository = new GeneroRepository(context);
             var genero = generoRepository.GetAll();
 
-            Expression<Func<Movie, bool>> expr = m => m.nombre.Contains(nombre);
+            Expression<Func<Movie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE && m.nombre.Contains(nombre);
 
             if (idg != null)
             {
                 expr = expr.And(x => x.Generos.Any(y => y.Id == idg));
             }
+               
+            
 
             var lst = repository.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
             
