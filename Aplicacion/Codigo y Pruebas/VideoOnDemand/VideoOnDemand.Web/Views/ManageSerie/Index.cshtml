@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<VideoOnDemand.Web.Models.SerieViewModel>
 
 @{
-    ViewBag.Title = "Administrar Series";
+    ViewBag.Title = "Index";
+    string Title = "Administrar Series";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@Title</h2>
 
 <p>
     @Html.ActionLink("Crear nueva Serie", "Create")
@@ -31,7 +32,7 @@
         <td>
             @Html.ActionLink("Editar", "Edit", new { id=item.id }) |
             @Html.ActionLink("Eliminar", "Delete", new { id=item.id }) |
-            @Html.ActionLink("Episodios", "Episodios", new { id = item.id })
+            @Html.ActionLink("Episodios", "Index", "ManageEpisodio", new { id = item.id }, null)
         </td>
     </tr>
 }

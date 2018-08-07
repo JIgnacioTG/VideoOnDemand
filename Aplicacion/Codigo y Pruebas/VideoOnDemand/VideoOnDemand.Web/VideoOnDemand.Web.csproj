@@ -707,18 +707,20 @@
     <Content Include="Views\Persona\Delete.cshtml" />
     <Content Include="Views\ManageSerie\Create.cshtml" />
     <Content Include="Views\ManageMovie\Index.cshtml" />
-    <Content Include="Views\ManageEpisodio\Index.cshtml" />
     <Content Include="Views\ManageMovie\Create.cshtml" />
     <Content Include="Views\ManageMovie\Edit.cshtml" />
     <Content Include="Views\ManageMovie\Delete.cshtml" />
-    <Content Include="Views\ManageEpisodio\Index.cshtml" />
     <Content Include="Views\Movie\Index.cshtml" />
     <Content Include="Views\Serie\Index.cshtml" />
     <Content Include="Views\ManageSerie\Edit.cshtml" />
     <Content Include="Views\ManageMovie\Search.cshtml" />
     <Content Include="Views\Movie\Details.cshtml" />
     <Content Include="Views\ManageSerie\Delete.cshtml" />
+    <Content Include="Views\ManageEpisodio\Create.cshtml" />
     <Content Include="Views\Serie\Details.cshtml" />
+    <Content Include="Views\ManageEpisodio\Index.cshtml" />
+    <Content Include="Views\ManageEpisodio\Edit.cshtml" />
+    <Content Include="Views\ManageEpisodio\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

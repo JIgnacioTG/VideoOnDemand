@@ -3,7 +3,7 @@
         @if (Model.Page > 1)
         {
             <li>
-                <a href="@Url.Action(ViewBag.Action as string,new { page = Model.Page - 1 })" aria-label="Previous">
+                <a href="@Url.Action(ViewBag.Action as string,new { page = Model.Page - 1 , nombre = ViewBag.Nombre, idg = ViewBag.Idg , paginado = ViewBag.Paginado})" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -11,7 +11,7 @@
         else
         {
             <li class="disabled">
-                <a href="@Url.Action(ViewBag.Action as string,new { page = Model.Page - 1 })" aria-label="Previous">
+                <a href="@Url.Action(ViewBag.Action as string,new { page = Model.Page - 1  , nombre = ViewBag.Nombre, idg = ViewBag.Idg, paginado = ViewBag.Paginado})" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -19,12 +19,12 @@
         @for (var index = 1; index <= Model.TotalPages; index++)
         {
 
-            <li>@Html.ActionLink((index).ToString(), ViewBag.Action as string, new { page = index })</li>
+            <li>@Html.ActionLink((index).ToString(), ViewBag.Action as string, new { page = index, nombre = ViewBag.Nombre, idg = ViewBag.Idg, paginado = ViewBag.Paginado })</li>
         }
         @if (Model.Page < Model.TotalPages)
             {
             <li>
-                <a href="@Url.Action(ViewBag.Action as string,new { page = Model.Page + 1 })" aria-label="Next">
+                <a href="@Url.Action(ViewBag.Action as string,new { page = Model.Page + 1 , nombre = ViewBag.Nombre, idg = ViewBag.Idg, paginado = ViewBag.Paginado})" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

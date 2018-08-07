@@ -1,13 +1,13 @@
-﻿@model VideoOnDemand.Web.Models.SerieViewModel
+﻿@model VideoOnDemand.Web.Models.EpisodioViewModel
 
 @{
     ViewBag.Title = "Delete";
-    string Title = "Eliminar Serie";
+    string Title = "Eliminar Episodio";
 }
 
 <h2>@Title</h2>
 
-<h3>&iquest;Est&aacute;s seguro que deseas eliminar esta serie?</h3>
+<h3>&iquest;Est&aacute;s seguro que deseas eliminar este episodio?</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -51,6 +51,22 @@
             @Html.DisplayFor(model => model.fechaLanzamiento)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.temporada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.temporada)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Serie")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serie.nombre)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
@@ -58,7 +74,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Regresar", "Index")
+            @Html.ActionLink("Regresar", "Index", new { id = Model.serieId })
         </div>
     }
 </div>

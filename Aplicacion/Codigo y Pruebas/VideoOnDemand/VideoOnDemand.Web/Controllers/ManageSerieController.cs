@@ -19,7 +19,6 @@ namespace VideoOnDemand.Web.Controllers
 
             VideoOnDemandContext context = new VideoOnDemandContext();
             SerieRepository repository = new SerieRepository(context);
-
             // Consultar las series
             var lst = repository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
 
@@ -27,12 +26,6 @@ namespace VideoOnDemand.Web.Controllers
             var models = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
 
             return View(models);
-        }
-
-        // GET: ManageSerie/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
         }
 
         // GET: ManageSerie/Create
@@ -45,6 +38,7 @@ namespace VideoOnDemand.Web.Controllers
             var lst2 = personaRepository.GetAll();
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            model.estado = EEstatusMedia.VISIBLE;
             return View(model);
         }
 
@@ -160,21 +154,6 @@ namespace VideoOnDemand.Web.Controllers
             {
                 return View(model);
             }
-        }
-
-        public ActionResult Episodios(int id)
-        {
-            return RedirectToRoute("Index", "ManageEpisodio");
-        }
-
-        public SerieViewModel ModelUpdate(Serie serie, SerieViewModel model)
-        {
-            model.Actores = MapHelper.Map<ICollection<PersonaViewModel>>(serie.Actores);
-            model.Episodios = MapHelper.Map<ICollection<EpisodioViewModel>>(serie.Episodios);
-            model.Generos = MapHelper.Map<ICollection<GeneroViewModel>>(serie.Generos);
-            model.Opiniones = MapHelper.Map<ICollection<OpinionViewModel>>(serie.Opiniones);
-            model.fechaRegistro = serie.fechaRegistro;
-            return model;
         }
 
         public Serie Update(Serie serie, SerieViewModel model)

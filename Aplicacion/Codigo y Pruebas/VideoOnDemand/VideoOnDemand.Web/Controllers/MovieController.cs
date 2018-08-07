@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppFramework.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -14,13 +15,26 @@ namespace VideoOnDemand.Web.Controllers
     public class MovieController : BaseController
     {
 
-        public ActionResult Index(int? idg, string nombre = "")
+        public SelectList GeneroList(object selectecItem = null)
         {
+            var repository = new GeneroRepository(context);
+            var genero = repository.Query(null, "Nombre").ToList();
+            genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
+            return new SelectList(genero, "Id", "Nombre", selectecItem);
+        }
+
+        public ActionResult Index(int? idg, string nombre = "", int paginado = 40)
+        {
+            if(paginado <= 0)
+            {
+                paginado = 40;
+            }
+            
 
             //paginacion
             int totalPages = 0;
             int totalRows = 0;
-            int pageSize = 40;
+            int pageSize = paginado;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
             MovieRepository repository = new MovieRepository(context);
@@ -31,19 +45,13 @@ namespace VideoOnDemand.Web.Controllers
 
             if (idg != null)
             {
-                Genero genFind = genero.FirstOrDefault(m => m.Id == idg);
-                
-                expr = m => m.Generos.Any(x => x.Id == idg);
+                expr = expr.And(x => x.Generos.Any(y => y.Id == idg));
             }
-            
+
             var lst = repository.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
             
             var models = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
             var generos = MapHelper.Map<ICollection<GeneroViewModel>>(generoRepository.GetAll());
-            if (models.Count() != 0)
-            {
-                models.First().GenerosDisponibles = generos;
-            }
 
             var model = new PaginatorViewModel<MovieViewModel>
             {
@@ -53,6 +61,11 @@ namespace VideoOnDemand.Web.Controllers
                 PageSize = pageSize,
                 Results = models
             };
+
+            ViewBag.ListaGenero = GeneroList(genero);
+            ViewBag.Nombre = nombre;
+            ViewBag.Idg = idg + "";
+            ViewBag.Paginado = paginado + "";
 
             return View(model);
         }
@@ -65,6 +78,12 @@ namespace VideoOnDemand.Web.Controllers
             var model = MapHelper.Map<MovieViewModel>(topic);
 
             return View(model);
+        }
+
+        public ActionResult MyList()
+        {
+
+            return View();
         }
     }
 }
