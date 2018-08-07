@@ -9,7 +9,7 @@
 
 <h3>Serie: @serie</h3>
 <p>
-    @Html.ActionLink("Crear nuevo episodio", "Create", new { id = Model.FirstOrDefault().serieId })
+    @Html.ActionLink("Crear nuevo episodio", "Create", new { id = Model.FirstOrDefault().Serie.id })
 </p>
 <table class="table">
     <tr>
@@ -22,19 +22,23 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.temporada)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.id })
-        </td>
-    </tr>
+@foreach (var item in Model)
+{
+    if (item.id != 0)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.temporada)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
 }
 
 </table>

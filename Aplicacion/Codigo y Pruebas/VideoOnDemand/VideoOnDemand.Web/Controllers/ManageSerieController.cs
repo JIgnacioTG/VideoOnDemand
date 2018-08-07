@@ -28,12 +28,6 @@ namespace VideoOnDemand.Web.Controllers
             return View(models);
         }
 
-        // GET: ManageSerie/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: ManageSerie/Create
         public ActionResult Create()
         {
@@ -44,6 +38,7 @@ namespace VideoOnDemand.Web.Controllers
             var lst2 = personaRepository.GetAll();
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            model.estado = EEstatusMedia.VISIBLE;
             return View(model);
         }
 

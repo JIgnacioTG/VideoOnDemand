@@ -21,24 +21,18 @@ namespace VideoOnDemand.Web.Controllers
             SerieRepository serieRepository = new SerieRepository(context);
 
             // Consultar los episodios de la serie asignada
-            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id);
-            var serie = serieRepository.Query(s => s.id == id).FirstOrDefault();
-
-            foreach (var item in lstEpisodio)
-            {
-                item.Serie = serie;
-            }
+            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id && e.estado != EEstatusMedia.ELIMINADO);
 
             // Mapear la lista de series con una lista de SerieViewModel
             var models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
 
-            return View(models);
-        }
+            if (lstEpisodio.Count == 0)
+            {
+                lstEpisodio.Add(new Episodio { Serie = serieRepository.Query(s => s.id == id).First() });
+                models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
+            }
 
-        // GET: ManageEpisodio/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(models);
         }
 
         // GET: ManageEpisodio/Create
@@ -57,6 +51,8 @@ namespace VideoOnDemand.Web.Controllers
             var serie = serieRepository.Query(s => s.id == id).First();
             model.Serie = MapHelper.Map<SerieViewModel>(serie);
             model.serieId = id;
+
+            model.estado = EEstatusMedia.VISIBLE;
 
             return View(model);
         }
@@ -80,15 +76,15 @@ namespace VideoOnDemand.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    model.serieId = model.id;
                     var serie = serieRepository.Query(s => s.id == model.id).First();
-                    model.Serie = MapHelper.Map<SerieViewModel>(serie);
                     var episodio = MapHelper.Map<Episodio>(model);
+                    episodio.Serie = serie;
+                    episodio.serieId = model.id;
                     episodioRepository.InsertComplete(episodio, model.GenerosSeleccionados, model.PersonasSeleccionadas);
 
                     context.SaveChanges();
 
-                    return RedirectToAction("Index", new { id = model.serieId });
+                    return RedirectToAction("Index", new { id = episodio.serieId });
                 }
 
                 return View(model);
@@ -102,44 +98,80 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageEpisodio/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            EpisodioRepository episodioRepository = new EpisodioRepository(context);
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+
+            var episodio = episodioRepository.Query(e => e.id == id).First();
+            var lstGeneros = generoRepository.GetAll();
+            var lstPersonas = personaRepository.GetAll();
+
+            var model = MapHelper.Map<EpisodioViewModel>(episodio);
+
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
+            //model.Serie = MapHelper.Map<SerieViewModel>(episodio.Serie);
+
+            return View(model);
         }
 
         // POST: ManageEpisodio/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, EpisodioViewModel model)
         {
             try
             {
                 // TODO: Add update logic here
+                EpisodioRepository episodioRepository = new EpisodioRepository(context);
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var episodio = episodioRepository.Query(e => e.id == id).First();
+                    episodio = Update(episodio, model);
+                    episodioRepository.UpdateComplete(episodio, model.GenerosSeleccionados, model.PersonasSeleccionadas);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", new { id = episodio.serieId });
+                }
+
+                return View(model);
+
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
         // GET: ManageEpisodio/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            EpisodioRepository episodioRepository = new EpisodioRepository(context);
+
+            var episodio = episodioRepository.Query(s => s.id == id).First();
+
+            var model = MapHelper.Map<EpisodioViewModel>(episodio);
+
+            return View(model);
         }
 
         // POST: ManageEpisodio/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, EpisodioViewModel model)
         {
             try
             {
                 // TODO: Add delete logic here
+                EpisodioRepository episodioRepository = new EpisodioRepository(context);
 
-                return RedirectToAction("Index");
+                var episodio = episodioRepository.Query(s => s.id == id).First();
+
+                episodioRepository.LogicalDelete(episodio);
+                context.SaveChanges();
+                return RedirectToAction("Index", new { id = episodio.serieId });
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

@@ -27,13 +27,13 @@ namespace VideoOnDemand.Web.Models
         [DataType(DataType.Duration)]
         public int? duracionMin { get; set; }
         
-        [DataType(DataType.Date)]
         [DisplayName("Fecha registro")]
+        [DataType(DataType.Date)]
         public DateTime? fechaRegistro { get; set; }
 
         [Required]
         [DisplayName("Fecha lanzamiento")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? fechaLanzamiento { get; set; }
 
         public virtual ICollection<GeneroViewModel> Generos { get; set; }

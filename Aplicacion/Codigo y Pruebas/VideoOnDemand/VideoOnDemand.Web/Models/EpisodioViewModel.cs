@@ -13,6 +13,6 @@ namespace VideoOnDemand.Web.Models
 
         public int? serieId { get; set; }
 
-        public SerieViewModel Serie { get; set; }
+        public virtual SerieViewModel Serie { get; set; }
     }
 }
