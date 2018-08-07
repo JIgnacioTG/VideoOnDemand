@@ -13,7 +13,7 @@ namespace VideoOnDemand.Web.Controllers
 {
     public class SerieController : BaseController
     {
-        
+       
         // GET: Serie
         public ActionResult Index(int? idg, string nombre = "")
         {
@@ -21,6 +21,7 @@ namespace VideoOnDemand.Web.Controllers
             int totalRows = 0;
             int pageSize = 40;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
+
 
             SerieRepository repository = new SerieRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
