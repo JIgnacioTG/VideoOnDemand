@@ -23,13 +23,18 @@ namespace VideoOnDemand.Web.Controllers
             return new SelectList(genero, "Id", "Nombre", selectecItem);
         }
 
-        public ActionResult Index(int? idg, string nombre = "")
+        public ActionResult Index(int? idg, string nombre = "", int paginado = 40)
         {
+            if(paginado <= 0)
+            {
+                paginado = 40;
+            }
+            
 
             //paginacion
             int totalPages = 0;
             int totalRows = 0;
-            int pageSize = 3;
+            int pageSize = paginado;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
             MovieRepository repository = new MovieRepository(context);
@@ -48,8 +53,6 @@ namespace VideoOnDemand.Web.Controllers
             var models = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
             var generos = MapHelper.Map<ICollection<GeneroViewModel>>(generoRepository.GetAll());
 
-           
-
             var model = new PaginatorViewModel<MovieViewModel>
             {
                 Page = page,
@@ -62,6 +65,7 @@ namespace VideoOnDemand.Web.Controllers
             ViewBag.ListaGenero = GeneroList(genero);
             ViewBag.Nombre = nombre;
             ViewBag.Idg = idg + "";
+            ViewBag.Paginado = paginado + "";
 
             return View(model);
         }

@@ -18,24 +18,14 @@
             <input type="submit" value="Buscar" class="btn btn-default" />
         </div>
         <div id="leftAll">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Géneros
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    @if (Model.Results.Count() != 0)
-                {
-                    foreach (var generosTotal in Model.Results.First().GenerosDisponibles)
-                    {
-                            <li>
-                                @Html.ActionLink(generosTotal.Nombre, "Index", new { idg = generosTotal.Id })
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
+            @Html.DropDownList("idg", (IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
+        </div>
 
+        <div id="rightAll">
+            @Html.TextBox("paginado", new { paginado = ViewBag.Paginado }, new { @type = "number", style = "width: 60px;" })
+        </div>
+        <div id="rightAll">
+            <h4>Núm. de Coincidencias: </h4>
         </div>
     </div>
 }
@@ -58,7 +48,7 @@
                         <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
                     </div>
 
-                    
+
                     <div id="fecha">
                         <h4></h4>
                     </div>
@@ -90,18 +80,18 @@
                 </div>
 
             </div>
-                            }
+        }
 
 
-                        }
-                        else
-                        {
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    Sin resultados
-                                </div>
-                            </div>
-                        }
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Sin resultados
+            </div>
+        </div>
+    }
 </div>
 
 <div class="container">
