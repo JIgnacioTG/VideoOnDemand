@@ -61,6 +61,18 @@ namespace VideoOnDemand.Web.Controllers
                 {
                     SerieRepository repository = new SerieRepository(context);
                     Serie serie = MapHelper.Map<Serie>(model);
+                    var lstSerie = repository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
+                    foreach (var s in lstSerie)
+                    {
+                        if (s.nombre.ToLower() == serie.nombre.ToLower())
+                        {
+                            if (s.fechaLanzamiento == serie.fechaLanzamiento)
+                            {
+                                model.id = -1;
+                                return View(model);
+                            }
+                        }
+                    }
                     repository.InsertComplete(serie, model.GenerosSeleccionados, model.PersonasSeleccionadas);
 
                     context.SaveChanges();
@@ -109,6 +121,18 @@ namespace VideoOnDemand.Web.Controllers
                 {
                     var serie = serieRepository.Query(s => s.id == id).First();
                     serie = Update(serie, model);
+                    var lstSerie = serieRepository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
+                    foreach (var s in lstSerie)
+                    {
+                        if (s.nombre.ToLower() == serie.nombre.ToLower())
+                        {
+                            if (s.fechaLanzamiento == serie.fechaLanzamiento)
+                            {
+                                model.id = -1;
+                                return View(model);
+                            }
+                        }
+                    }
                     serieRepository.UpdateComplete(serie, model.GenerosSeleccionados, model.PersonasSeleccionadas);
                     context.SaveChanges();
                     return RedirectToAction("Index");

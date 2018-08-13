@@ -76,12 +76,32 @@ namespace VideoOnDemand.Repositories
                 foreach (var a in actores)
                     serie.Actores.Add(a);
             }
+
+            if (serie.Episodios.Count > 0)
+            {
+                foreach (var e in serie.Episodios)
+                {
+                    e.estado = serie.estado;
+                }
+            }
+
         }
 
         public void LogicalDelete(Serie serie)
         {
             _context.Medias.Attach(serie);
             _context.Entry(serie).State = System.Data.Entity.EntityState.Modified;
+
+            //Recargamos la entidad
+            _context.Entry(serie).Collection(s => s.Episodios).Load();
+
+            if (serie.Episodios.Count > 0)
+            {
+                foreach (var e in serie.Episodios)
+                {
+                    e.estado = EEstatusMedia.ELIMINADO;
+                }
+            }
 
             serie.estado = EEstatusMedia.ELIMINADO;
         }
