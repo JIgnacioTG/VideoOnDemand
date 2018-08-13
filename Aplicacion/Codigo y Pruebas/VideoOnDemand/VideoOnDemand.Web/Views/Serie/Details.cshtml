@@ -18,25 +18,12 @@
                 </strong>
             </h3>
 
-            @{
-                int? hrs = Model.duracionMin / 60;
-                int? min = Model.duracionMin - (hrs * 60);
-                string aux = "";
-                string auxh = "";
-                if (min < 10)
-                {
-                    aux = "0";
-                }
-                if (hrs < 10)
-                {
-                    auxh = "0";
-                }
-            }
-
-            <h4>@auxh@hrs h @aux@min m</h4>
-
             <h4>
-                <strong>Descrpción: </strong>
+                <strong>Temporadas: </strong>
+            </h4>
+           
+            <h4>
+                <strong>Descripción: </strong>
                 @Html.DisplayFor(m => m.descripcion)
             </h4>
             @{
@@ -64,7 +51,6 @@
             <div id="leftAll">
                 <h4>
                     @Html.ActionLink("+ Mi Lista", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
-                    @Html.ActionLink("> Reproducir", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
                 </h4>
             </div>
         </div>
@@ -73,6 +59,23 @@
 
 </div>
 <h2></h2>
+<div class="panel panel-primary">
+    <div class="panel-heading" style="background:black"><h3>Temporada </h3></div>
+    <div class="panel-body">
+        
+    </div>
+</div>
+<h2></h2>
+
+<div class="panel panel-primary">
+    <div class="panel-heading" style="background:black"><h3>Mi reseña</h3></div>
+    <div class="panel-body">
+        @Html.TextArea("Reseña", null, new { @class = "form-control", cols = "20", rows = "5", style = "width: 800px;", placeholder = "Agregar una reseña." })
+        <br />
+        <input type="submit" value="Agregar" class="btn btn-default" />
+    </div>
+</div>
+
 <div class="container">
     @Html.ActionLink("Regresar", "Index")
 </div>

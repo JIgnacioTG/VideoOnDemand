@@ -22,7 +22,7 @@ namespace VideoOnDemand.Web.Controllers
             genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
             return new SelectList(genero, "Id", "Nombre", selectecItem);
         }
-
+        
         // GET: Serie
         public ActionResult Index(int? idg, string nombre = "",int paginado = 40)
         {
@@ -36,11 +36,12 @@ namespace VideoOnDemand.Web.Controllers
             int pageSize = paginado;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
+
             SerieRepository repository = new SerieRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
             var genero = generoRepository.GetAll();
 
-            Expression<Func<Serie, bool>> expr = m => m.nombre.Contains(nombre);
+            Expression<Func<Serie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE && m.nombre.Contains(nombre);
 
             if (idg != null)
             {
