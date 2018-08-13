@@ -32,12 +32,7 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Create()
         {
             var model = new SerieViewModel();
-            GeneroRepository generoRepository = new GeneroRepository(context);
-            PersonaRepository personaRepository = new PersonaRepository(context);
-            var lst = generoRepository.GetAll();
-            var lst2 = personaRepository.GetAll();
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            model = LinkLists(model);
             model.estado = EEstatusMedia.VISIBLE;
             return View(model);
         }
@@ -46,12 +41,7 @@ namespace VideoOnDemand.Web.Controllers
         [HttpPost]
         public ActionResult Create(SerieViewModel model)
         {
-            GeneroRepository generoRepository = new GeneroRepository(context);
-            PersonaRepository personaRepository = new PersonaRepository(context);
-            var lstGeneros = generoRepository.GetAll();
-            var lstPersonas = personaRepository.GetAll();
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
+            model = LinkLists(model);
 
             try
             {
@@ -93,17 +83,12 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Edit(int id)
         {
             SerieRepository serieRepository = new SerieRepository(context);
-            GeneroRepository generoRepository = new GeneroRepository(context);
-            PersonaRepository personaRepository = new PersonaRepository(context);
 
             var serie = serieRepository.Query(t => t.id == id).First();
-            var lstGeneros = generoRepository.GetAll();
-            var lstPersonas = personaRepository.GetAll();
 
             var model = MapHelper.Map<SerieViewModel>(serie);
 
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
+            model = LinkLists(model);
 
             return View(model);
         }
@@ -124,12 +109,17 @@ namespace VideoOnDemand.Web.Controllers
                     var lstSerie = serieRepository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
                     foreach (var s in lstSerie)
                     {
-                        if (s.nombre.ToLower() == serie.nombre.ToLower())
+                        if (s.id != id)
                         {
-                            if (s.fechaLanzamiento == serie.fechaLanzamiento)
+                            if (s.nombre.ToLower() == serie.nombre.ToLower())
                             {
-                                model.id = -1;
-                                return View(model);
+                                if (s.fechaLanzamiento == serie.fechaLanzamiento)
+                                {
+                                    model = MapHelper.Map<SerieViewModel>(serie);
+                                    model = LinkLists(model);
+                                    model.id = -1;
+                                    return View(model);
+                                }
                             }
                         }
                     }
@@ -188,6 +178,18 @@ namespace VideoOnDemand.Web.Controllers
             serie.fechaLanzamiento = model.fechaLanzamiento;
             serie.nombre = model.nombre;
             return serie;
+        }
+
+        public SerieViewModel LinkLists (SerieViewModel model)
+        {
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            PersonaRepository personaRepository = new PersonaRepository(context);
+            var lstGeneros = generoRepository.GetAll();
+            var lstPersonas = personaRepository.GetAll();
+            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
+            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
+
+            return model;
         }
 
     }
