@@ -21,15 +21,15 @@ namespace VideoOnDemand.Web.Controllers
             SerieRepository serieRepository = new SerieRepository(context);
 
             // Consultar los episodios de la serie asignada
-            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id && e.estado != EEstatusMedia.ELIMINADO);
+            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id && e.estado != EEstatusMedia.ELIMINADO).OrderBy(e => e.temporada).OrderBy(e => e.numEpisodio);
 
             // Mapear la lista de series con una lista de SerieViewModel
             var models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
 
-            if (lstEpisodio.Count == 0)
+            if (lstEpisodio.Count() == 0)
             {
-                lstEpisodio.Add(new Episodio { Serie = serieRepository.Query(s => s.id == id).First() });
-                models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
+                var Serie = new Episodio { Serie = serieRepository.Query(s => s.id == id).First() };
+                models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(Serie);
             }
 
             return View(models);
