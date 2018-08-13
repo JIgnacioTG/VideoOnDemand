@@ -9,6 +9,7 @@ namespace VideoOnDemand.Entities
     public class Episodio : Media
     {
         public int? temporada { get; set; }
+        public int? numEpisodio { get; set; }
         public int? serieId { get; set; }
         public virtual Serie Serie { get; set; }
     }

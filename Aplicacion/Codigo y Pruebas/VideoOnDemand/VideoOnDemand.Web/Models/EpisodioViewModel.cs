@@ -49,8 +49,13 @@ namespace VideoOnDemand.Web.Models
         [DisplayName("Estado")]
         public EEstatusMedia? estado { get; set; }
 
+        [Required]
         [DisplayName("Temporada")]
         public int? temporada { get; set; }
+
+        [Required]
+        [DisplayName("Número de Episodio")]
+        public int? numEpisodio { get; set; }
 
         public int? serieId { get; set; }
 
