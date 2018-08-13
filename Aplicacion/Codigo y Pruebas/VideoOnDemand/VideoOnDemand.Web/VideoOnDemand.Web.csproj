@@ -228,6 +228,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="WebViews\Contenido.html" />
     <Content Include="WebViews\Detalles.html" />
+    <Content Include="WebViews\DetallesPeli.html" />
     <Content Include="WebViews\Estilo.css" />
     <Content Include="WebViews\Imagenes\chicas.jpg" />
     <Content Include="WebViews\Imagenes\fb.png" />

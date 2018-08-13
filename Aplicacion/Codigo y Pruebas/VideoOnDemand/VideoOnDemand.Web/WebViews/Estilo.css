@@ -52,7 +52,7 @@
 }
 #imagen{
     width:320px;
-    height:70px;
+    height:80px;
 }
 h2{
     color:white;
@@ -197,26 +197,32 @@ p{
     padding:7px;
 }
 #btn:hover{
-    color:black;
-    background-color: white;
+    background-color: dodgerblue;
+    border: 0px;
 }
 #btn1{
     font-family: Tahoma;
     color:white;
     font-size: 17px;
     text-align: center;
-    border: 0px;
+    border: 1px white solid;
     border-radius: 4px;
-    background-color: dodgerblue;
+    background-color: black;
     padding:7px;
     width:100%;
 }
 #btn1:hover{
-    color:black;
+    background-color: dodgerblue;
+    border: 0px;
 }
 #fondo2{
     width: 100%;
-	height: 900px;
+	height: 1000px;
 	text-align: center;
     background-color:black;
+}
+#white{
+    font-family: Tahoma;
+    font-size:22px;
+    color: white;
 }
