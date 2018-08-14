@@ -7,16 +7,14 @@
         <source src="~/Content/Video/videoPrueba.mp4" type="video/mp4" />
         Tu navegador no es compatible con la reproducci&oacute;n de videos.
     </video>
-    <br><br>
-    <button id="btnPlay" type="button" class="btn btn-default">
+    <br />
+    <button id="btnPlayPause" type="button" class="btn btn-default">
         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-    </button>
-    <button id="btnPause" type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
     </button>
     <button id="btnStop" type="button" class="btn btn-default">
         <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
     </button>
+    <div id="txtCont" style="border: 1px solid; width: 5px; height: 5px"></div>
 </div>
 
 @section Scripts {
@@ -25,17 +23,26 @@
         var vidPlay = document.getElementById("vidPlay");
 
         $(function () {
-            $("#btnPlay").click(function () {
-                vidPlay.play();
-            });
-            $("#btnPause").click(function () {
-                vidPlay.pause();
+            $("#btnPlayPause").click(function () {
+                if (vidPlay.paused) {
+                    vidPlay.play();
+                    document.getElementById("btnPlayPause").innerHTML = "<span class='glyphicon glyphicon-pause' aria-hidden='true'></span>";
+                }
+                else {
+                    vidPlay.pause();
+                    document.getElementById("btnPlayPause").innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span>";
+                }
+                
             });
             $("#btnStop").click(function () {
                 vidPlay.pause();
+                document.getElementById("btnPlayPause").innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span>";
                 vidPlay.currentTime = 0;
             });
+
+            $("#txtCont").html("<p>" +vidPlay.currentTime+ "</p>");
         });
+
     </script>
 }
 
