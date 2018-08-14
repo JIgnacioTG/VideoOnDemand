@@ -147,7 +147,7 @@ namespace VideoOnDemand.Web.Controllers
 
             #region Validaciones
             //Una Reseña por Usuario
-            var userExist = opinionRepo.GetAll().FirstOrDefault(u => u.UsuarioId == model.UsuarioId);
+            var userExist = opinionRepo.GetAll().FirstOrDefault(u => u.UsuarioId == model.UsuarioId && u.MediaId == model.MediaId);
 
             if(userExist != null)
             {
@@ -169,14 +169,10 @@ namespace VideoOnDemand.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            //Puntuacion Requerida
+            //Puntuacion Requerida - Si no califica se vuelve 0
             if (model.Puntuacion == null)
             {
-                return Json(new
-                {
-                    Success = false,
-                    TypeError = 3
-                }, JsonRequestBehavior.AllowGet);
+                model.Puntuacion = 0;
             }
             #endregion
 
