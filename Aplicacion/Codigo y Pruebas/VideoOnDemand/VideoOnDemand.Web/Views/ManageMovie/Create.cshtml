@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.fechaLanzamiento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control datepicker",placeholder="dd/MM/yyyy" } })
+                @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.fechaLanzamiento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -119,12 +119,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 <script type="text/javascript">
-    $(function () {
-        $(".datepicker").datepicker({
-            language: "es",
-            autoclose: true
-        });
-    });
+    //$(function () {
+    //    $(".datepicker").datepicker({
+    //        language: "es",
+    //        autoclose: true
+    //    });
+    //});
     $(function () {
         $("input[name='SeleccionarGeneros']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
     });
