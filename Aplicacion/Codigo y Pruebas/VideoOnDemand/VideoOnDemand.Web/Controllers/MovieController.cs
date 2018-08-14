@@ -1,4 +1,5 @@
 ﻿using AppFramework.Expressions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,25 @@ namespace VideoOnDemand.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult getResenias()
+        {
+            OpinionRepository opiRepo = new OpinionRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+
+
+            foreach (var opinion in opiRepo.GetAll())
+            {
+                opinion.Usuario = userRepo.GetAll().FirstOrDefault(u => u.Id == opinion.UsuarioId);
+            }
+
+            return Json(new
+            {
+                Success = true,
+                Opiniones = JsonConvert.SerializeObject(opiRepo.GetAll())
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Details(int id)
         {
             MovieRepository repository = new MovieRepository(context);
@@ -108,7 +128,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             UsuarioRepository userRepo = new UsuarioRepository(context);
             MediaRepository mediaRepo = new MediaRepository(context);
-
+            OpinionRepository opinionRepo = new OpinionRepository(context);
 
             model.FechaRegistro = DateTime.Now;
             model.Usuario = (from u in userRepo.GetAll()
@@ -121,17 +141,50 @@ namespace VideoOnDemand.Web.Controllers
                              where u.IdentityId == model.IdentityId
                              select u.Id).FirstOrDefault();
 
+            #region Validaciones
+            //Una Reseña por Usuario
+            var userExist = opinionRepo.GetAll().FirstOrDefault(u => u.UsuarioId == model.UsuarioId);
 
-            OpinionRepository opinionRepo = new OpinionRepository(context);
+            if(userExist != null)
+            {
                 
-                var opinion = MapHelper.Map<Opinion>(model);
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 1
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Descripcion requerida
+             if(model.Descripcion == null)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 2
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Puntuacion Requerida
+            if (model.Puntuacion == null)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 3
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            var opinion = MapHelper.Map<Opinion>(model);
                 opinionRepo.Insert(opinion);
 
             context.SaveChanges();
-                return Json(new
-                {
-                    Success = true
-                }, JsonRequestBehavior.AllowGet);
+
+            return Json(new
+            {
+                Success = true
+            }, JsonRequestBehavior.AllowGet);
             
         }
 
@@ -140,11 +193,12 @@ namespace VideoOnDemand.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
 
                 return Json(new
                 {
                     Success = true
+                    
                 }, JsonRequestBehavior.AllowGet);
             }
             else
