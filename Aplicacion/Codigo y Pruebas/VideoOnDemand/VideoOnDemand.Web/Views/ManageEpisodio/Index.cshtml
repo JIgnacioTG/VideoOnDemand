@@ -14,10 +14,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.nombre)
+            @Html.DisplayNameFor(model => model.temporada)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.temporada)
+            @Html.DisplayNameFor(model => model.numEpisodio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
         </th>
         <th></th>
     </tr>
@@ -28,10 +31,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.nombre)
+                @Html.DisplayFor(modelItem => item.temporada)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.temporada)
+                @Html.DisplayFor(modelItem => item.numEpisodio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
             </td>
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |

@@ -113,6 +113,7 @@
                         </label>
                     </div>
                 }
+                @Html.ValidationMessageFor(model => model.GenerosSeleccionados, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -144,6 +145,7 @@
                         </label>
                     </div>
                 }
+                @Html.ValidationMessageFor(model => model.PersonasSeleccionadas, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -159,6 +161,34 @@
     @Html.ActionLink("Regresar", "Index")
 </div>
 
+<div id="modalError" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div id="txtModal" class="modal-body">
+                <p>Error.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $("input[name='GenerosSeleccionados']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
+            $("input[name='PersonasSeleccionadas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
+
+            if(@Model.id == -1) {
+                $("#txtModal").html("<p>La serie que usted insertó se encuentra repetida, favor de modificar su año o nombre.</p>");
+                $("#modalError").modal('show');
+            }
+        });
+    </script>
 }

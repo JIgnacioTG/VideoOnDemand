@@ -108,6 +108,7 @@
                         </label>
                     </div>
                 }
+                @Html.ValidationMessageFor(model => model.SeleccionarGeneros, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -134,6 +135,7 @@
                         </label>
                     </div>
                 }
+                @Html.ValidationMessageFor(model => model.SeleccionarPersonas, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -151,4 +153,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $("input[name='SeleccionarGeneros']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
+        });
+        $(function () {
+            $("input[name='SeleccionarPersonas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
+        });
+    </script>
 }
