@@ -1,8 +1,41 @@
-﻿@model VideoOnDemand.Entities.MediaOnPlay
-
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model VideoOnDemand.Web.Models.MediaOnPlayViewModel
 
 <h2>@ViewBag.Title</h2>
+
+<div style="text-align:center">
+    <video id="vidPlay" width="420">
+        <source src="~/Content/Video/videoPrueba.mp4" type="video/mp4" />
+        Tu navegador no es compatible con la reproducci&oacute;n de videos.
+    </video>
+    <br><br>
+    <button id="btnPlay" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+    </button>
+    <button id="btnPause" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+    </button>
+    <button id="btnStop" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+    </button>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var vidPlay = document.getElementById("vidPlay");
+
+        $(function () {
+            $("#btnPlay").click(function () {
+                vidPlay.play();
+            });
+            $("#btnPause").click(function () {
+                vidPlay.pause();
+            });
+            $("#btnStop").click(function () {
+                vidPlay.pause();
+                vidPlay.currentTime = 0;
+            });
+        });
+    </script>
+}
 
