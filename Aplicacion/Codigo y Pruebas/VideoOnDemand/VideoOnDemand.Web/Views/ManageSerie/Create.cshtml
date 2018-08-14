@@ -165,6 +165,7 @@
             $("input[name='PersonasSeleccionadas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
 
             if(@ViewBag.Error == 1) {
+                $("#txtTituloError").html("Error: Serie repetida");
                 $("#txtError").html("<p>La serie que usted insertó se encuentra repetida, favor de modificar su año o nombre.</p>");
                 $("#modalError").modal('show');
             }

@@ -48,7 +48,7 @@
             <h4>@auxh@hrs h @aux@min m</h4>
 
             <h4>
-                <strong>Descrpción: </strong>
+                <strong>Descripción: </strong>
                 @Html.DisplayFor(m => m.descripcion)
             </h4>
             @{
@@ -76,7 +76,7 @@
             <div id="leftAll">
                 <h4>
                     <button id="btnMiLista" type="button" class="btn btn-defaul">+ Mi Lista</button>
-                    @Html.ActionLink("> Repoducir", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("> Repoducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId()  }, new { @class = "btn btn-default" })
                 </h4>
             </div>
         </div>
@@ -159,16 +159,25 @@
                  success: function (data) {
                      if (data.Success) {
                          mostrarResenias();
-                         alert("Reseña Agregada con Éxito");
+                         limpiar();
+                         $("#txtTituloError").html("Reseña");
+                         $("#txtError").html("<p>La Reseña se ha publicado Exitosamente</p>")
+                         $("#modalError").modal("show");
                      } else {
                          if (data.TypeError == 1) {
-                             alert("No Puede Poner mas de 2 Reseñas para la misma Pélicula");
+                             $("#txtTituloError").html("Error: No se permiten Mas opiniones");
+                             $("#txtError").html("<p>Un Usuario no puede dar mas de una Reseña en una misma Pelicula</p>")
+                             $("#modalError").modal("show");
                              limpiar();
                          } else {
                              if (data.TypeError == 2) {
-                                 alert("Reseña no debe tener Campos vacios");
+                                 $("#txtTituloError").html("Error: Campos Vacios");
+                                 $("#txtError").html("<p>El Area de la Reseña no puede estar vacio</p>")
+                                 $("#modalError").modal("show");
                              } else {
-                                 alert("Por favor Califique la Pélicula");
+                                 $("#txtTituloError").html("Error: Campos Vacios");
+                                 $("#txtError").html("<p>Debe calificar con un valor minimo de 1</p>")
+                                 $("#modalError").modal("show");
                              }
                          }
                          
