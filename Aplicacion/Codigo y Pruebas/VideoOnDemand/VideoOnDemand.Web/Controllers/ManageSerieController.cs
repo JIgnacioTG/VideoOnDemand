@@ -16,6 +16,7 @@ namespace VideoOnDemand.Web.Controllers
         // GET: ManageSerie
         public ActionResult Index()
         {
+            ViewBag.Error = 0;
 
             VideoOnDemandContext context = new VideoOnDemandContext();
             SerieRepository repository = new SerieRepository(context);
@@ -58,7 +59,7 @@ namespace VideoOnDemand.Web.Controllers
                         {
                             if (s.fechaLanzamiento == serie.fechaLanzamiento)
                             {
-                                model.id = -1;
+                                ViewBag.Error = 1;
                                 return View(model);
                             }
                         }
@@ -117,7 +118,7 @@ namespace VideoOnDemand.Web.Controllers
                                 {
                                     model = MapHelper.Map<SerieViewModel>(serie);
                                     model = LinkLists(model);
-                                    model.id = -1;
+                                    ViewBag.Error = 1;
                                     return View(model);
                                 }
                             }

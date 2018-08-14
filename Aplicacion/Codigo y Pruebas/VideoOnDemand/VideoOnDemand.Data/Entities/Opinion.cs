@@ -8,7 +8,7 @@ namespace VideoOnDemand.Entities
 {
     public class Opinion
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int? Puntuacion { get; set; }
         public string Descripcion { get; set; }
         public DateTime? FechaRegistro { get; set; }
