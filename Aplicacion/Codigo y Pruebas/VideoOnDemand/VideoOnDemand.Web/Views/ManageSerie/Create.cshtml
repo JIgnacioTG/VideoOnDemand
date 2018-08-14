@@ -173,6 +173,11 @@
 @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
+            $(".datepicker").datepicker({
+                language: "es",
+                autoclose: true
+            });
+
             $("input[name='GenerosSeleccionados']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
             $("input[name='PersonasSeleccionadas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
 
