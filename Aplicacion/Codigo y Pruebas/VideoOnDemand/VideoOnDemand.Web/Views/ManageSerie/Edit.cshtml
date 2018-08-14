@@ -185,7 +185,7 @@
             $("input[name='GenerosSeleccionados']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
             $("input[name='PersonasSeleccionadas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
 
-            if(@Model.id == -1) {
+            if(@ViewBag.Error == 1) {
                 $("#txtModal").html("<p>La serie que usted insertó se encuentra repetida, favor de modificar su año o nombre.</p>");
                 $("#modalError").modal('show');
             }
