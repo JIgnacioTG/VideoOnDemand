@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VideoOnDemand.Repositories;
 
 namespace VideoOnDemand.Web.Controllers
 {
-    public class PlayController : Controller
+    public class PlayController : BaseController
     {
         // GET: Play
         public ActionResult Index()
         {
+            MediaOnPlayRepository mediaonplayRepository = new MediaOnPlayRepository(context);
             return View();
         }
 
