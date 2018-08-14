@@ -71,7 +71,7 @@ namespace VideoOnDemand.Web.Controllers
             return View(model);
         }
         [HttpGet]
-        public ActionResult getResenias()
+        public ActionResult getResenias(int MediaId)
         {
             OpinionRepository opiRepo = new OpinionRepository(context);
             UsuarioRepository userRepo = new UsuarioRepository(context);
@@ -82,10 +82,14 @@ namespace VideoOnDemand.Web.Controllers
                 opinion.Usuario = userRepo.GetAll().FirstOrDefault(u => u.Id == opinion.UsuarioId);
             }
 
+            var opinionesMedia = from o in opiRepo.GetAll()
+                                 where o.MediaId == MediaId
+                                 select o;
+
             return Json(new
             {
                 Success = true,
-                Opiniones = JsonConvert.SerializeObject(opiRepo.GetAll())
+                Opiniones = JsonConvert.SerializeObject(opinionesMedia)
             }, JsonRequestBehavior.AllowGet);
         }
 
