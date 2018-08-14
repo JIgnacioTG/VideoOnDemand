@@ -4,16 +4,29 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VideoOnDemand.Repositories;
+using VideoOnDemand.Web.Helpers;
+using VideoOnDemand.Web.Models;
 
 namespace VideoOnDemand.Web.Controllers
 {
     public class PlayController : BaseController
     {
         // GET: Play
-        public ActionResult Index()
+        public ActionResult Index(int MediaId, string IdentityId)
         {
+            UsuarioRepository usuarioRepository = new UsuarioRepository(context);
             MediaOnPlayRepository mediaonplayRepository = new MediaOnPlayRepository(context);
-            return View();
+            var usuario = usuarioRepository.Query(u => u.IdentityId == IdentityId).First();
+            var media = mediaonplayRepository.Query(m => m.MediaId == MediaId && m.UsuarioId == usuario.Id).First();
+
+            if(media == null)
+            {
+                
+            }
+
+            var model = MapHelper.Map<MediaOnPlayViewModel>(media);
+
+            return View(model);
         }
 
         // GET: Play/Details/5

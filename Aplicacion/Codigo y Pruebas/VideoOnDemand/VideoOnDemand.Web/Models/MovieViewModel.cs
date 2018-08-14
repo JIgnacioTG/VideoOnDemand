@@ -20,7 +20,7 @@ namespace VideoOnDemand.Web.Models
         public string descripcion { get; set; }
 
         [Required(ErrorMessage ="Debe ingresar una duración para la película")]
-        [Range(-1,int.MaxValue,ErrorMessage = "La duración no puede ser negativa")]
+        [Range(0,int.MaxValue,ErrorMessage = "La duración no puede ser negativa")]
         [DisplayName("Duración(Minutos)")]
         public int? duracionMin { get; set; }
 

@@ -82,6 +82,9 @@ namespace VideoOnDemand.Web.Controllers
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
 
+            MovieRepository mov = new MovieRepository(context);
+            
+
             try
             {
                 MovieRepository repository = new MovieRepository(context);
@@ -90,6 +93,18 @@ namespace VideoOnDemand.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     Movie movie = MapHelper.Map<Movie>(model);
+                    var lstmov = mov.Query(m => m.estado != EEstatusMedia.ELIMINADO);
+                    foreach (var m in lstmov)
+                    {
+                        if (m.nombre.ToLower() == movie.nombre.ToLower())
+                        {
+                            if(m.fechaLanzamiento == movie.fechaLanzamiento)
+                            {
+                                ViewBag.Error = 1;
+                                return View(model);
+                            }
+                        }
+                    }
                     repository.InsertComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
 
                     context.SaveChanges();
@@ -139,6 +154,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             var generoRepository = new GeneroRepository(context);
             var personaRepository = new PersonaRepository(context);
+            MovieRepository mov = new MovieRepository(context);
 
             try
             {
@@ -147,6 +163,18 @@ namespace VideoOnDemand.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     var movie = MapHelper.Map<Movie>(model);
+                    var lstmov = mov.Query(m => m.estado != EEstatusMedia.ELIMINADO);
+                    foreach (var m in lstmov)
+                    {
+                        if (m.nombre.ToLower() == movie.nombre.ToLower())
+                        {
+                            if (m.fechaLanzamiento == movie.fechaLanzamiento)
+                            {
+                                ViewBag.Error = 1;
+                                return View(model);
+                            }
+                        }
+                    }
                     repository.UpdateComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
                     context.SaveChanges();
                     return RedirectToAction("Index");

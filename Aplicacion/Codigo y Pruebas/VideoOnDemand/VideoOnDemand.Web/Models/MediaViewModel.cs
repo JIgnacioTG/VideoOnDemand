@@ -23,7 +23,7 @@ namespace VideoOnDemand.Web.Models
         public string descripcion { get; set; }
 
         [Required]
-        [DisplayName("Duración")]
+        [DisplayName("Duración(Minutos)")]
         [DataType(DataType.Duration)]
         public int? duracionMin { get; set; }
         
@@ -33,7 +33,8 @@ namespace VideoOnDemand.Web.Models
 
         [Required]
         [DisplayName("Fecha lanzamiento")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? fechaLanzamiento { get; set; }
 
         public virtual ICollection<GeneroViewModel> Generos { get; set; }

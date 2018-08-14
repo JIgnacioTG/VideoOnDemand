@@ -21,6 +21,7 @@ namespace VideoOnDemand.Web.Models
 
         [DisplayName("Fecha de Nacimiento")]
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? FechaNacimiento { get; set; }
 
         public bool Eliminado { get; set; }
