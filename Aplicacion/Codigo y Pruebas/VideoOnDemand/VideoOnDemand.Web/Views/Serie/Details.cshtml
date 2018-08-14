@@ -117,7 +117,6 @@
 <div class="container">
     @Html.ActionLink("Regresar", "Index")
 </div>
-
 @section Scripts{
     <script type="text/javascript">
         $(function () {
@@ -125,7 +124,7 @@
                 guardarOpinion();
             });
             $("#btnMiLista").click(function () {
-
+                AgregarLista();
             });
 
             mostrarResenias();
@@ -155,16 +154,25 @@
                  success: function (data) {
                      if (data.Success) {
                          mostrarResenias();
-                         alert("Reseña agregada con éxito");
+                         limpiar();
+                         $("#txtTituloError").html("Reseña");
+                         $("#txtError").html("<p>La reseña se ha publicado exitosamente</p>")
+                         $("#modalError").modal("show");
                      } else {
                          if (data.TypeError == 1) {
-                             alert("No puede poner más de 2 reseñas para la misma serie");
+                             $("#txtTituloError").html("Error: No se permiten más opiniones");
+                             $("#txtError").html("<p>Un Usuario no puede dar mas de una reseña en una misma serie</p>")
+                             $("#modalError").modal("show");
                              limpiar();
                          } else {
                              if (data.TypeError == 2) {
-                                 alert("La reseña no debe tener campos vacíos");
+                                 $("#txtTituloError").html("Error: Campos Vacios");
+                                 $("#txtError").html("<p>El área de la reseña no puede estar vacío</p>")
+                                 $("#modalError").modal("show");
                              } else {
-                                 alert("Por favor califique la película");
+                                 $("#txtTituloError").html("Error: Campos Vacios");
+                                 $("#txtError").html("<p>Debe calificar con un valor minimo de 1</p>")
+                                 $("#modalError").modal("show");
                              }
                          }
 
@@ -175,7 +183,7 @@
 
         function mostrarResenias() {
             $.ajax({
-                url: '@Url.Action("getResenias", "Serie")',
+                url: '@Url.Action("getResenias", "Serie", new { MediaId = Model.id })',
                 type: 'GET',
                 dataType: 'JSON',
                 data: null,
@@ -216,8 +224,32 @@
         }
 
         function AgregarLista() {
-
+            var favorite = {
+                UserID: $("#identityiduser").text(),
+                MediaId: parseInt(@Model.id)
+            };
+             $.ajax({
+                 url: '@Url.Action("AddLista", "Serie")',
+                 type: 'POST',
+                 dataType: 'JSON',
+                 contentType: "application/json",
+                 data: JSON.stringify(favorite),
+                 success: function (data) {
+                     if (data.Success) {
+                         $("#txtTituloError").html("Mi Lista");
+                         $("#txtError").html("<p>La serie se ha agregado a su lista con éxito</p>")
+                         $("#modalError").modal("show");
+                     } else {
+                         if (data.TypeError == 1) {
+                             $("#txtTituloError").html("Error: Mi Lista");
+                             $("#txtError").html("<p>Esta serie ya existe en su lista</p>")
+                             $("#modalError").modal("show");
+                         }
+                     }
+                 }
+             });
         }
+
     </script>
 
 }

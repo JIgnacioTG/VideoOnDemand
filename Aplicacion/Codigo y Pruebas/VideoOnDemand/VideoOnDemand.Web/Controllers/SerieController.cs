@@ -187,21 +187,36 @@ namespace VideoOnDemand.Web.Controllers
         [HttpPost]
         public ActionResult AddLista(FavoritoViewModel model)
         {
-            if (ModelState.IsValid)
+            FavoritoRepository favRepo = new FavoritoRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+            model.FechaAgregado = DateTime.Now;
+            model.usuarioId = (from u in userRepo.GetAll()
+                               where u.IdentityId == model.UserID
+                               select u.Id).FirstOrDefault();
+
+            #region Validaciones
+            //Que Exista Ya en tu lista
+            var existFav = favRepo.GetAll().FirstOrDefault(f => f.mediaId == model.mediaId && f.usuarioId == model.usuarioId);
+
+            if (existFav != null)
             {
-
-
                 return Json(new
                 {
-                    Success = true
-
+                    Success = false,
+                    TypeError = 1
                 }, JsonRequestBehavior.AllowGet);
             }
-            else
-                return Json(new
-                {
-                    Success = false
-                }, JsonRequestBehavior.AllowGet);
+            #endregion
+            var favorito = MapHelper.Map<Favorito>(model);
+
+            favRepo.Insert(favorito);
+
+            context.SaveChanges();
+            return Json(new
+            {
+                Success = true
+
+            }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Serie/Create
