@@ -112,25 +112,8 @@
         </div>
     </div>
 </div>
-
-@foreach (var opinion in ViewBag.Resenias)
-{
-    <div class="container" style="padding-top: 10px;">
-        <div class="form-group" style="border: 1px solid; padding-left:15px; padding-right: 15px;">
-            <label style="padding-top: 10px;">@opinion.Usuario.Nombre     -     </label>
-            <label style="padding-top: 10px;">@opinion.FechaRegistro         </label>
-            <label style="padding-top: 10px; padding-left: 50px; padding-right: 20px;">
-                @for (int i = 0; i < opinion.Puntuacion; i++)
-                {
-                    <label style="font-size: 20px;">&#9733;</label>
-                }
-            </label>
-            <p>
-                @opinion.Descripcion
-            </p>
-        </div>
-    </div>
-}
+<div id="lista-resenias"></div>
+     
 
 <br />
 <br />
@@ -148,6 +131,8 @@
             $("#btnMiLista").click(function () {
 
             });
+
+            mostrarResenias();
 
             $(".datepicker").datepicker({
                 language: "es",
@@ -172,13 +157,66 @@
                  contentType: "application/json",
                  data: JSON.stringify(opinion),
                  success: function (data) {
-                     if (!data.success) {
-                         alert("Opinion Agregada");
+                     if (data.Success) {
+                         mostrarResenias();
+                         alert("Reseña Agregada con Éxito");
                      } else {
-                         alert("Verifique su reseña");
+                         if (data.TypeError == 1) {
+                             alert("No Puede Poner mas de 2 Reseñas para la misma Pélicula");
+                             limpiar();
+                         } else {
+                             if (data.TypeError == 2) {
+                                 alert("Reseña no debe tener Campos vacios");
+                             } else {
+                                 alert("Por favor Califique la Pélicula");
+                             }
+                         }
+                         
                      }
                  }
              });
+        }
+
+        function mostrarResenias() {
+            $.ajax({
+                url: '@Url.Action("getResenias", "Movie")',
+                type: 'GET',
+                dataType: 'JSON',
+                data: null,
+                success: function (data) {
+                    if (data.Success) {
+                        //convierto la cadena a un obj JSON
+                        var opiniones = JSON.parse(data.Opiniones);
+                        //pinto mis elementos en mi tabla
+                        $("#lista-resenias").empty();
+                        for (i = 0; i < opiniones.length; i++) {
+                            var o = opiniones[i];
+                            var html = "<div class='container' style='padding - top: 10px;'><div class='form-group' style = 'border: 1px solid; padding-left:15px; padding-right: 15px;'>";
+                            html += "<label style='padding-top: 10px;'>" + o.Usuario.Nombre + "</label>";
+                            html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + o.FechaRegistro + " </label>";
+                            html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>";
+                            for (e = 0; e < o.Puntuacion; e++)
+                            {
+                                html += "<label style='font-size: 20px;'>★</label>";
+                            }
+                            html += "</label><p>" + o.Descripcion +"</p> </div> </div>";
+
+                            $("#lista-resenias").append(html);
+                            limpiar();
+                        }
+                    } else {
+                    }
+                }
+            });
+        }
+
+        function limpiar() {
+            $("#txtAreaResenia").val("");
+            document.getElementById("radio1").checked = false;
+            document.getElementById("radio2").checked = false;
+            document.getElementById("radio3").checked = false;
+            document.getElementById("radio4").checked = false;
+            document.getElementById("radio5").checked = false;
         }
 
         function AgregarLista() {

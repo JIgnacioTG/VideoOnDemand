@@ -11,7 +11,7 @@ namespace VideoOnDemand.Entities
         public int? Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public bool Eliminado { get; set; }
+        public bool? Eliminado { get; set; }
         public ICollection<Media> Medias { get; set; }
     }
 }
