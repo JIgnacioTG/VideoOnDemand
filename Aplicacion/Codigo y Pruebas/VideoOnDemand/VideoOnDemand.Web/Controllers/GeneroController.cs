@@ -112,7 +112,12 @@ namespace VideoOnDemand.Web.Controllers
         // GET: Genero/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            GeneroRepository repository = new GeneroRepository(context);
+            var genero = repository.Query(t => t.Id == id).First();
+
+            var model = MapHelper.Map<GeneroViewModel>(genero);
+
+            return View(model);
         }
 
         // POST: Genero/Delete/5
