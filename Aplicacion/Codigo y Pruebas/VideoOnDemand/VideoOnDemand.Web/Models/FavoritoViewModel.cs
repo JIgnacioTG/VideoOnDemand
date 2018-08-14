@@ -12,6 +12,7 @@ namespace VideoOnDemand.Web.Models
         public DateTime? FechaAgregado { get; set; }
         public int? usuarioId { get; set; }
         public Usuario usuario { get; set; }
+        public string UserID { get; set; }
         public int? mediaId { get; set; }
         public Media media { get; set; }
     }

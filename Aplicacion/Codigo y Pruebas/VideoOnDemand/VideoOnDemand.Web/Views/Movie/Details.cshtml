@@ -75,7 +75,7 @@
             </h4>
             <div id="leftAll">
                 <h4>
-                    <button id="btnMiLista" type="button" class="btn btn-defaul">+ Mi Lista</button>
+                    <button id="btnMiLista" type="button" class="btn btn-default">+ Mi Lista</button>
                     @Html.ActionLink("> Repoducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId()  }, new { @class = "btn btn-default" })
                 </h4>
             </div>
@@ -129,7 +129,7 @@
                 guardarOpinion();
             });
             $("#btnMiLista").click(function () {
-
+                AgregarLista();
             });
 
             mostrarResenias();
@@ -188,7 +188,7 @@
 
         function mostrarResenias() {
             $.ajax({
-                url: '@Url.Action("getResenias", "Movie")',
+                url: '@Url.Action("getResenias", "Movie", new { MediaId = Model.id })',
                 type: 'GET',
                 dataType: 'JSON',
                 data: null,
@@ -229,8 +229,32 @@
         }
 
         function AgregarLista() {
-
+            var favorite = {
+                UserID: $("#identityiduser").text(),
+                MediaId: parseInt(@Model.id)
+            };
+             $.ajax({
+                 url: '@Url.Action("AddLista", "Movie")',
+                 type: 'POST',
+                 dataType: 'JSON',
+                 contentType: "application/json",
+                 data: JSON.stringify(favorite),
+                 success: function (data) {
+                     if (data.Success) {
+                         $("#txtTituloError").html("Mi Lista");
+                         $("#txtError").html("<p>La pélicula se ha agregado a su Lista con éxito</p>")
+                         $("#modalError").modal("show");
+                     } else {
+                         if (data.TypeError == 1) {
+                             $("#txtTituloError").html("Error: Mi Lista");
+                             $("#txtError").html("<p>Esta Pélicula ya Existe en su lista</p>")
+                             $("#modalError").modal("show");
+                         }
+                     }
+                 }
+             });
         }
+        
     </script>
 
 }
