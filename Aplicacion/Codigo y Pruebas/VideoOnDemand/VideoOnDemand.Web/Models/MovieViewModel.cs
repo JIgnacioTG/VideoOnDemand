@@ -10,7 +10,7 @@ namespace VideoOnDemand.Web.Models
     {
         public int? id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Debe ingresar un nombre para la película")]
         [MaxLength (100)]
         [DisplayName("Nombre")]
         public string nombre { get; set; }
@@ -19,8 +19,9 @@ namespace VideoOnDemand.Web.Models
         [DisplayName("Descripción")]
         public string descripcion { get; set; }
 
-        [Required]
-        [DisplayName("Duración")]
+        [Required(ErrorMessage ="Debe ingresar una duración para la película")]
+        [Range(-1,int.MaxValue,ErrorMessage = "La duración no puede ser negativa")]
+        [DisplayName("Duración(Minutos)")]
         public int? duracionMin { get; set; }
 
         
@@ -28,19 +29,20 @@ namespace VideoOnDemand.Web.Models
         [DataType(DataType.DateTime)]
         public DateTime? fechaRegistro { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Debe insertar una fecha de lanzamiento")]
         [DisplayName("Fecha Lanzamiento")]
-        [DisplayFormat(ApplyFormatInEditMode = true,DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? fechaLanzamiento { get; set; }
 
         [DisplayName("Estado")]
         public EEstatusMedia? estado { get; set; }
 
+        
         public virtual ICollection<Genero> Generos { get; set; }
         public virtual ICollection<Persona> Actores { get; set; }
         public virtual ICollection<Opinion> Opiniones { get; set; }
 
         public ICollection<GeneroViewModel> GenerosDisponibles { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un género.")]
         public int[] SeleccionarGeneros { get; set;}
 
         public ICollection<PersonaViewModel> PersonasDisponibles { get; set; }

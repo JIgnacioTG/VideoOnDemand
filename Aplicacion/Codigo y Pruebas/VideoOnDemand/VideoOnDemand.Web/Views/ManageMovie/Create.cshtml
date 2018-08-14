@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.fechaLanzamiento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control",placeholder="AAAA/MM/DD" } })
+                @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control datepicker",placeholder="dd/MM/yyyy" } })
                 @Html.ValidationMessageFor(model => model.fechaLanzamiento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -67,10 +67,12 @@
                     }
                     <div class="checkbox">
                         <label>
-                            <input name="SeleccionarGeneros" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                            <input id="SeleccionarGeneros"  name="SeleccionarGeneros" 
+                                   type="checkbox" required value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
                         </label>
                     </div>
                 }
+                @Html.ValidationMessageFor(model => model.SeleccionarGeneros, "", new {@class = "text-danger"})
             </div>
         </div>
 
@@ -93,25 +95,41 @@
                     }
                     <div class="checkbox">
                         <label>
-                            <input name="SeleccionarPersonas" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                            <input id="SeleccionarPersonas" name="SeleccionarPersonas" required type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
                         </label>
                     </div>
+                    <div id="personas"></div>
                 }
+                @Html.ValidationMessageFor(model => model.SeleccionarPersonas, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-default" />
+                <input id="crear" type="submit" value="Crear" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Regresar", "Index")
+    @Html.ActionLink("Regresar a la lista de películas", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        $(".datepicker").datepicker({
+            language: "es",
+            autoclose: true
+        });
+    });
+    $(function () {
+        $("input[name='SeleccionarGeneros']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
+    });
+    $(function () {
+        $("input[name='SeleccionarPersonas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
+    });
+    </script>
 }
