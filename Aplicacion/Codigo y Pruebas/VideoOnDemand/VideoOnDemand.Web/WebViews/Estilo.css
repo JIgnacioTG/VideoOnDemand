@@ -1,0 +1,228 @@
+﻿body {
+}
+#fondo{
+    width: 100%;
+	height: 7000px;
+	text-align: center;
+	background-image: url(imagenes/fondo.jpg);
+	background-size: cover;
+    background-attachment: fixed;
+}
+#cabecera{
+    width: 100%;
+	height: 160px;
+	box-sizing: border-box;
+	margin: auto;
+    background: rgba(0, 0, 0, 0.4);
+}
+#logo{
+    float: left;
+	width: 350px;
+	height: 130px;
+	box-sizing: border-box;
+	margin: auto;
+}
+#buscar{
+    float: right;
+	width: 350px;
+	height: 130px;
+	box-sizing: border-box;
+	margin: auto;
+}
+#ligass{
+    float:left;
+	width: 100%;
+	height: 10px;
+	box-sizing: border-box;
+    text-align:left;margin:auto;
+}
+.ligas
+{
+	text-align: center;
+	font-family: tahoma;
+	font-size: 16px;
+	padding: 10px;
+	color: white;
+	text-decoration: none;
+	margin-right: 15px;
+}
+.ligas:hover
+{
+    border-bottom: 2px white solid;
+}
+#imagen{
+    width:320px;
+    height:80px;
+}
+h2{
+    color:white;
+    font-family:Tahoma;
+}
+#info{
+    width: 95%;
+	height: 300px;
+    text-align:center;
+	box-sizing: border-box;
+	margin: 30px;
+    background: rgba(0, 0, 0, 0.3);
+}
+#info1{
+    width: 95%;
+	height: 220px;
+    text-align:center;
+	box-sizing: border-box;
+	margin: 30px;
+    background: rgba(0, 0, 0, 0.3);
+}
+.titulos{
+    width: 95%;
+	height: 20px;
+    text-align:left;
+	box-sizing: border-box;
+	margin: 30px;
+    font-family: Tahoma;
+    font-size: 18px;
+    color: white;
+}
+#fondo1{
+    width: 100%;
+	height: 800px;
+	text-align: center;
+    background-color:black;
+}
+#cabecera1{
+    width: 100%;
+	height: 163px;
+	box-sizing: border-box;
+	margin: auto;
+    border-bottom: 2px grey solid;
+}
+#info2{
+    width: 95%;
+	height: 130px;
+    text-align:center;
+	box-sizing: border-box;
+	margin: 30px;
+}
+.cubos{
+    float:left;
+	width: 270px;
+	height: 110px;
+	box-sizing: border-box;
+    text-align:center;
+    margin-right:20px;
+}
+#boton1{
+    width:100%;
+    height: 100%;
+    font-family: sans-serif;
+    font-weight: bold;
+    color:white;
+    font-size: 23px;
+    text-align: center;
+    background-color:hotpink;
+    border: 0px;
+}
+#boton2{
+    width:100%;
+    height: 100%;
+    font-family: sans-serif;
+    font-weight: bold;
+    color:white;
+    font-size: 23px;
+    text-align: center;
+    background-color:deepskyblue;
+    border: 0px
+}
+#boton3{
+    width:100%;
+    height: 100%;
+    font-family: sans-serif;
+    font-weight: bold;
+    color:white;
+    font-size: 23px;
+    text-align: center;
+    background-color:greenyellow;
+    border: 0px;
+}
+#contacto{
+    margin:10px;
+    width: 98%;
+	height: 100px;
+	text-align: right;
+}
+img{
+    width:20px;
+    height:20px;
+}
+#detalles{
+    width: 99%;
+	height: 300px;
+    text-align:left;
+	box-sizing: border-box;
+	margin: 5px;
+}
+p{
+    font-family: Tahoma;
+    font-size:25px;
+    color: orange;
+}
+#img {
+    float: left;
+    margin-right: 10px;
+    width: 420px;
+    height: 230px;
+}
+#imgdetalle{
+    width:100%;
+    height:100%;
+}
+#descripcion{
+    width:100%;
+    height:175px;
+}
+#botones{
+    width:95%;
+    height:34px;
+    padding:10px;
+}
+#btn{
+    font-family: Tahoma;
+    color:white;
+    font-size: 15px;
+    text-align: center;
+    border: 1px white solid;
+    border-radius: 4px;
+    background-color: black;
+    padding:7px;
+}
+#btn:hover{
+    background-color: dodgerblue;
+    border: 0px;
+}
+#btn1{
+    font-family: Tahoma;
+    color:white;
+    font-size: 17px;
+    text-align: center;
+    border: 1px white solid;
+    border-radius: 4px;
+    background-color: black;
+    padding:7px;
+    width:100%;
+}
+#btn1:hover{
+    background-color: dodgerblue;
+    border: 0px;
+}
+#fondo2{
+    width: 100%;
+	height: 1000px;
+	text-align: center;
+    background-color:black;
+}
+#white{
+    font-family: Tahoma;
+    font-size:22px;
+    color: white;
+}
