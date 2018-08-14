@@ -31,6 +31,8 @@ namespace VideoOnDemand.Web.Models
 
         [Required(ErrorMessage ="Debe insertar una fecha de lanzamiento")]
         [DisplayName("Fecha Lanzamiento")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true,DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? fechaLanzamiento { get; set; }
 
         [DisplayName("Estado")]

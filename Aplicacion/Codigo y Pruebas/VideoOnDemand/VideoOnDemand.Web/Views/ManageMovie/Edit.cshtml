@@ -20,8 +20,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" },placeholder ="MM/DD/YYYY" })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })   
             </div>
         </div>
 
@@ -44,7 +44,7 @@
         <div class="form-group" hidden >
             @Html.LabelFor(model => model.fechaRegistro, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaRegistro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.fechaRegistro, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.fechaRegistro, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -53,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.fechaLanzamiento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.EditorFor(model => model.fechaLanzamiento, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.fechaLanzamiento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,7 +86,7 @@
 
 
         <div class="panel panel-primary">
-            <div class="panel-heading"><h3>Generos</h3></div>
+            <div class="panel-heading"><h3>G&eacute;neros</h3></div>
             <div class="panel-body">
 
                 @foreach (var item in Model.GenerosDisponibles)
@@ -148,12 +148,18 @@
 }
 
 <div>
-    @Html.ActionLink("Regresar", "Index")
+    @Html.ActionLink("Regresar a la lista de películas", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+        //$(function () {
+        //    $(".datepicker").datepicker({
+        //        language: "es",
+        //        autoclose: true
+        //    });
+        //});
         $(function () {
             $("input[name='SeleccionarGeneros']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
         });
