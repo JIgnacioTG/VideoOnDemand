@@ -1,4 +1,5 @@
 ﻿using AppFramework.Expressions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,16 +70,138 @@ namespace VideoOnDemand.Web.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public ActionResult getResenias()
+        {
+            OpinionRepository opiRepo = new OpinionRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
 
-        // GET: Serie/Details/5
+
+            foreach (var opinion in opiRepo.GetAll())
+            {
+                opinion.Usuario = userRepo.GetAll().FirstOrDefault(u => u.Id == opinion.UsuarioId);
+            }
+
+            return Json(new
+            {
+                Success = true,
+                Opiniones = JsonConvert.SerializeObject(opiRepo.GetAll())
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Details(int id)
         {
             SerieRepository repository = new SerieRepository(context);
-            var topic = repository.Query(t => t.id == id).First();
+            OpinionRepository reseniaRepository = new OpinionRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
 
-            var model = MapHelper.Map<SerieViewModel>(topic);
+            var serie = repository.Query(t => t.id == id).First();
+            var opiniones = reseniaRepository.GetAll();
+            var resenias = from o in opiniones
+                           where o.Media.id == serie.id
+                           select o;
 
+            var model = MapHelper.Map<SerieViewModel>(serie);
+            int count = 0;
+            foreach (var item in resenias)
+            {
+                item.Usuario = userRepo.GetAll().FirstOrDefault(u => u.Id == item.UsuarioId);
+                count++;
+            }
+
+            ViewBag.Resenias = resenias;
+            ViewBag.CountResenias = count;
             return View(model);
+        }
+
+        public ActionResult MyList()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddResenia(OpinionViewModel model)
+        {
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+            MediaRepository mediaRepo = new MediaRepository(context);
+            OpinionRepository opinionRepo = new OpinionRepository(context);
+
+            model.FechaRegistro = DateTime.Now;
+            model.Usuario = (from u in userRepo.GetAll()
+                             where u.IdentityId == model.IdentityId
+                             select u).FirstOrDefault();
+            model.Media = (from m in mediaRepo.GetAll()
+                           where m.id == model.MediaId
+                           select m).FirstOrDefault();
+            model.UsuarioId = (from u in userRepo.GetAll()
+                               where u.IdentityId == model.IdentityId
+                               select u.Id).FirstOrDefault();
+
+            #region Validaciones
+            //Una Reseña por Usuario
+            var userExist = opinionRepo.GetAll().FirstOrDefault(u => u.UsuarioId == model.UsuarioId);
+
+            if (userExist != null)
+            {
+
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 1
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Descripcion requerida
+            if (model.Descripcion == null)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 2
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Puntuacion Requerida
+            if (model.Puntuacion == null)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 3
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            var opinion = MapHelper.Map<Opinion>(model);
+            opinionRepo.Insert(opinion);
+
+            context.SaveChanges();
+
+            return Json(new
+            {
+                Success = true
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult AddLista(FavoritoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+                return Json(new
+                {
+                    Success = true
+
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new
+                {
+                    Success = false
+                }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Serie/Create
