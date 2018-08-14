@@ -75,10 +75,25 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Details(int id)
         {
             MovieRepository repository = new MovieRepository(context);
-            var topic = repository.Query(t => t.id == id).First();
+            OpinionRepository reseniaRepository = new OpinionRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
 
-            var model = MapHelper.Map<MovieViewModel>(topic);
+            var movie = repository.Query(t => t.id == id).First();
+            var opiniones = reseniaRepository.GetAll();
+            var resenias = from o in opiniones
+                           where o.Media.id == movie.id
+                           select o;
 
+            var model = MapHelper.Map<MovieViewModel>(movie);
+            int count = 0;
+            foreach (var item in resenias)
+            {
+                item.Usuario = userRepo.GetAll().FirstOrDefault(u => u.Id == item.UsuarioId);
+                count++;
+            }
+
+            ViewBag.Resenias = resenias;
+            ViewBag.CountResenias = count;
             return View(model);
         }
 
@@ -87,5 +102,57 @@ namespace VideoOnDemand.Web.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult AddResenia(OpinionViewModel model)
+        {
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+            MediaRepository mediaRepo = new MediaRepository(context);
+
+
+            model.FechaRegistro = DateTime.Now;
+            model.Usuario = (from u in userRepo.GetAll()
+                              where u.IdentityId == model.IdentityId
+                              select u).FirstOrDefault();
+            model.Media = (from m in mediaRepo.GetAll()
+                           where m.id == model.MediaId
+                           select m).FirstOrDefault();
+            model.UsuarioId = (from u in userRepo.GetAll()
+                             where u.IdentityId == model.IdentityId
+                             select u.Id).FirstOrDefault();
+
+
+            OpinionRepository opinionRepo = new OpinionRepository(context);
+                
+                var opinion = MapHelper.Map<Opinion>(model);
+                opinionRepo.Insert(opinion);
+
+            context.SaveChanges();
+                return Json(new
+                {
+                    Success = true
+                }, JsonRequestBehavior.AllowGet);
+            
+        }
+
+        [HttpPost]
+        public ActionResult AddLista(FavoritoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+
+                return Json(new
+                {
+                    Success = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new
+                {
+                    Success = false
+                }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

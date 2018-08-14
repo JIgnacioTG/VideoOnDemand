@@ -1,14 +1,27 @@
-﻿@model VideoOnDemand.Web.Models.MovieViewModel
+﻿@using Microsoft.AspNet.Identity
+@model VideoOnDemand.Web.Models.MovieViewModel
 
 @{
     ViewBag.Title = "Details";
 }
+<style>
+    .star {
+        direction: rtl;
+    }
 
+    .star label:hover,
+    .star label:hover ~ label {
+        color: yellowgreen;
+    }
+    input[type="radio"]:checked ~ label {
+        color: orange;
+    }
+</style>
 <div class="container">
-    
+
     <div id="general">
         <div id="imagen">
-            <img src="~/images/sample.PNG" alt="" width="390" height="265"/>
+            <img src="~/images/sample.PNG" alt="" width="390" height="265" />
         </div>
         <div id="detalles">
             <h3>
@@ -51,7 +64,7 @@
             </h4>
             @{
                 string act = "";
-                foreach (var g in Model.Actores) 
+                foreach (var g in Model.Actores)
                 {
                     act += g.Nombre + ", ";
                 }
@@ -62,7 +75,7 @@
             </h4>
             <div id="leftAll">
                 <h4>
-                    @Html.ActionLink("+ Mi Lista", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
+                    <button id="btnMiLista" type="button" class="btn btn-defaul">+ Mi Lista</button>
                     @Html.ActionLink("> Repoducir", "Details", new { id = Model.id }, new { @class = "btn btn-default" })
                 </h4>
             </div>
@@ -72,16 +85,105 @@
 
 </div>
 <h2></h2>
-
-<div class="panel panel-primary">
-    <div class="panel-heading" style="background:black"><h3>Mi reseña</h3></div>
-    <div class="panel-body">
-            @Html.TextArea("Reseña",null, new { @class = "form-control",cols="20", rows="5", style = "width: 800px;" , placeholder="Agregar una reseña."})
-            <br />
-            <input type="submit" value="Agregar" class="btn btn-default"/>
+<h3>@ViewBag.CountResenias Reseñas</h3>
+<div class="container" style="padding-top: 18px;">
+    <div class="form-group" style="border: 1px solid; ">
+        <label for="txtArea" style="padding-top: 10px; padding-left: 20px;">Mi Reseña</label><label id="identityiduser" style="display:none;">@User.Identity.GetUserId()</label>
+        <center>
+            <textarea id="txtAreaResenia" class="form-control" style="width: 95%; height:80px; max-width: 100%; padding-left: 20px; padding-top: 10px;" placeholder="Agrega una reseña"></textarea>
+        </center>
+        <div class="form-horizontal">
+            <form id="puntuacion" style="padding-top: 10px; padding-right: 40px; ">
+                <p class="star">
+                   
+                    <button id="btnAgregar" type="button" class="btn btn-defaul">Agregar</button>
+                    <input id="radio1" type="radio" name="estrellas" style="display:none;" value="5">
+                    <label for="radio1" style="font-size: 20px;">★</label>
+                    <input id="radio2" type="radio" name="estrellas" style="display:none;" value="4">
+                    <label for="radio2" style="font-size: 20px;">★</label>
+                    <input id="radio3" type="radio" name="estrellas" style="display:none;" value="3">
+                    <label for="radio3" style="font-size: 20px;">★</label>
+                    <input id="radio4" type="radio" name="estrellas" style="display:none;" value="2">
+                    <label for="radio4" style="font-size: 20px;">★</label>
+                    <input id="radio5" type="radio" name="estrellas" style="display:none;" value="1">
+                    <label for="radio5" style="font-size: 20px;">★</label>
+                </p>
+            </form>
+        </div>
     </div>
 </div>
+
+@foreach (var opinion in ViewBag.Resenias)
+{
+    <div class="container" style="padding-top: 10px;">
+        <div class="form-group" style="border: 1px solid; padding-left:15px; padding-right: 15px;">
+            <label style="padding-top: 10px;">@opinion.Usuario.Nombre     -     </label>
+            <label style="padding-top: 10px;">@opinion.FechaRegistro         </label>
+            <label style="padding-top: 10px; padding-left: 50px; padding-right: 20px;">
+                @for (int i = 0; i < opinion.Puntuacion; i++)
+                {
+                    <label style="font-size: 20px;">&#9733;</label>
+                }
+            </label>
+            <p>
+                @opinion.Descripcion
+            </p>
+        </div>
+    </div>
+}
+
+<br />
+<br />
 
 <div class="container">
     @Html.ActionLink("Regresar", "Index")
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAgregar").click(function () {
+                guardarOpinion();
+            });
+            $("#btnMiLista").click(function () {
+
+            });
+
+            $(".datepicker").datepicker({
+                language: "es",
+                autoclose: true
+            });
+
+
+        });
+
+        function guardarOpinion() {
+
+            var opinion = {
+                Puntuacion: parseInt($('input[name=estrellas]:checked', '#puntuacion').val()),
+                Descripcion: $("#txtAreaResenia").val(),
+                IdentityId: $("#identityiduser").text(),
+                MediaId: parseInt(@Model.id)
+            };
+             $.ajax({
+                 url: '@Url.Action("AddResenia", "Movie")',
+                 type: 'POST',
+                 dataType: 'JSON',
+                 contentType: "application/json",
+                 data: JSON.stringify(opinion),
+                 success: function (data) {
+                     if (!data.success) {
+                         alert("Opinion Agregada");
+                     } else {
+                         alert("Verifique su reseña");
+                     }
+                 }
+             });
+        }
+
+        function AgregarLista() {
+
+        }
+    </script>
+
+}

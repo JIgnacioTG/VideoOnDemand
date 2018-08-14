@@ -34,6 +34,25 @@ textarea {
     margin-left: 30px;
 }
 
+.clasificacion{
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}
+
+.tolabel{
+    color: grey;
+    
+}
+
+.tolabel:hover,
+.tolabel:hover~label{
+    color:orange;
+}
+
+.toinput{
+    display:none;
+}
+
 #duracion{
 	        width: 45%;
 	        height: 40px;
@@ -98,4 +117,7 @@ div#detalles{
 }
 div#reseñas{
     
+}
+.star label:hover {
+    color: yellow;
 }
