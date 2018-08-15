@@ -25,7 +25,7 @@
                         <li class="ligas">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="ligas">@Html.ActionLink("Películas", "Index", "Movie")</li>
                         <li class="ligas">@Html.ActionLink("Series", "Index", "Serie")</li>
-                        <li class="ligas">@Html.ActionLink("Mi Lista", "Index", "MiLista")</li>
+                        <li class="ligas">@Html.ActionLink("Mi Lista", "Index", "MiLista", new {UserId=User.Identity.GetUserId() })</li>
 
                         var user = User.Identity;
                         var context = new ApplicationDbContext();
