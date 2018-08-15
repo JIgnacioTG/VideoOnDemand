@@ -36,6 +36,18 @@ summary {
   display: block;
 }
 
+.ligas{
+    text-align: center;
+	font-family: tahoma;
+	color: white;
+	text-decoration: none;
+}
+
+.ligas:hover
+{
+    border-bottom: 2px white solid;
+}
+
 audio,
 canvas,
 video {
@@ -4055,6 +4067,13 @@ textarea.input-group-sm > .input-group-btn > .btn {
     border-radius: 4px;
   }
 }
+.navbar-header{
+    height: 132px;
+}
+.imagen{
+    width:200px; 
+    height:120px;
+}
 
 .navbar-header:before,
 .navbar-header:after {
@@ -4085,6 +4104,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-collapse {
   max-height: 340px;
   padding-right: 15px;
+  padding-top:80px;
   padding-left: 15px;
   overflow-x: visible;
   border-top: 1px solid transparent;
@@ -4501,7 +4521,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
+  background: rgba(0, 0, 0, 0.8);
   border-color: #080808;
 }
 
