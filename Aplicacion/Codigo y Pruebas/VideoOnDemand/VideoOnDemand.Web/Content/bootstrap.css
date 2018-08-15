@@ -5348,7 +5348,7 @@ a.list-group-item:focus {
 
 .panel {
   margin-bottom: 20px;
-  background-color: #ffffff;
+  background: rgba(0,0,0,0.4);
   border: 1px solid transparent;
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -5356,7 +5356,7 @@ a.list-group-item:focus {
 }
 
 .panel-body {
-  padding: 15px;
+    padding: 15px;
 }
 
 .panel-body:before,
@@ -5464,8 +5464,8 @@ a.list-group-item:focus {
 }
 
 .panel-default > .panel-heading {
-  color: #333333;
-  background-color: #f5f5f5;
+  color: white;
+  background-color: #EC2930;
   border-color: #dddddd;
 }
 
