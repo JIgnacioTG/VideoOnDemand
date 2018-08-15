@@ -2061,9 +2061,9 @@ fieldset[disabled] .btn {
 }
 
 .btn-default {
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #cccccc;
+  color: black;
+  background-color: white;
+  border-color: black;
 }
 
 .btn-default:hover,
@@ -2071,9 +2071,9 @@ fieldset[disabled] .btn {
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #333333;
-  background-color: #ebebeb;
-  border-color: #adadad;
+  color: white;
+  background-color: #EE2930;
+  border-color: black;
 }
 
 .btn-default:active,
@@ -2102,9 +2102,9 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary {
-  color: #ffffff;
-  background-color: #428bca;
-  border-color: #357ebd;
+  color: black;
+  border-color: black;
+  background-color: white;
 }
 
 .btn-primary:hover,
@@ -4949,12 +4949,13 @@ a.list-group-item.active > .badge,
 
 .jumbotron {
   padding: 30px;
+  margin-top: 50px;
   margin-bottom: 30px;
   font-size: 21px;
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background-color: #eeeeee;
+  background: rgba(0,0,0,0.5)
 }
 
 .jumbotron h1 {
