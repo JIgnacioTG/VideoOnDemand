@@ -123,7 +123,7 @@ namespace VideoOnDemand.Web.Controllers
         }
 
         // GET: Movie/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             var repository = new MovieRepository(context);
             var generoRepository = new GeneroRepository(context);
@@ -171,7 +171,7 @@ namespace VideoOnDemand.Web.Controllers
                             if (m.fechaLanzamiento == movie.fechaLanzamiento)
                             {
                                 ViewBag.Error = 1;
-                                return View(model);
+                                return Edit(model.id);
                             }
                         }
                     }

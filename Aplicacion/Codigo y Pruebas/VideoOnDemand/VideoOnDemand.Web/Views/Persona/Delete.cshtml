@@ -46,3 +46,12 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        if(@ViewBag.Error == 1) {
+            $("#txtError").html("<p style='color: red'>El actor @Model.Nombre esta siendo utilizado por una película o serie y no se puede eliminar.</p>");
+            $("#modalError").modal('show');
+        }
+    </script>
+    }

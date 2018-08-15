@@ -27,13 +27,20 @@
         </dd>
 
     </dl>
-
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
         <div class="form-actions no-color">
             <input type="submit" value="Eliminar" class="btn btn-default" /> |
             @Html.ActionLink("Regresar a la lista de géneros", "Index")
         </div>
     }
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        if(@ViewBag.Error == 1) {
+            $("#txtError").html("<p style='color: red'>El género @Model.Nombre esta siendo utilizado por una película o serie y no se puede eliminar.</p>");
+            $("#modalError").modal('show');  
+        }
+    </script>
+}

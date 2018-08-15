@@ -121,7 +121,7 @@ namespace VideoOnDemand.Web.Controllers
         }
 
         // GET: Persona/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             PersonaRepository repository = new PersonaRepository(context);
             var actor = repository.Query(t => t.Id == id).First();
@@ -137,15 +137,28 @@ namespace VideoOnDemand.Web.Controllers
         {
             try
             {
+
+
+                MediaRepository media = new MediaRepository(context);
                 PersonaRepository repo = new PersonaRepository(context);
 
+                var pel = media.GetAll();
                 var actor = repo.Query(g => g.Id == id).FirstOrDefault();
 
-                repo.LogicalDelete(actor);
+                context.Entry(actor).Collection(m => m.Medias).Load();
 
-                context.SaveChanges();
+                if(actor.Medias.Count() == 0)
+                {
+                    repo.LogicalDelete(actor);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                } else
+                {
+                    ViewBag.Error = 1;
+                    model = MapHelper.Map<PersonaViewModel>(actor);
+                    return Delete(model.Id);
+                }
 
-                return RedirectToAction("Index");
             }
             catch
             {
