@@ -15,22 +15,17 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Video On Demand!", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img class="imagen" src="~/Content/Imagenes/logo.png" />
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
 
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Películas", "Index", "Movie")</li>
-                        <li>@Html.ActionLink("Series", "Index", "Serie")</li>
-                        <li>@Html.ActionLink("Mi Lista", "Index", "MiLista")</li>
+                        <li class="ligas">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li class="ligas">@Html.ActionLink("Películas", "Index", "Movie")</li>
+                        <li class="ligas">@Html.ActionLink("Series", "Index", "Serie")</li>
+                        <li class="ligas">@Html.ActionLink("Mi Lista", "Index", "MiLista", new {UserId=User.Identity.GetUserId() })</li>
 
                         var user = User.Identity;
                         var context = new ApplicationDbContext();
@@ -40,7 +35,7 @@
                         if (s[0].ToString() == "Admin")
                         {
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a href="#" class="dropdown-toggle ligas" data-toggle="dropdown" role="button"
                                    aria-haspopup="true"
                                    aria-expanded="false">Cat&aacute;logos<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -52,8 +47,8 @@
                             </li>
                         }
                     }
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="ligas">@Html.ActionLink("About", "About", "Home")</li>
+                    <li class="ligas">@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -72,10 +67,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 id="txtTituloError" class="modal-title">Error</h4>
+                    <h4 id="txtTituloError" class="modal-title text-danger">Error</h4>
                 </div>
-                <div id="txtError" class="modal-body">
-                    <p>Error.</p>
+                <div id="txtError" class="modal-body text-danger">
+                    <p class="text-danger">Error.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
