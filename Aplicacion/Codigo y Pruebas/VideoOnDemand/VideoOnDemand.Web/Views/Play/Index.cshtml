@@ -2,46 +2,280 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div style="text-align:center">
-    <video id="vidPlay" width="420">
-        <source src="~/Content/Video/videoPrueba.mp4" type="video/mp4" />
-        Tu navegador no es compatible con la reproducci&oacute;n de videos.
-    </video>
-    <br />
-    <button id="btnPlayPause" type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-    </button>
-    <button id="btnStop" type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
-    </button>
-    <div id="txtCont" style="border: 1px solid; width: 5px; height: 5px"></div>
+<link href="~/Content/w3.css" rel="stylesheet" />
+
+<div id="container" style="text-align:center">
+    <div id="video-container" style="text-align:center; max-width:640px">
+        <video controls id="video" width="640">
+            <source src="~/Content/Video/videoPrueba.mp4" type="video/mp4" />
+            Tu navegador no es compatible con la reproducci&oacute;n de videos HTML5.
+        </video>
+        <div id="videoControls">
+            <button id="play" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+            </button>
+            <button id="stop" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+            </button>
+
+            <div id="progress">
+                <div class="w3-border" id="progress_box" style="height:24px">
+                    <div class="w3-grey" id="play_progress" style="height:24px;width:0%"></div>
+                </div>
+            </div>
+
+            <div id="time">
+                <p>0:00 / 0:00</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        var vidPlay = document.getElementById("vidPlay");
 
-        $(function () {
-            $("#btnPlayPause").click(function () {
-                if (vidPlay.paused) {
-                    vidPlay.play();
-                    document.getElementById("btnPlayPause").innerHTML = "<span class='glyphicon glyphicon-pause' aria-hidden='true'></span>";
+        var video = document.getElementsByTagName('video')[0],
+		videoControls = document.getElementById('videoControls'),
+		play = document.getElementById('play'),
+        stop = document.getElementById('stop'),
+
+		progressContainer = document.getElementById("progress"),
+		progressHolder = document.getElementById("progress_box"),
+		playProgressBar = document.getElementById("play_progress"),
+
+        time = document.getElementById("time"),
+        millisecond = @Model.Milisegundo,
+        seconds = millisecond / 1000,
+        durationMin = @Model.Media.duracionMin;
+        duration = durationMin * 60;
+
+        var videoPlayer = {
+            init: function () {
+                // this is equal to the videoPlayer object.
+                var that = this;
+
+                // Helpful CSS trigger for JS.
+                document.documentElement.className = 'js';
+
+                // Get rid of the default controls, because we'll use our own.
+                video.removeAttribute('controls');
+
+                // When meta data is ready, show the controls
+                video.addEventListener('loadeddata', this.initializeControls, false);
+
+                // When play, pause buttons are pressed.
+                this.handleButtonPresses();
+
+                // Add the progress box logic.
+                this.videoScrubbing();
+
+                // CurrentTime
+                video.currentTime = seconds;
+                this.updateCurrentTime();
+            },
+
+            initializeControls: function() {
+                // When all meta information has loaded, show controls
+                // videoPlayer.showHideControls();
+            },
+
+            showHideControls: function () {
+                // Shows and hides the video player.
+                video.addEventListener('mouseover', function () {
+                    videoControls.style.opacity = 1;
+                }, false);
+
+                videoControls.addEventListener('mouseover', function () {
+                    videoControls.style.opacity = 1;
+                }, false);
+
+                video.addEventListener('mouseout', function () {
+                    videoControls.style.opacity = 0;
+                }, false);
+
+                videoControls.addEventListener('mouseout', function () {
+                    videoControls.style.opacity = 0;
+                }, false);
+            },
+
+            handleButtonPresses: function () {
+                // When the video or play button is clicked, play/pause the video.
+                video.addEventListener('click', this.playPause, false);
+                play.addEventListener('click', this.playPause, false);
+                stop.addEventListener('click', this.stop, false);
+
+                // When the play button is pressed,
+                // switch to the "Pause" symbol.
+                video.addEventListener('play', function () {
+                    play.title = 'Pause';
+                    play.innerHTML = '<span id="pauseButton" class="glyphicon glyphicon-pause" aria-hidden="true"></span>';
+
+                    // Begin tracking video's progress.
+                    videoPlayer.trackPlayProgress();
+                }, false);
+
+
+                // When the pause button is pressed,
+                // switch to the "Play" symbol.
+                video.addEventListener('pause', function () {
+                    play.title = 'Play';
+                    play.innerHTML = '<span class="glyphicon glyphicon-play" aria-hidden="true"></span>';
+
+                    // Video was paused, stop tracking progress.
+                    videoPlayer.stopTrackingPlayProgress();
+                }, false);
+
+
+                // When the video has concluded, pause it.
+                video.addEventListener('ended', function () {
+                    this.currentTime = 0;
+                    this.pause();
+                }, false);
+            },
+
+            playPause: function () {
+                if (video.paused || video.ended) {
+                    if (video.ended) { videoPlayer.stop() }
+                    video.play();
                 }
                 else {
-                    vidPlay.pause();
-                    document.getElementById("btnPlayPause").innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span>";
+                    video.pause();
+                    seconds = video.currentTime;
+                    millisecond = seconds * 1000;
+                    millisecond = Math.trunc(millisecond);
+                    var mediaOnPlay = {
+                        Id: parseInt(@Model.Id),
+                        Milisegundo: millisecond
+                    };
+                    $.ajax({
+                        url: '@Url.Action("Update", "Play")',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        contentType: "application/json",
+                        data: JSON.stringify(mediaOnPlay)
+                    });
                 }
-                
-            });
-            $("#btnStop").click(function () {
-                vidPlay.pause();
-                document.getElementById("btnPlayPause").innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span>";
-                vidPlay.currentTime = 0;
-            });
+            },
 
-            $("#txtCont").html("<p>" +vidPlay.currentTime+ "</p>");
-        });
+            stop: function () {
+                video.currentTime = 0;
+                videoPlayer.playPause();
+                videoPlayer.updateCurrentTime();
+                videoPlayer.updatePlayProgress();
+            },
+
+            // Every 50 milliseconds, update the play progress.
+            trackPlayProgress : function(){
+                (function progressTrack() {
+                    videoPlayer.updatePlayProgress();
+                    playProgressInterval = setTimeout(progressTrack, 50);
+                })();
+            },
+
+            updatePlayProgress: function () {
+                playProgressBar.style.width = ((video.currentTime / video.duration) * (progressHolder.offsetWidth)) + "px";
+                this.updateCurrentTime();
+            },
+
+            // Video was stopped, so stop updating progress.
+            stopTrackingPlayProgress: function () {
+                clearTimeout(playProgressInterval);
+            },
+
+            videoScrubbing: function () {
+                progressHolder.addEventListener("mousedown", function () {
+                    videoPlayer.stopTrackingPlayProgress();
+
+                    videoPlayer.playPause();
+
+                    document.onmousemove = function (e) {
+                        videoPlayer.setPlayProgress(e.pageX);
+                    }
+
+                    progressHolder.onmouseup = function (e) {
+                        document.onmouseup = null;
+                        document.onmousemove = null;
+
+                        video.play();
+                        videoPlayer.setPlayProgress(e.pageX);
+                        videoPlayer.trackPlayProgress();
+                    }
+                }, true);
+            },
+
+            setPlayProgress: function (clickX) {
+                var newPercent = Math.max(0, Math.min(1, (clickX - this.findPosX(progressHolder)) / progressHolder.offsetWidth));
+                video.currentTime = newPercent * video.duration;
+                this.updateCurrentTime();
+                playProgressBar.style.width = newPercent * (progressHolder.offsetWidth) + "px";
+            },
+
+            findPosX: function (progressHolder) {
+                var curleft = progressHolder.offsetLeft;
+                while (progressHolder = progressHolder.offsetParent) {
+                    curleft += progressHolder.offsetLeft;
+                }
+                return curleft;
+            },
+
+            updateCurrentTime: function () {
+                // Set the video time
+                var html = '';
+                if (video.currentTime == 0) {
+                    html = '<p>0:00 / ';
+                }
+                else {
+                    if (video.currentTime < 60) {
+                        html = '<p>0:';
+                        var segundos = Math.trunc(video.currentTime);
+                        if (segundos < 10) {
+                            html += '0';
+                        }
+                        html += segundos + ' / ';
+                    }
+                    else {
+                        var minutos = (video.currentTime / 60);
+                        minutos = Math.trunc(minutos);
+                        html = '<p>' + minutos + ':';
+                        var segundosLong = video.currentTime - (minutos * 60);
+                        var segundos = Math.trunc(segundosLong);
+                        if (segundos < 10) {
+                            html += '0';
+                        }
+                        html += segundos + ' / ';
+                    }
+                }
+                if (duration == 0) {
+                    html += '0:00</p>';
+                }
+                else {
+                    if (duration < 60) {
+                        html = '0:';
+                        var segundos = Math.trunc(duration);
+                        if (segundos < 10) {
+                            html += '0';
+                        }
+                        html += segundos + '</p>';
+                    }
+                    else {
+                        var minutos = (duration / 60);
+                        minutos = Math.trunc(minutos);
+                        html += minutos + ':';
+                        var segundosLong = duration - (minutos * 60);
+                        var segundos = Math.trunc(segundosLong);
+                        if (segundos < 10) {
+                            html += '0';
+                        }
+                        html += segundos + '</p>';
+                    }
+                }
+                time.innerHTML = html;
+            }
+
+        };
+
+        videoPlayer.init();
 
     </script>
 }

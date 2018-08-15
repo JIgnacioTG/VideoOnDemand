@@ -64,76 +64,30 @@ namespace VideoOnDemand.Web.Controllers
             return View(model);
         }
 
-        // GET: Play/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Play/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Play/Create
+        // POST: Play/Pause
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Update(MediaOnPlayViewModel model)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            MediaOnPlayRepository mediaonplayRepository = new MediaOnPlayRepository(context);
+            MediaOnPlay mediaOnPlay = mediaonplayRepository.Query(m => m.Id == model.Id).First();
 
-                return RedirectToAction("Index");
-            }
-            catch
+            mediaOnPlay.Milisegundo = model.Milisegundo;
+            mediaonplayRepository.Update(mediaOnPlay);
+
+            context.SaveChanges();
+
+            return Json(new
             {
-                return View();
-            }
+                Success = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Play/Edit/5
-        public ActionResult Edit(int id)
+        // POST: Play/Stop
+        [HttpPost]
+        public ActionResult Stop(int MediaId, int UserId)
         {
             return View();
         }
 
-        // POST: Play/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Play/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Play/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
