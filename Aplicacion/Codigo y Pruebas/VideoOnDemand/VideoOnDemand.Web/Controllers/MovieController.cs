@@ -74,25 +74,69 @@ namespace VideoOnDemand.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult getResenias(int MediaId)
+        public ActionResult getResenias(int MediaId, string UserId)
         {
             OpinionRepository opiRepo = new OpinionRepository(context);
             UsuarioRepository userRepo = new UsuarioRepository(context);
 
+            int numResTotales = opiRepo.Query(x => x.MediaId == MediaId).Count();
+            var usuario = userRepo.GetAll().FirstOrDefault(u => u.IdentityId == UserId);
 
-            foreach (var opinion in opiRepo.GetAll())
+            var opinionesMedia = from o in opiRepo.GetAll()
+                                 where o.MediaId == MediaId
+                                 && o.UsuarioId != usuario.Id
+                                 select o;
+
+            foreach (var opinion in opinionesMedia)
             {
                 opinion.Usuario = userRepo.GetAll().FirstOrDefault(u => u.Id == opinion.UsuarioId);
             }
 
-            var opinionesMedia = from o in opiRepo.GetAll()
-                                 where o.MediaId == MediaId
-                                 select o;
-
             return Json(new
             {
                 Success = true,
+                TotalResenias = numResTotales,
                 Opiniones = JsonConvert.SerializeObject(opinionesMedia)
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult getMiResenia(int MediaId, string UserId)
+        {
+            OpinionRepository opinionRepo = new OpinionRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+
+            int numResTotales = opinionRepo.Query(x => x.MediaId == MediaId).Count();
+            var usuario = userRepo.GetAll().FirstOrDefault(u => u.IdentityId == UserId);
+
+            if (usuario == null)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TotalResenias = numResTotales
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            //Obtener resenia de un usuario
+            var miResenia = opinionRepo.GetAll().FirstOrDefault(o => o.MediaId == MediaId && o.UsuarioId == usuario.Id);
+            
+
+            if (miResenia == null)
+            {
+
+                return Json(new
+                {
+                    Success = false,
+                    TotalResenias = numResTotales
+                }, JsonRequestBehavior.AllowGet);
+            }
+            miResenia.Usuario = usuario;
+            return Json(new
+            {
+                Success = true,
+                TotalResenias = numResTotales,
+                Opinion = JsonConvert.SerializeObject(miResenia)
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -116,15 +160,8 @@ namespace VideoOnDemand.Web.Controllers
                 count++;
             }
 
-            ViewBag.Resenias = resenias;
             ViewBag.CountResenias = count;
             return View(model);
-        }
-
-        public ActionResult MyList()
-        {
-
-            return View();
         }
 
         [HttpPost]
@@ -220,6 +257,32 @@ namespace VideoOnDemand.Web.Controllers
             {
                 Success = true
 
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult EliminarOpinion(int MediaId, string UserId)
+        {
+            OpinionRepository opiRepo = new OpinionRepository(context);
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+
+            var usuario = userRepo.Query(u => u.IdentityId == UserId).FirstOrDefault();
+
+            if (usuario == null)
+            {
+                return Json(new
+                {
+                    Success = false
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            var opinion = opiRepo.Query(o => o.MediaId == MediaId && o.UsuarioId == usuario.Id).FirstOrDefault();
+
+            opiRepo.Delete(opinion);
+            context.SaveChanges();
+            return Json(new
+            {
+                Success = true
             }, JsonRequestBehavior.AllowGet);
         }
     }
