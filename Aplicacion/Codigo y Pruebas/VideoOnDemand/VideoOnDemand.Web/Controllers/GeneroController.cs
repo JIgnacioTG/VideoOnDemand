@@ -14,6 +14,13 @@ namespace VideoOnDemand.Web.Controllers
 {
     public class GeneroController : BaseController
     {
+        struct lstMedias
+        {
+            public int? id;
+            public string nombre;
+            public string tipo;
+        }
+        
         // GET: Genero
         public ActionResult Index()
         {
@@ -110,7 +117,7 @@ namespace VideoOnDemand.Web.Controllers
         }
 
         // GET: Genero/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             GeneroRepository repository = new GeneroRepository(context);
             var genero = repository.Query(t => t.Id == id).First();
@@ -127,14 +134,29 @@ namespace VideoOnDemand.Web.Controllers
             try
             {
                 GeneroRepository repo = new GeneroRepository(context);
+                
 
                 var genero = repo.Query(g => g.Id == id).FirstOrDefault();
+                context.Entry(genero).Collection(g => g.Medias).Load();
 
-                repo.LogicalDelete(genero);
+                if (genero.Medias.Count() == 0)
+                {
+                    repo.LogicalDelete(genero);
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                } else
+                {
+                    List<lstMedias> lista = new List<lstMedias>();
+                    foreach(var media in genero.Medias)
+                    {
 
-                context.SaveChanges();
+                        //lista.Add(new lstMedias() {id = media.id, nombre = media.nombre, });
+                    }
 
-                return RedirectToAction("Index");
+                    ViewBag.Error = 1;
+                    model = MapHelper.Map<GeneroViewModel>(genero);
+                    return Delete(genero.Id);
+                }
             }
             catch
             {

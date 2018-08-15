@@ -72,12 +72,37 @@
 
 
 </div>
-<h3>Temporadas</h3>
-    <ul class="nav nav-tabs">   
-    <li role="presentation"><a href="#">Temporada 1</a></li>   
-    <li role="presentation"><a href="#">Temporada 2</a></li>   
-    <li role="presentation"><a href="#">Temporada 3</a></li> 
-</ul> 
+<div class="container">
+    <h3>Temporadas</h3>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#home">Temporada 1</a></li>
+        <li><a href="#menu1">Temporada 2</a></li>
+        <li><a href="#menu2">Temporada 3</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <h3>Temporada 1</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <h3>Temporada 2</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <h3>Temporada 3</h3>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $(".nav-tabs a").click(function(){
+        $(this).tab('show');
+    });
+});
+</script>
 
 
 <h2></h2>
