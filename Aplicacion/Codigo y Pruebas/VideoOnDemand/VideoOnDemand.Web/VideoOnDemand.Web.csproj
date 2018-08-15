@@ -327,6 +327,7 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="WebViews\MiLista.html" />
     <Content Include="WebViews\Peliculas.html" />
+    <Content Include="WebViews\Series.html" />
     <None Include="bin\VideoOnDemand.Web.dll.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
