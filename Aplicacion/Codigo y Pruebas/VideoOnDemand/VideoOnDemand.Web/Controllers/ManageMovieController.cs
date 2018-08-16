@@ -166,14 +166,18 @@ namespace VideoOnDemand.Web.Controllers
                     var lstmov = mov.Query(m => m.estado != EEstatusMedia.ELIMINADO);
                     foreach (var m in lstmov)
                     {
-                        if (m.nombre.ToLower() == movie.nombre.ToLower())
+                        if (m.id != movie.id)
                         {
-                            if (m.fechaLanzamiento == movie.fechaLanzamiento)
+                            if (m.nombre.ToLower() == movie.nombre.ToLower())
                             {
-                                ViewBag.Error = 1;
-                                return Edit(model.id);
+                                if (m.fechaLanzamiento == movie.fechaLanzamiento)
+                                {
+                                    ViewBag.Error = 1;
+                                    return Edit(model.id);
+                                }
                             }
                         }
+                        
                     }
                     repository.UpdateComplete(movie, model.SeleccionarGeneros, model.SeleccionarPersonas);
                     context.SaveChanges();
@@ -184,11 +188,11 @@ namespace VideoOnDemand.Web.Controllers
                 var actores = personaRepository.Query(null, "Nombre");
                 model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(genero);
                 model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(actores);
-                return View(model);
+                return Edit(model.id);
             }
             catch(Exception ex)
             {
-                return View(model);
+                return Edit(model.id);
             }
         }
 
