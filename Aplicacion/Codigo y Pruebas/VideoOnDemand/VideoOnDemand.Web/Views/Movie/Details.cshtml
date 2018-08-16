@@ -139,19 +139,19 @@
                      if (data.Success) {
                          mostrarResenias();
                          $("#txtTituloError").html("Reseña");
-                         $("#txtError").html("<p>La Reseña se ha publicado Exitosamente</p>")
+                         $("#txtError").html("<p>La reseña se ha publicado exitosamente</p>")
                          $("#modalError").modal("show");
                          mostrarMiResenia();
                      } else {
                          if (data.TypeError == 1) {
-                             $("#txtTituloError").html("Error: No se permiten Mas opiniones");
-                             $("#txtError").html("<p>Un Usuario no puede dar mas de una Reseña en una misma Pelicula</p>")
+                             $("#txtTituloError").html("Error: No se permiten más opiniones");
+                             $("#txtError").html("<p>Un usuario no puede dar mas de una reseña en una misma película</p>")
                              $("#modalError").modal("show");
                              
                          } else {
                              if (data.TypeError == 2) {
-                                 $("#txtTituloError").html("Error: Campos Vacios");
-                                 $("#txtError").html("<p>El Area de la Reseña no puede estar vacio</p>")
+                                 $("#txtTituloError").html("Error: Campos vacíos");
+                                 $("#txtError").html("<p>El área de la reseña no puede estar vacío</p>")
                                  $("#modalError").modal("show");
                              }
                          }
@@ -265,12 +265,12 @@
                  success: function (data) {
                      if (data.Success) {
                          $("#txtTituloError").html("Mi Lista");
-                         $("#txtError").html("<p>La pélicula se ha agregado a su Lista con éxito</p>")
+                         $("#txtError").html("<p>La pélicula se ha agregado a su lista con éxito</p>")
                          $("#modalError").modal("show");
                      } else {
                          if (data.TypeError == 1) {
                              $("#txtTituloError").html("Error: Mi Lista");
-                             $("#txtError").html("<p>Esta Pélicula ya Existe en su lista</p>")
+                             $("#txtError").html("<p>Esta película ya existe en su lista</p>")
                              $("#modalError").modal("show");
                          }
                      }
@@ -287,7 +287,7 @@
                 success: function (data) {
                     if (data.Success) {
                         $("#txtTituloError").html("Reseña");
-                        $("#txtError").html("<p>La Reseña se elimino con exito</p>")
+                        $("#txtError").html("<p>La reseña se eliminí con éxito</p>")
                         $("#modalError").modal("show");
                         mostrarMiResenia();
                     } else {
