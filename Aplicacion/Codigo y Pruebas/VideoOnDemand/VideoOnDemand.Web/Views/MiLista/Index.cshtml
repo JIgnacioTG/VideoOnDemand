@@ -83,9 +83,9 @@
                 <br />
                 <div>
                     <div id="duracion">
-
-                        @Html.ActionLink("+ Mi Lista", "Details", new { id = item.id }, new { @class = "btn btn-default" })
-
+                        <button id='btnEliminar' type='button' class='btn btn-default' onclick='eliminarLista();'>
+                            <span class="glyphicon glyphicon-minus"> Mi Lista</span>
+                        </button>
                     </div>
                     <div id="fecha">
 
@@ -112,3 +112,11 @@
 <div class="container">
     @Html.Partial("_Paginator")
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+        });
+    </script>
+}

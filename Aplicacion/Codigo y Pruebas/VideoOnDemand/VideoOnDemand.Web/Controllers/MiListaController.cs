@@ -40,6 +40,7 @@ namespace VideoOnDemand.Web.Controllers
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
             MovieRepository movieRepository = new MovieRepository(context);
+            MediaRepository mediaRepo = new MediaRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
             UsuarioRepository userRepo = new UsuarioRepository(context);
             FavoritoRepository favRepo = new FavoritoRepository(context);
@@ -48,22 +49,27 @@ namespace VideoOnDemand.Web.Controllers
             var misFavoritos = favRepo.Query(f => f.usuarioId == yo.Id);
 
             var genero = generoRepository.GetAll();
-            
-            Expression<Func<Movie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE &&  m.nombre.Contains(nombre);
+
+            Expression<Func<Movie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE ;
+
+            int count = 0;
+            foreach (var item in misFavoritos)
+            {
+                if (count == 0)
+                {
+                    expr = expr.And(m => m.id == item.mediaId);
+                    count++;
+                }
+                else
+                    expr = expr.Or(m => m.id == item.mediaId);
+            }
 
             if (idg != null)
             {
                 expr = expr.And(x => x.Generos.Any(y => y.Id == idg));
             }
 
-            foreach (var item in misFavoritos)
-            {
-                expr = expr.And(m => m.id == item.mediaId);
-            }
-
-
-
-            
+            expr = expr.And(m => m.nombre.Contains(nombre));
 
             var lst = movieRepository.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
 
