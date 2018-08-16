@@ -51,7 +51,8 @@
                         <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
                     </div>
 
-                    @{
+                    @if (item.duracionMin != 0)
+                    {
                         int? hrs = item.duracionMin / 60;
                         int? min = item.duracionMin - (hrs * 60);
                         string aux = "";
@@ -64,15 +65,31 @@
                         {
                             auxh = "0";
                         }
+
+                        <div id="fecha">
+                            <h4>@auxh@hrs : @aux@min : 00</h4>
+                        </div>
                     }
-                    <div id="fecha">
-                        <h4>@auxh@hrs : @aux@min : 00</h4>
-                    </div>
+                    else
+                    {
+                        <div id="fecha">
+                            <h4> </h4>
+                        </div>
+                    }
                     @{
                         string gen = "";
-                        foreach (var g in item.Generos)
+                        for (int i = 0; i < item.Generos.Count(); i++)
                         {
-                            gen += g.Nombre + ", ";
+                            var g = item.Generos.ElementAt(i);
+
+                            if (i == (item.Generos.Count() - 1))
+                            {
+                                gen += g.Nombre + ".";
+                            }
+                            else
+                            {
+                                gen += g.Nombre + ", ";
+                            }
                         }
                     }
 
@@ -87,9 +104,11 @@
                         <button id='btnEliminar' type='button' class='btn btn-default' onclick='eliminarLista(@item.id);'><strong>X </strong>Quitar</button>
                     </div>
                     <div id="fecha">
-
-                        @Html.ActionLink("Detalles", "Details", new { id = item.id }, new { @class = "btn btn-default" })
-
+                        @if(item.duracionMin == 0){
+                            <a class="btn btn-default" href="/Serie/Details/@item.id">Detalles</a>
+                        } else {
+                            <a class="btn btn-default" href="/Movie/Details/@item.id">Detalles</a>
+                        }
                     </div>
                 </div>
 

@@ -53,9 +53,19 @@
             </h4>
             @{
                 string gen = "";
-                foreach (var g in Model.Generos)
+                for (int i = 0; i < Model.Generos.Count(); i++)
                 {
-                    gen += g.Nombre + ", ";
+                    var g = Model.Generos.ElementAt(i);
+
+                    if (i == (Model.Generos.Count() - 1))
+                    {
+                        gen += g.Nombre + ".";
+                    }
+                    else
+                    {
+                        gen += g.Nombre + ", ";
+                    }
+
                 }
             }
             <h4>
@@ -64,8 +74,14 @@
             </h4>
             @{
                 string act = "";
-                foreach (var g in Model.Actores)
+                for (int i = 0; i < Model.Actores.Count(); i++)
                 {
+                    var g = Model.Actores.ElementAt(i);
+                    if (i == (Model.Actores.Count() -1))
+                    {
+                        act += g.Nombre + ".";
+                        break;
+                    }
                     act += g.Nombre + ", ";
                 }
             }
@@ -193,7 +209,7 @@
                             {
                                 html += "<label style='font-size: 20px;'>★</label>";
                             }
-                            html += "</label><div class='container'>" + o.Descripcion +"</div> </div> </div>";
+                            html += "</label><div class='container'>" + o.Descripcion +"</div><br /> </div> </div>";
 
                             $("#listaResenias").append(html);
                         }
@@ -226,7 +242,7 @@
                         for (e = 0; e < o.Puntuacion; e++) {
                             html += "<label style='font-size: 20px;'>★</label>";
                         }
-                        html += "</label><h4>" + o.Descripcion + "</h4> ";
+                        html += "</label><div class='container'>" + o.Descripcion + "</div> ";
                         html += "<p style='text-align: right;'><button id='btnAgregar' type='button' class='btn btn-default' onclick='EliminarOpinion();'>Eliminar</button> </p></div></div>"; 
                         $("#miResenia").append(html);
 
