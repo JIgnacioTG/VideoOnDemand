@@ -105,7 +105,7 @@
                     <div id="home_@g.Key" class="tab-pane @estilo">
                         @foreach (var d in g)
                         {
-                        <div><h4><strong>* @d.numEpisodio @d.nombre</strong></h4></div>
+                        <div><h4><strong>* Espisodio @d.numEpisodio: @d.nombre &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink("> Reproducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId() }, new { @class = "btn btn-default" })</strong></h4></div>
                         }
 
                     </div>
