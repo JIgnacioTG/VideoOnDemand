@@ -93,5 +93,34 @@ namespace VideoOnDemand.Web.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult eliminarDeMiLista(int MediaId, string UserId)
+        {
+
+            UsuarioRepository userRepo = new UsuarioRepository(context);
+            FavoritoRepository favRepo = new FavoritoRepository(context);
+
+            //Me Obtengo
+            var yo = userRepo.Query(u => u.IdentityId == UserId).FirstOrDefault();
+            //Obtengo de favoritos el favorito que contenga mi id y el mediaId
+            var eliminar = favRepo.Query(f => f.usuarioId == yo.Id && f.mediaId == MediaId).FirstOrDefault();
+
+            if (eliminar != null)
+            {
+                favRepo.Delete(eliminar);
+                context.SaveChanges();
+
+                return Json(new
+                {
+                    Success = true
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new
+            {
+                Success = false
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
