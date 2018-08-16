@@ -21,7 +21,7 @@ namespace VideoOnDemand.Web.Controllers
             SerieRepository serieRepository = new SerieRepository(context);
 
             // Consultar los episodios de la serie asignada
-            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id && e.estado != EEstatusMedia.ELIMINADO).OrderBy(e => e.temporada).OrderBy(e => e.numEpisodio);
+            var lstEpisodio = episodioRepository.Query(e => e.serieId.Value == id && e.estado != EEstatusMedia.ELIMINADO).OrderBy(e => e.numEpisodio).OrderBy(e => e.temporada);
 
             // Mapear la lista de series con una lista de SerieViewModel
             var models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
@@ -39,12 +39,6 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Create(int id)
         {
             var model = new EpisodioViewModel();
-            GeneroRepository generoRepository = new GeneroRepository(context);
-            PersonaRepository personaRepository = new PersonaRepository(context);
-            var lst = generoRepository.GetAll();
-            var lst2 = personaRepository.GetAll();
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
 
             SerieRepository serieRepository = new SerieRepository(context);
 
