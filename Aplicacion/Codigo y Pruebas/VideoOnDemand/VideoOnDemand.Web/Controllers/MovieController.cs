@@ -204,6 +204,16 @@ namespace VideoOnDemand.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+             // Descripción mayor de 200
+            if (model.Descripcion.Length > 200)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 3
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             //Puntuacion Requerida - Si no califica se vuelve 0
             if (model.Puntuacion == null)
             {

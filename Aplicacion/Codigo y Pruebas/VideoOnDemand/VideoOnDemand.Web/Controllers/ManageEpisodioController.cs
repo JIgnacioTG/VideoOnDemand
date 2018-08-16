@@ -26,11 +26,8 @@ namespace VideoOnDemand.Web.Controllers
             // Mapear la lista de series con una lista de SerieViewModel
             var models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
 
-            if (lstEpisodio.Count() == 0)
-            {
-                List<Episodio> lstEpisodioVacio = new List<Episodio> { new Episodio { Serie = serieRepository.Query(s => s.id == id).First() } };
-                models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodioVacio);
-            }
+            ViewBag.Serie = serieRepository.Query(s => s.id == id).FirstOrDefault().nombre;
+            ViewBag.SerieId = serieRepository.Query(s => s.id == id).FirstOrDefault().id;
 
             return View(models);
         }
@@ -42,11 +39,13 @@ namespace VideoOnDemand.Web.Controllers
 
             SerieRepository serieRepository = new SerieRepository(context);
 
-            var serie = serieRepository.Query(s => s.id == id).First();
+            var serie = serieRepository.Query(s => s.id == id).FirstOrDefault();
             model.Serie = MapHelper.Map<SerieViewModel>(serie);
             model.serieId = id;
 
             model.estado = EEstatusMedia.VISIBLE;
+
+            ViewBag.Serie = serie.nombre;
 
             return View(model);
         }
@@ -55,12 +54,6 @@ namespace VideoOnDemand.Web.Controllers
         [HttpPost]
         public ActionResult Create(EpisodioViewModel model)
         {
-            GeneroRepository generoRepository = new GeneroRepository(context);
-            PersonaRepository personaRepository = new PersonaRepository(context);
-            var lstGeneros = generoRepository.GetAll();
-            var lstPersonas = personaRepository.GetAll();
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
 
             try
             {
@@ -72,11 +65,20 @@ namespace VideoOnDemand.Web.Controllers
                 {
                     var serie = serieRepository.Query(s => s.id == model.id).First();
                     var episodio = MapHelper.Map<Episodio>(model);
+
+                    context.Entry(serie).Collection(s => s.Generos).Load();
+                    context.Entry(serie).Collection(s => s.Actores).Load();
+
                     episodio.Serie = serie;
                     episodio.serieId = model.id;
-                    episodioRepository.InsertComplete(episodio, model.GenerosSeleccionados, model.PersonasSeleccionadas);
+                    episodio.Actores = serie.Actores;
+                    episodio.Generos = serie.Generos;
+                    episodio.fechaRegistro = DateTime.Now;
+                    episodioRepository.Insert(episodio);
 
                     context.SaveChanges();
+
+                    ViewBag.Serie = serie.nombre;
 
                     return RedirectToAction("Index", new { id = episodio.serieId });
                 }
@@ -93,18 +95,14 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Edit(int id)
         {
             EpisodioRepository episodioRepository = new EpisodioRepository(context);
-            GeneroRepository generoRepository = new GeneroRepository(context);
-            PersonaRepository personaRepository = new PersonaRepository(context);
 
             var episodio = episodioRepository.Query(e => e.id == id).First();
-            var lstGeneros = generoRepository.GetAll();
-            var lstPersonas = personaRepository.GetAll();
 
             var model = MapHelper.Map<EpisodioViewModel>(episodio);
 
-            model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
-            model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
-            //model.Serie = MapHelper.Map<SerieViewModel>(episodio.Serie);
+            context.Entry(episodio).Reference(e => e.Serie).Load();
+
+            ViewBag.Serie = episodio.Serie.nombre;
 
             return View(model);
         }
@@ -121,15 +119,17 @@ namespace VideoOnDemand.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     var episodio = episodioRepository.Query(e => e.id == id).First();
+
+                    context.Entry(episodio).Collection(e => e.Actores).Load();
+                    context.Entry(episodio).Collection(e => e.Generos).Load();
+                    context.Entry(episodio).Collection(e => e.Opiniones).Load();
+                    context.Entry(episodio).Reference(e => e.Serie).Load();
+
+                    ViewBag.Serie = episodio.Serie.nombre;
                     episodio = Update(episodio, model);
-                    if (episodio.Serie.estado != EEstatusMedia.INVISIBLE)
-                    {
-                        episodioRepository.UpdateComplete(episodio, model.GenerosSeleccionados, model.PersonasSeleccionadas);
-                        context.SaveChanges();
-                        return RedirectToAction("Index", new { id = episodio.serieId });
-                    }
-                    else
-                        return View(model);
+                    episodioRepository.Update(episodio);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", new { id = episodio.serieId });
                 }
 
                 return View(model);
@@ -148,6 +148,10 @@ namespace VideoOnDemand.Web.Controllers
 
             var episodio = episodioRepository.Query(s => s.id == id).First();
 
+            context.Entry(episodio).Reference(e => e.Serie).Load();
+
+            ViewBag.Serie = episodio.Serie.nombre;
+
             var model = MapHelper.Map<EpisodioViewModel>(episodio);
 
             return View(model);
@@ -163,6 +167,10 @@ namespace VideoOnDemand.Web.Controllers
                 EpisodioRepository episodioRepository = new EpisodioRepository(context);
 
                 var episodio = episodioRepository.Query(s => s.id == id).First();
+
+                context.Entry(episodio).Reference(e => e.Serie).Load();
+
+                ViewBag.Serie = episodio.Serie.nombre;
 
                 episodioRepository.LogicalDelete(episodio);
                 context.SaveChanges();

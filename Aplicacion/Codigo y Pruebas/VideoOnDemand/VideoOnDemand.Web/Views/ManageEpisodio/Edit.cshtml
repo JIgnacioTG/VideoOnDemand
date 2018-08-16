@@ -1,14 +1,12 @@
 ﻿@model VideoOnDemand.Web.Models.EpisodioViewModel
 
 @{
-    var serie = Model.Serie.nombre;
-    ViewBag.Title = "Edit";
-    string Title = "Editar Episodio";
+    ViewBag.Title = "Editar Episodio";
 }
 
-<h2>@Title</h2>
+<h2>@ViewBag.Title</h2>
 
-<h3>Serie: @serie</h3>
+<h3>Serie: @ViewBag.Serie</h3>
 
 @using (Html.BeginForm())
 {
@@ -96,68 +94,6 @@
                     <div class="radio">
                         <label>
                             <input name="estado" type="radio" value="2" checked> Invisible
-                        </label>
-                    </div>
-                }
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">G&eacute;neros</h3>
-            </div>
-            <div class="panel-body">
-                @foreach (var item in Model.GenerosDisponibles)
-                {
-                    var seleccionado = "";
-
-                    foreach (var genSel in Model.Generos)
-                    {
-                        // Activar el checkbox si de los temas disponibles
-                        // Existe en los temas seleccionados
-                        if (genSel.Id != null)
-                        {
-                            if (genSel.Id == item.Id.Value)
-                            {
-                                seleccionado = "checked";
-                            }
-                        }
-                    }
-
-                    <div class="checkbox">
-                        <label>
-                            <input name="GenerosSeleccionados" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
-                        </label>
-                    </div>
-                }
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Actores</h3>
-            </div>
-            <div class="panel-body">
-                @foreach (var item in Model.PersonasDisponibles)
-                {
-                    var seleccionado = "";
-
-                    foreach (var genSel in Model.Generos)
-                    {
-                        // Activar el checkbox si de los temas disponibles
-                        // Existe en los temas seleccionados
-                        if (genSel.Id != null)
-                        {
-                            if (genSel.Id == item.Id.Value)
-                            {
-                                seleccionado = "checked";
-                            }
-                        }
-                    }
-
-                    <div class="checkbox">
-                        <label>
-                            <input name="PersonasSeleccionadas" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
                         </label>
                     </div>
                 }

@@ -22,7 +22,6 @@ namespace VideoOnDemand.Web.Models
         [MaxLength(500)]
         public string descripcion { get; set; }
 
-        [Required]
         [DisplayName("Duración(Minutos)")]
         [Range(0, int.MaxValue, ErrorMessage = "La duración no puede ser negativa")]
         [DataType(DataType.Duration)]

@@ -16,7 +16,7 @@ namespace VideoOnDemand.Web.Models
         public int? Puntuacion { get; set; }
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(200)]
         public string Descripcion { get; set; }
 
         [Required]

@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<VideoOnDemand.Web.Models.EpisodioViewModel>
 
 @{
-    var serie = Model.FirstOrDefault().Serie.nombre;
     ViewBag.Title = "Administrar Episodios";
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Serie: @serie</h3>
+<h3>Serie: @ViewBag.Serie</h3>
 <p>
-    @Html.ActionLink("Crear nuevo episodio", "Create", new { id = Model.FirstOrDefault().Serie.id })
+    @Html.ActionLink("Crear nuevo episodio", "Create", new { id = ViewBag.SerieId })
 </p>
 <table class="table">
     <tr>
