@@ -49,8 +49,6 @@ namespace VideoOnDemand.Web.Controllers
                 expr = expr.And(x => x.Generos.Any(y => y.Id == idg));
             }
                
-            
-
             var lst = repository.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
             
             var models = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
