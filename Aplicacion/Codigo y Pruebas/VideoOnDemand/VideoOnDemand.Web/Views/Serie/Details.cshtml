@@ -32,8 +32,16 @@
                 </strong>
             </h3>
 
+            @{
+                string temp = "";
+                foreach (var g in Model.Episodios)
+                {
+                    temp = g.temporada + "";
+                }
+            }
             <h4>
                 <strong>Temporadas: </strong>
+                @temp
             </h4>
            
             <h4>
@@ -82,58 +90,30 @@
 
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
-            <h3>Temporada 1</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h4>Lista de episodios</h4>
+            <p></p>
         </div>
         <div id="menu1" class="tab-pane fade">
-            <h3>Temporada 2</h3>
+            <h4>Lista de episodios</h4>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
         <div id="menu2" class="tab-pane fade">
-            <h3>Temporada 3</h3>
+            <h4>Lista de episodios</h4>
             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
         </div>
     </div>
 </div>
 
-<script>
-$(document).ready(function(){
-    $(".nav-tabs a").click(function(){
-        $(this).tab('show');
-    });
-});
-</script>
+
 
 
 <h2></h2>
-<h3>@ViewBag.CountResenias Reseñas</h3>
-<div class="container" style="padding-top: 18px;">
-    <div class="form-group" style="border: 1px solid; ">
-        <label for="txtArea" style="padding-top: 10px; padding-left: 20px;">Mi Reseña</label><label id="identityiduser" style="display:none;">@User.Identity.GetUserId()</label>
-        <center>
-            <textarea id="txtAreaResenia" class="form-control" style="width: 95%; height:80px; max-width: 100%; padding-left: 20px; padding-top: 10px;" placeholder="Agrega una reseña"></textarea>
-        </center>
-        <div class="form-horizontal">
-            <form id="puntuacion" style="padding-top: 10px; padding-right: 40px; ">
-                <p class="star">
+<div id="NumResenias"></div>
+<label id="identityiduser" style="display:none;">@User.Identity.GetUserId()</label>
 
-                    <button id="btnAgregar" type="button" class="btn btn-defaul">Agregar</button>
-                    <input id="radio1" type="radio" name="estrellas" style="display:none;" value="5">
-                    <label for="radio1" style="font-size: 20px;">★</label>
-                    <input id="radio2" type="radio" name="estrellas" style="display:none;" value="4">
-                    <label for="radio2" style="font-size: 20px;">★</label>
-                    <input id="radio3" type="radio" name="estrellas" style="display:none;" value="3">
-                    <label for="radio3" style="font-size: 20px;">★</label>
-                    <input id="radio4" type="radio" name="estrellas" style="display:none;" value="2">
-                    <label for="radio4" style="font-size: 20px;">★</label>
-                    <input id="radio5" type="radio" name="estrellas" style="display:none;" value="1">
-                    <label for="radio5" style="font-size: 20px;">★</label>
-                </p>
-            </form>
-        </div>
-    </div>
-</div>
-<div id="lista-resenias"></div>
+<div id="miResenia"></div>
+
+<div id="listaResenias"></div>
 
 
 <br />
@@ -145,22 +125,23 @@ $(document).ready(function(){
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $("#btnAgregar").click(function () {
-                guardarOpinion();
-            });
             $("#btnMiLista").click(function () {
                 AgregarLista();
             });
 
+            mostrarMiResenia();
             mostrarResenias();
 
             $(".datepicker").datepicker({
                 language: "es",
                 autoclose: true
             });
-
+            $(".nav-tabs a").click(function () {
+                $(this).tab('show');
+            })
 
         });
+
 
         function guardarOpinion() {
 
@@ -179,24 +160,20 @@ $(document).ready(function(){
                  success: function (data) {
                      if (data.Success) {
                          mostrarResenias();
-                         limpiar();
                          $("#txtTituloError").html("Reseña");
                          $("#txtError").html("<p>La reseña se ha publicado exitosamente</p>")
                          $("#modalError").modal("show");
+                         mostrarMiResenia();
                      } else {
                          if (data.TypeError == 1) {
                              $("#txtTituloError").html("Error: No se permiten más opiniones");
-                             $("#txtError").html("<p>Un Usuario no puede dar mas de una reseña en una misma serie</p>")
+                             $("#txtError").html("<p>Un usuario no puede dar más de una reseña en una misma serie</p>")
                              $("#modalError").modal("show");
-                             limpiar();
+
                          } else {
                              if (data.TypeError == 2) {
                                  $("#txtTituloError").html("Error: Campos Vacios");
                                  $("#txtError").html("<p>El área de la reseña no puede estar vacío</p>")
-                                 $("#modalError").modal("show");
-                             } else {
-                                 $("#txtTituloError").html("Error: Campos Vacios");
-                                 $("#txtError").html("<p>Debe calificar con un valor minimo de 1</p>")
                                  $("#modalError").modal("show");
                              }
                          }
@@ -208,19 +185,25 @@ $(document).ready(function(){
 
         function mostrarResenias() {
             $.ajax({
-                url: '@Url.Action("getResenias", "Serie", new { MediaId = Model.id })',
+                url: '@Url.Action("getResenias", "Serie")',
                 type: 'GET',
                 dataType: 'JSON',
-                data: null,
+                data: { MediaId: @Model.id, UserId: $("#identityiduser").text()},
                 success: function (data) {
                     if (data.Success) {
                         //convierto la cadena a un obj JSON
                         var opiniones = JSON.parse(data.Opiniones);
                         //pinto mis elementos en mi tabla
-                        $("#lista-resenias").empty();
+                        $("#listaResenias").empty();
+                        $("#NumResenias").empty();
+                        var Str = "Reseña";
+                        if (data.TotalResenias != 1) {
+                            Str += "s";
+                        }
+                        $("#NumResenias").append("<h4>" + data.TotalResenias + "  " + Str + " </h4>");
                         for (i = 0; i < opiniones.length; i++) {
                             var o = opiniones[i];
-                            var html = "<div class='container' style='padding - top: 10px;'><div class='form-group' style = 'border: 1px solid; padding-left:15px; padding-right: 15px;'>";
+                            var html = "<div class='container' style='padding-top: 10px;'><div class='form-group' style = 'border: 1px solid; padding-left:15px; padding-right: 15px;'>";
                             html += "<label style='padding-top: 10px;'>" + o.Usuario.Nombre + "</label>";
                             html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + o.FechaRegistro + " </label>";
                             html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>";
@@ -230,8 +213,7 @@ $(document).ready(function(){
                             }
                             html += "</label><p>" + o.Descripcion +"</p> </div> </div>";
 
-                            $("#lista-resenias").append(html);
-                            limpiar();
+                            $("#listaResenias").append(html);
                         }
                     } else {
                     }
@@ -239,13 +221,56 @@ $(document).ready(function(){
             });
         }
 
-        function limpiar() {
-            $("#txtAreaResenia").val("");
-            document.getElementById("radio1").checked = false;
-            document.getElementById("radio2").checked = false;
-            document.getElementById("radio3").checked = false;
-            document.getElementById("radio4").checked = false;
-            document.getElementById("radio5").checked = false;
+        function mostrarMiResenia() {
+            $.ajax({
+                url: '@Url.Action("getMiResenia", "Serie")',
+                type: 'GET',
+                dataType: 'JSON',
+                data: { MediaId: @Model.id, UserId: $("#identityiduser").text()},
+                success: function (data) {
+                    if (data.Success) {
+                        var o = JSON.parse(data.Opinion);
+                        $("#miResenia").empty();
+                        $("#NumResenias").empty();
+                        var Str = "Reseña";
+                        if (data.TotalResenias != 1) {
+                            Str += "s";
+                        }
+                        $("#NumResenias").append("<h4>" + data.TotalResenias + "  " + Str + " </h4>");
+                        var html = "<div class='container' style='padding-top: 10px;'><div class='form-group' style = 'border: 1px solid; padding-left:15px; padding-right: 15px;'>";
+                        html += "<label style='padding-top: 10px;'>" + o.Usuario.Nombre + "</label>";
+                        html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + o.FechaRegistro + " </label>";
+                        html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>";
+                        for (e = 0; e < o.Puntuacion; e++) {
+                            html += "<label style='font-size: 20px;'>★</label>";
+                        }
+                        html += "</label><p>" + o.Descripcion + "</p> ";
+                        html += "<p style='text-align: right;'><button id='btnAgregar' type='button' class='btn btn-default' onclick='EliminarOpinion();'>Eliminar</button> </p></div></div>";
+                        $("#miResenia").append(html);
+
+                    } else {
+                        $("#miResenia").empty();
+                        $("#NumResenias").empty();
+                        var Str = "Reseña";
+                        if (data.TotalResenias != 1) {
+                            Str += "s";
+                        }
+                        $("#NumResenias").append("<h4>" + data.TotalResenias + "  " + Str + " </h4>");
+                        var html = "<div class='form-group' style='border: 1px solid;'>";
+                        html += "<label for='txtAreaResenia' style='padding-top: 10px; padding-left: 20px; font-size: 15px;'>Mi Reseña</label>";
+                        html += "<center><textarea id='txtAreaResenia' class='form-control' style='width: 95%; height: 80px; max-width: 100%; padding-left: 20px; padding-top: 10px;' placeholder='Agrega una reseña'></textarea></center>";
+                        html += "<div class='form-horizontal'><form id='puntuacion' style='padding-top: 10px; padding-right: 40px;'><p class='star'>";
+                        html += "<button id='btnAgregar' type='button' class='btn btn-default' onclick='guardarOpinion();'>Agregar</button>";
+                        html += "<input id='radio1' type='radio' name='estrellas' style='display: none;' value='5'><label for='radio1' style='font-size: 20px;'>★</label>";
+                        html += "<input id='radio2' type='radio' name='estrellas' style='display: none;' value='4'><label for='radio2' style='font-size: 20px;'>★</label>";
+                        html += "<input id='radio3' type='radio' name='estrellas' style='display: none;' value='3'><label for='radio3' style='font-size: 20px;'>★</label>";
+                        html += "<input id='radio4' type='radio' name='estrellas' style='display: none;' value='2'><label for='radio4' style='font-size: 20px;'>★</label>";
+                        html += "<input id='radio5' type='radio' name='estrellas' style='display: none;' value='1'><label for='radio5' style='font-size: 20px;'>★</label>";
+                        html += "</p></form></div></div>";
+                        $("#miResenia").append(html);
+                    }
+                }
+            });
         }
 
         function AgregarLista() {
@@ -275,6 +300,26 @@ $(document).ready(function(){
              });
         }
 
+        function EliminarOpinion() {
+            $.ajax({
+                url: '@Url.Action("EliminarOpinion", "Serie")',
+                type: 'GET',
+                dataType: 'JSON',
+                data: { MediaId: @Model.id, UserId: $("#identityiduser").text()},
+                success: function (data) {
+                    if (data.Success) {
+                        $("#txtTituloError").html("Reseña");
+                        $("#txtError").html("<p>La reseña se eliminó con éxito</p>")
+                        $("#modalError").modal("show");
+                        mostrarMiResenia();
+                    } else {
+                        $("#txtTituloError").html("Error: Reseñas");
+                        $("#txtError").html("<p>No se pudo eliminar la reseña</p>")
+                        $("#modalError").modal("show");
+                    }
+                }
+            });
+        }
     </script>
 
 }
