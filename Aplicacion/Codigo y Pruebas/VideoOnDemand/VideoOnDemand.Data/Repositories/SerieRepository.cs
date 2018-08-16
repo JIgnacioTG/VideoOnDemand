@@ -52,6 +52,7 @@ namespace VideoOnDemand.Repositories
             //Recargamos la entidad
             _context.Entry(serie).Collection(x => x.Generos).Load();
             _context.Entry(serie).Collection(x => x.Actores).Load();
+            _context.Entry(serie).Collection(x => x.Episodios).Load();
 
             //Limpiamos la lista
             serie.Generos.Clear();
@@ -81,6 +82,10 @@ namespace VideoOnDemand.Repositories
             {
                 foreach (var e in serie.Episodios)
                 {
+                    e.Actores.Clear();
+                    e.Generos.Clear();
+                    e.Actores = serie.Actores;
+                    e.Generos = serie.Generos;
                     e.estado = serie.estado;
                 }
             }
