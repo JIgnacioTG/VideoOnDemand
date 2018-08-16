@@ -78,7 +78,7 @@
 
  
                     <button id="btnMiLista" type="button" class="btn btn-default">+ Mi Lista</button>
-                    @Html.ActionLink("> Repoducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId()  }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("> Reproducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId()  }, new { @class = "btn btn-default" })
 
                 </h4>
             </div>
@@ -94,8 +94,6 @@
 <div id="miResenia"></div>
 
 <div id="listaResenias"></div>
-
-
 <br />
 <br />
 
@@ -153,6 +151,12 @@
                                  $("#txtTituloError").html("Error: Campos vacíos");
                                  $("#txtError").html("<p>El área de la reseña no puede estar vacío</p>")
                                  $("#modalError").modal("show");
+                             } else {
+                                 if (data.TypeError == 3) {
+                                     $("#txtTituloError").html("Error: Tamaño");
+                                     $("#txtError").html("<p>El tamaño máximo de caracteres para la reseña es de 200</p>")
+                                     $("#modalError").modal("show");
+                                 }
                              }
                          }
 
@@ -189,7 +193,7 @@
                             {
                                 html += "<label style='font-size: 20px;'>★</label>";
                             }
-                            html += "</label><p>" + o.Descripcion +"</p> </div> </div>";
+                            html += "</label><div class='container'>" + o.Descripcion +"</div> </div> </div>";
 
                             $("#listaResenias").append(html);
                         }
@@ -222,7 +226,7 @@
                         for (e = 0; e < o.Puntuacion; e++) {
                             html += "<label style='font-size: 20px;'>★</label>";
                         }
-                        html += "</label><p>" + o.Descripcion + "</p> ";
+                        html += "</label><h4>" + o.Descripcion + "</h4> ";
                         html += "<p style='text-align: right;'><button id='btnAgregar' type='button' class='btn btn-default' onclick='EliminarOpinion();'>Eliminar</button> </p></div></div>"; 
                         $("#miResenia").append(html);
 

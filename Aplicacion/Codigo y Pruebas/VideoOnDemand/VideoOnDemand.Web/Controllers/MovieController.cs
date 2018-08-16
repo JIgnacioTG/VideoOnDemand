@@ -205,7 +205,7 @@ namespace VideoOnDemand.Web.Controllers
             }
 
              // Descripción mayor de 200
-            if (model.Descripcion.FirstOrDefault().ToString().Length > 200)
+            if (model.Descripcion.Length > 200)
             {
                 return Json(new
                 {

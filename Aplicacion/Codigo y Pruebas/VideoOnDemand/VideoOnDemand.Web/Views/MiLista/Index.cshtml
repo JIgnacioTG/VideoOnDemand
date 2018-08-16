@@ -1,41 +1,42 @@
-﻿@using VideoOnDemand.Web.Models
-@model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
+﻿@using Microsoft.AspNet.Identity
+@using VideoOnDemand.Web.Models
+@model PaginatorViewModel<VideoOnDemand.Web.Models.MediaViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Mis Películas</h2>
+<h2>Mi Lista</h2>
 
 @using (Html.BeginForm("Index", "MiLista", FormMethod.Get))
 {
-<div class="container">
-    <div id="leftAll">
-        @Html.TextBox("nombre", "", new { @class = "form-control" })
-    </div>
-    <div id="leftAll">
-        <input type="submit" value="Buscar" class="btn btn-default" />
-    </div>
-    <div id="leftAll">
-        @Html.DropDownList("idg", (IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
-    </div>
+    <div class="container">
+        <div id="leftAll">
+            @Html.TextBox("nombre", "", new { @class = "form-control" })
+        </div>
+        <div id="leftAll">
+            <input type="submit" value="Buscar" class="btn btn-default" />
+        </div>
+        <div id="leftAll">
+            @Html.DropDownList("idg", (IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
+        </div>
 
-    <div id="rightAll">
-        @Html.TextBox("paginado", new { paginado = ViewBag.Paginado }, new { @type = "number", style = "width: 60px;" })
+        <div id="rightAll">
+            @Html.TextBox("paginado", new { paginado = ViewBag.Paginado }, new { @type = "number", style = "width: 60px;" })
+        </div>
+        <div id="rightAll">
+            <h4>Núm. de Coincidencias: </h4>
+        </div>
+        <div>
+            @Html.TextBox("UserId", new { UserId = ViewBag.UserId }, new { @type = "text", style = "width: 60px; display: none;" })
+        </div>
     </div>
-    <div id="rightAll">
-        <h4>Núm. de Coincidencias: </h4>
-    </div>
-    <div>
-        @Html.TextBox("UserId", new { UserId = ViewBag.UserId }, new { @type = "text", style = "width: 60px; display: none;" })
-    </div>
-</div>
 }
 
 
 <div class="container">
 
-    @if (Model.Results.Count() > 0)
+    @if (Model.Results.Count() > 0 && ViewBag.numList != 0)
     {
         <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 
@@ -83,9 +84,7 @@
                 <br />
                 <div>
                     <div id="duracion">
-
-                        @Html.ActionLink("+ Mi Lista", "Details", new { id = item.id }, new { @class = "btn btn-default" })
-
+                        <button id='btnEliminar' type='button' class='btn btn-default' onclick='eliminarLista(@item.id);'><strong>X </strong>Quitar</button>
                     </div>
                     <div id="fecha">
 
@@ -112,3 +111,30 @@
 <div class="container">
     @Html.Partial("_Paginator")
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+        function eliminarLista(id) {
+            $.ajax({
+                url: '@Url.Action("eliminarDeMiLista", "MiLista")',
+                type: 'GET',
+                dataType: 'JSON',
+                data: { MediaId: id, UserId: '@User.Identity.GetUserId()'},
+                success: function (data) {
+                    if (data.Success) {
+                        location.reload();
+                    } else {
+                        $("#txtTituloError").html("Error: Mi Lista");
+                        $("#txtError").html("<p>Error al intentar eliminar de su lista</p>");
+                        $("#modalError").modal("show");
+                    }
+                }
+            });
+
+        }
+    </script>
+}

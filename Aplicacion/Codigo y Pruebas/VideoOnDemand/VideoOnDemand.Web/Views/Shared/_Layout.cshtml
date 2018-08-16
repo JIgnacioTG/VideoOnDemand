@@ -25,19 +25,8 @@
                         <li class="ligas">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="ligas">@Html.ActionLink("Películas", "Index", "Movie")</li>
                         <li class="ligas">@Html.ActionLink("Series", "Index", "Serie")</li>
-                        
+                        <li class="ligas"><a href="/MiLista?UserId=@User.Identity.GetUserId()">Mi Lista</a></li>
 
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle ligas" data-toggle="dropdown" role="button"
-                               aria-haspopup="true"
-                               aria-expanded="false">Mi Lista<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                         
-                                <li><a href="/MiLista?UserId=@User.Identity.GetUserId()">Películas</a></li>
-                                <li>@Html.ActionLink("Series", "Index", "ManageSerie")</li>
-
-                            </ul>
-                        </li>
                         var user = User.Identity;
                         var context = new ApplicationDbContext();
                         var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));

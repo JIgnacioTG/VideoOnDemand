@@ -26,11 +26,8 @@ namespace VideoOnDemand.Web.Controllers
             // Mapear la lista de series con una lista de SerieViewModel
             var models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodio);
 
-            if (lstEpisodio.Count() == 0)
-            {
-                List<Episodio> lstEpisodioVacio = new List<Episodio> { new Episodio { Serie = serieRepository.Query(s => s.id == id).First() } };
-                models = MapHelper.Map<IEnumerable<EpisodioViewModel>>(lstEpisodioVacio);
-            }
+            ViewBag.Serie = serieRepository.Query(s => s.id == id).FirstOrDefault().nombre;
+            ViewBag.SerieId = serieRepository.Query(s => s.id == id).FirstOrDefault().id;
 
             return View(models);
         }
@@ -47,6 +44,8 @@ namespace VideoOnDemand.Web.Controllers
             model.serieId = id;
 
             model.estado = EEstatusMedia.VISIBLE;
+
+            ViewBag.Serie = serie.nombre;
 
             return View(model);
         }
@@ -74,9 +73,12 @@ namespace VideoOnDemand.Web.Controllers
                     episodio.serieId = model.id;
                     episodio.Actores = serie.Actores;
                     episodio.Generos = serie.Generos;
+                    episodio.fechaRegistro = DateTime.Now;
                     episodioRepository.Insert(episodio);
 
                     context.SaveChanges();
+
+                    ViewBag.Serie = serie.nombre;
 
                     return RedirectToAction("Index", new { id = episodio.serieId });
                 }
@@ -98,6 +100,10 @@ namespace VideoOnDemand.Web.Controllers
 
             var model = MapHelper.Map<EpisodioViewModel>(episodio);
 
+            context.Entry(episodio).Reference(e => e.Serie).Load();
+
+            ViewBag.Serie = episodio.Serie.nombre;
+
             return View(model);
         }
 
@@ -113,15 +119,17 @@ namespace VideoOnDemand.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     var episodio = episodioRepository.Query(e => e.id == id).First();
+
+                    context.Entry(episodio).Collection(e => e.Actores).Load();
+                    context.Entry(episodio).Collection(e => e.Generos).Load();
+                    context.Entry(episodio).Collection(e => e.Opiniones).Load();
+                    context.Entry(episodio).Reference(e => e.Serie).Load();
+
+                    ViewBag.Serie = episodio.Serie.nombre;
                     episodio = Update(episodio, model);
-                    if (episodio.Serie.estado != EEstatusMedia.INVISIBLE)
-                    {
-                        episodioRepository.Update(episodio);
-                        context.SaveChanges();
-                        return RedirectToAction("Index", new { id = episodio.serieId });
-                    }
-                    else
-                        return View(model);
+                    episodioRepository.Update(episodio);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", new { id = episodio.serieId });
                 }
 
                 return View(model);
@@ -140,6 +148,10 @@ namespace VideoOnDemand.Web.Controllers
 
             var episodio = episodioRepository.Query(s => s.id == id).First();
 
+            context.Entry(episodio).Reference(e => e.Serie).Load();
+
+            ViewBag.Serie = episodio.Serie.nombre;
+
             var model = MapHelper.Map<EpisodioViewModel>(episodio);
 
             return View(model);
@@ -155,6 +167,10 @@ namespace VideoOnDemand.Web.Controllers
                 EpisodioRepository episodioRepository = new EpisodioRepository(context);
 
                 var episodio = episodioRepository.Query(s => s.id == id).First();
+
+                context.Entry(episodio).Reference(e => e.Serie).Load();
+
+                ViewBag.Serie = episodio.Serie.nombre;
 
                 episodioRepository.LogicalDelete(episodio);
                 context.SaveChanges();

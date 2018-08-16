@@ -43,6 +43,7 @@ namespace VideoOnDemand.Web.Controllers
         public ActionResult Create(SerieViewModel model)
         {
             model = LinkLists(model);
+            model.duracionMin = 0;
 
             try
             {
@@ -98,6 +99,7 @@ namespace VideoOnDemand.Web.Controllers
         [HttpPost]
         public ActionResult Edit(int id, SerieViewModel model)
         {
+            model = LinkLists(model);
 
             try
             {
@@ -174,7 +176,6 @@ namespace VideoOnDemand.Web.Controllers
         public Serie Update(Serie serie, SerieViewModel model)
         {
             serie.descripcion = model.descripcion;
-            serie.duracionMin = model.duracionMin;
             serie.estado = model.estado;
             serie.fechaLanzamiento = model.fechaLanzamiento;
             serie.nombre = model.nombre;
