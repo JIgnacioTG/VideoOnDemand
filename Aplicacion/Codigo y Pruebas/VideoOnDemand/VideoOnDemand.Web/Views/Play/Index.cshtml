@@ -2,11 +2,9 @@
 
 <h2>@ViewBag.Title</h2>
 
-<link href="~/Content/w3.css" rel="stylesheet" />
-
 <div id="container" style="text-align:center">
-    <div id="video-container" style="text-align:center; max-width:640px">
-        <video controls id="video" width="640">
+    <div id="video-container" style="text-align:center">
+        <video controls id="video" style="width: 100%">
             <source src="~/Content/Video/videoPrueba.mp4" type="video/mp4" />
             Tu navegador no es compatible con la reproducci&oacute;n de videos HTML5.
         </video>
@@ -19,8 +17,8 @@
             </button>
 
             <div id="progress">
-                <div class="w3-border" id="progress_box" style="height:24px">
-                    <div class="w3-grey" id="play_progress" style="height:24px;width:0%"></div>
+                <div class="player-border" id="progress_box" style="height:24px">
+                    <div class="player-fill" id="play_progress" style="height:20px;width:0%"></div>
                 </div>
             </div>
 

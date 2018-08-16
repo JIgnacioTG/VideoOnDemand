@@ -128,3 +128,12 @@ div#reseñas{
 .star label:hover {
     color: yellow;
 }
+
+.player-border{
+    border:2px solid white;
+}
+
+.player-fill,.player-hover-fill:hover {
+    color: red;
+    background-color: red;
+}
