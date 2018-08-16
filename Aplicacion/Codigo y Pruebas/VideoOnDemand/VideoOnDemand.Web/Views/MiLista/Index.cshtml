@@ -1,9 +1,114 @@
-﻿@model VideoOnDemand.Web.Models.MovieSerieViewModel
+﻿@using VideoOnDemand.Web.Models
+@model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Mis Películas</h2>
+
+@using (Html.BeginForm("Index", "MiLista", FormMethod.Get))
+{
+<div class="container">
+    <div id="leftAll">
+        @Html.TextBox("nombre", "", new { @class = "form-control" })
+    </div>
+    <div id="leftAll">
+        <input type="submit" value="Buscar" class="btn btn-default" />
+    </div>
+    <div id="leftAll">
+        @Html.DropDownList("idg", (IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
+    </div>
+
+    <div id="rightAll">
+        @Html.TextBox("paginado", new { paginado = ViewBag.Paginado }, new { @type = "number", style = "width: 60px;" })
+    </div>
+    <div id="rightAll">
+        <h4>Núm. de Coincidencias: </h4>
+    </div>
+    <div>
+        @Html.TextBox("UserId", new { UserId = ViewBag.UserId }, new { @type = "text", style = "width: 60px; display: none;" })
+    </div>
+</div>
+}
 
 
+<div class="container">
+
+    @if (Model.Results.Count() > 0)
+    {
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+        foreach (var item in Model.Results)
+        {
+            <div id="serie">
+                <div id="serie1">
+                    <h2>
+                        @Html.DisplayFor(model => item.nombre)
+                    </h2>
+                    <div id="duracion">
+                        <h4>@Html.DisplayFor(model => item.fechaLanzamiento.Value.Year)</h4>
+                    </div>
+
+                    @{
+                        int? hrs = item.duracionMin / 60;
+                        int? min = item.duracionMin - (hrs * 60);
+                        string aux = "";
+                        string auxh = "";
+                        if (min < 10)
+                        {
+                            aux = "0";
+                        }
+                        if (hrs < 10)
+                        {
+                            auxh = "0";
+                        }
+                    }
+                    <div id="fecha">
+                        <h4>@auxh@hrs : @aux@min : 00</h4>
+                    </div>
+                    @{
+                        string gen = "";
+                        foreach (var g in item.Generos)
+                        {
+                            gen += g.Nombre + ", ";
+                        }
+                    }
+
+                    <h6><b>Generos:</b> @gen</h6>
+                </div>
+                <div id="Descripcion">
+                    <h6><b>Descripcion:</b> @Html.DisplayFor(model => item.descripcion)</h6>
+                </div>
+                <br />
+                <div>
+                    <div id="duracion">
+
+                        @Html.ActionLink("+ Mi Lista", "Details", new { id = item.id }, new { @class = "btn btn-default" })
+
+                    </div>
+                    <div id="fecha">
+
+                        @Html.ActionLink("Detalles", "Details", new { id = item.id }, new { @class = "btn btn-default" })
+
+                    </div>
+                </div>
+
+            </div>
+        }
+
+
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Sin resultados
+            </div>
+        </div>
+    }
+</div>
+
+<div class="container">
+    @Html.Partial("_Paginator")
+</div>
