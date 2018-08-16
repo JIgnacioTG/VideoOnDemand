@@ -39,18 +39,18 @@ namespace VideoOnDemand.Web.Controllers
             int pageSize = paginado;
             int page = Request.QueryString["page"] == null ? 1 : int.Parse(Request.QueryString["page"]);
 
-            MovieRepository movieRepository = new MovieRepository(context);
             MediaRepository mediaRepo = new MediaRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
             UsuarioRepository userRepo = new UsuarioRepository(context);
             FavoritoRepository favRepo = new FavoritoRepository(context);
 
             var yo = userRepo.Query(u => u.IdentityId == UserId).FirstOrDefault();
+
             var misFavoritos = favRepo.Query(f => f.usuarioId == yo.Id);
 
             var genero = generoRepository.GetAll();
 
-            Expression<Func<Movie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE ;
+            Expression<Func<Media, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE ;
 
             int count = 0;
             foreach (var item in misFavoritos)
@@ -71,12 +71,11 @@ namespace VideoOnDemand.Web.Controllers
 
             expr = expr.And(m => m.nombre.Contains(nombre));
 
-            var lst = movieRepository.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
+            var lst = mediaRepo.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
 
-            var models = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
-            var generos = MapHelper.Map<ICollection<GeneroViewModel>>(generoRepository.GetAll());
+            var models = MapHelper.Map<IEnumerable<MediaViewModel>>(lst);
 
-            var model = new PaginatorViewModel<MovieViewModel>
+            var model = new PaginatorViewModel<MediaViewModel>
             {
                 Page = page,
                 TotalPages = totalPages,
@@ -90,6 +89,7 @@ namespace VideoOnDemand.Web.Controllers
             ViewBag.Idg = idg + "";
             ViewBag.Paginado = paginado + "";
             ViewBag.UserId = UserId;
+            ViewBag.numList = misFavoritos.Count();
 
             return View(model);
         }

@@ -1,11 +1,11 @@
 ﻿@using VideoOnDemand.Web.Models
-@model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
+@model PaginatorViewModel<VideoOnDemand.Web.Models.MediaViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Mis Películas</h2>
+<h2>Mi Lista</h2>
 
 @using (Html.BeginForm("Index", "MiLista", FormMethod.Get))
 {
@@ -35,7 +35,7 @@
 
 <div class="container">
 
-    @if (Model.Results.Count() > 0)
+    @if (Model.Results.Count() > 0 && ViewBag.numList != 0)
     {
         <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 
@@ -83,9 +83,7 @@
                 <br />
                 <div>
                     <div id="duracion">
-                        <button id='btnEliminar' type='button' class='btn btn-default' onclick='eliminarLista();'>
-                            <span class="glyphicon glyphicon-minus"> Mi Lista</span>
-                        </button>
+                        <button id='btnEliminar' type='button' class='btn btn-default' onclick='eliminarLista(@item.id);'><strong>X </strong>Quitar</button>
                     </div>
                     <div id="fecha">
 
@@ -118,5 +116,9 @@
         $(function () {
 
         });
+
+        function eliminarLista(id) {
+            alert("Lo Elimino a " + id + " de tu lista... Nha Luego");
+        }
     </script>
 }
