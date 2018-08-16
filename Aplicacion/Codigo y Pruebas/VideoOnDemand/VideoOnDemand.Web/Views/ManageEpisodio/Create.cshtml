@@ -101,62 +101,6 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">G&eacute;neros</h3>
-            </div>
-            <div class="panel-body">
-                @foreach (var item in Model.GenerosDisponibles)
-                {
-                    var seleccionado = "";
-
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.GenerosSeleccionados != null)
-                    {
-                        if (Model.GenerosSeleccionados.Contains(item.Id.Value))
-                        {
-                            seleccionado = "checked";
-                        }
-                    }
-
-                    <div class="checkbox">
-                        <label>
-                            <input name="GenerosSeleccionados" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
-                        </label>
-                    </div>
-                }
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Actores</h3>
-            </div>
-            <div class="panel-body">
-                @foreach (var item in Model.PersonasDisponibles)
-                {
-                    var seleccionado = "";
-
-                    // Activar el checkbox si de los temas disponibles
-                    // Existe en los temas seleccionados
-                    if (Model.PersonasSeleccionadas != null)
-                    {
-                        if (Model.PersonasSeleccionadas.Contains(item.Id.Value))
-                        {
-                            seleccionado = "checked";
-                        }
-                    }
-
-                    <div class="checkbox">
-                        <label>
-                            <input name="PersonasSeleccionadas" type="checkbox" value="@item.Id.Value.ToString()" @seleccionado> @item.Nombre
-                        </label>
-                    </div>
-                }
-            </div>
-        </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Guardar" class="btn btn-default" />
