@@ -80,32 +80,47 @@
 
 
 </div>
-<div class="container">
-    <h3>Temporadas</h3>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#home">Temporada 1</a></li>
-        <li><a href="#menu1">Temporada 2</a></li>
-        <li><a href="#menu2">Temporada 3</a></li>
-    </ul>
+<br />
+<div class="container" style="border: 1px white solid">
+    <h2>Temporadas</h2>
 
+    <ul class="nav nav-tabs">
+@{
+    var tab = "active";
+    for(int i = 1; i <= temp.AsDecimal(); i++)
+        {
+        <li class="@tab"><a href="#home_@i">Temporada @i </a></li>
+        tab = "";
+    }
+}
+        
+    </ul>
     <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-            <h4>Lista de episodios</h4>
-            <p></p>
-        </div>
-        <div id="menu1" class="tab-pane fade">
-            <h4>Lista de episodios</h4>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-        <div id="menu2" class="tab-pane fade">
-            <h4>Lista de episodios</h4>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-        </div>
+            <h3>Lista de episodios </h3>
+            @{
+                var estilo = "active";
+                var episodAgr = Model.Episodios.GroupBy(x => x.temporada);
+                foreach (var g in episodAgr)
+                {
+                    <div id="home_@g.Key" class="tab-pane @estilo">
+                        @foreach (var d in g)
+                        {
+                        <div><h4><strong>* Espisodio @d.numEpisodio: @d.nombre &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink("> Reproducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId() }, new { @class = "btn btn-default" })</strong></h4></div>
+                        }
+
+                    </div>
+                    estilo = "";
+                    }
+
+                }
     </div>
+    <br />
+    
 </div>
 
 
-
+<br />
+<br />
 
 <h2></h2>
 <div id="NumResenias"></div>
