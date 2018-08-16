@@ -12,6 +12,13 @@ namespace VideoOnDemand.Web.Controllers
 {
     public class PersonaController : BaseController
     {
+
+        public struct lstMedias
+        {
+            public int? id;
+            public string nombre;
+            public string tipo;
+        }
         // GET: Persona
         public ActionResult Index()
         {
@@ -154,6 +161,26 @@ namespace VideoOnDemand.Web.Controllers
                     return RedirectToAction("Index");
                 } else
                 {
+                    List<lstMedias> lista = new List<lstMedias>();
+                    var repository = new MovieRepository(context);
+                    var repository2 = new SerieRepository(context);
+
+                    foreach (var medi in actor.Medias)
+                    {
+                        var mov = repository.Query(m => m.id == medi.id);
+                        var ser = repository2.Query(s => s.id == medi.id);
+
+                        if (mov.Count() == 1)
+                        {
+                            lista.Add(new lstMedias() { id = medi.id, nombre = medi.nombre, tipo = "Película" });
+                        }
+                        else if (ser.Count() == 1)
+                        {
+                            lista.Add(new lstMedias() { id = medi.id, nombre = medi.nombre, tipo = "Serie" });
+                        }
+
+                    }
+                    ViewData["inUsing"] = lista;
                     ViewBag.Error = 1;
                     model = MapHelper.Map<PersonaViewModel>(actor);
                     return Delete(model.Id);

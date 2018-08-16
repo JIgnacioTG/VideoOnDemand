@@ -1,4 +1,5 @@
 ﻿@model VideoOnDemand.Web.Models.GeneroViewModel
+    @using VideoOnDemand.Web.Controllers;
 
 @{
     ViewBag.Title = "Delete";
@@ -30,7 +31,7 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            <input type="submit" value="Eliminar" class="btn btn-default" /> 
             @Html.ActionLink("Regresar a la lista de géneros", "Index")
         </div>
     }
@@ -38,9 +39,27 @@
 
 @section Scripts {
     <script type="text/javascript">
+        @{string html = "";}
+        var errorMessage = "<p style='color: red'>El género @Model.Nombre esta siendo utilizado por una película o serie y no se puede eliminar.</p>";
+        var peliculas = "";
         if(@ViewBag.Error == 1) {
-            $("#txtError").html("<p style='color: red'>El género @Model.Nombre esta siendo utilizado por una película o serie y no se puede eliminar.</p>");
-            $("#modalError").modal('show');  
+            @{ if (ViewBag.Salto != 0) {
+                    foreach (var std in ViewData["inUsing"] as List<GeneroController.lstMedias>)
+                    {
+                        html += @std.nombre + " - " + @std.tipo + ",";
+
+                    }
+                }
+            }
+            peliculas = "@html.ToString()"
+            var arregloMedias = peliculas.split(",");
+            var listado = "<ul>";
+            for(var i = 0; i < arregloMedias.length - 1; i++){
+                listado = listado + "<li>" + arregloMedias[i] + "</li>" 
+            }
+            listado = listado + "</ul>"
+            $("#txtError").html(errorMessage + listado)
+            $("#modalError").modal('show');
         }
     </script>
 }
