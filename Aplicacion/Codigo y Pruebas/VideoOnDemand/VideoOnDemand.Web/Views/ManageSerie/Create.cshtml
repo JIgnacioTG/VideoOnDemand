@@ -39,38 +39,29 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Estado</h3>
-            </div>
-            <div class="panel-body">
-
-                @if (Model.estado.Value.ToString().Equals("VISIBLE"))
+        <div class="form-group">
+            @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.estado.ToString() == "INVISIBLE")
                 {
-                    <div class="radio">
-                        <label>
-                            <input name="estado" type="radio" value="1" checked> Visible
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input name="estado" type="radio" value="2"> Invisible
-                        </label>
-                    </div>
+                    <input name="estado" type="radio" value="VISIBLE" /> @Html.Label("VISIBLE")
+                    <input name="estado" type="radio" value="INVISIBLE" checked /> @Html.Label("INVISIBLE")
+                }
+                else if (Model.estado.ToString() == "VISIBLE")
+                {
+                    <input name="estado" type="radio" value="VISIBLE" checked /> @Html.Label("VISIBLE")
+                    <input name="estado" type="radio" value="INVISIBLE" /> @Html.Label("INVISIBLE")
                 }
                 else
                 {
-                    <div class="radio">
-                        <label>
-                            <input name="estado" type="radio" value="1"> Visible
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input name="estado" type="radio" value="2" checked> Invisible
-                        </label>
-                    </div>
+                    <input name="estado" type="radio" value="VISIBLE" /> @Html.Label("VISIBLE")
+                    <input name="estado" type="radio" value="INVISIBLE" /> @Html.Label("INVISIBLE")
                 }
+
+
+
+                @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
