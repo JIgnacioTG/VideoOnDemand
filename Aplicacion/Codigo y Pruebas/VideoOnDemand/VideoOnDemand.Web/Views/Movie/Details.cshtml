@@ -161,7 +161,7 @@
                              $("#txtTituloError").html("Error: No se permiten más opiniones");
                              $("#txtError").html("<p>Un usuario no puede dar mas de una reseña en una misma película</p>")
                              $("#modalError").modal("show");
-                             
+                             mostrarMiResenia();
                          } else {
                              if (data.TypeError == 2) {
                                  $("#txtTituloError").html("Error: Campos vacíos");
