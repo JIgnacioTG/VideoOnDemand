@@ -208,6 +208,12 @@
                                  $("#txtTituloError").html("Error: Campos Vacios");
                                  $("#txtError").html("<p>El área de la reseña no puede estar vacío</p>")
                                  $("#modalError").modal("show");
+                             } else {
+                                 if (data.TypeError == 3) {
+                                     $("#txtTituloError").html("Error: Tamaño");
+                                     $("#txtError").html("<p>El tamaño máximo de caracteres para la reseña es de 200</p>")
+                                     $("#modalError").modal("show");
+                                 }
                              }
                          }
 
