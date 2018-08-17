@@ -1,4 +1,5 @@
-﻿@using VideoOnDemand.Web.Models
+﻿@using Microsoft.AspNet.Identity
+@using VideoOnDemand.Web.Models
 @model PaginatorViewModel<VideoOnDemand.Web.Models.SerieViewModel>
 
 @{
@@ -54,9 +55,19 @@
                     </div>
                     @{
                         string gen = "";
-                        foreach (var g in item.Generos)
+                        for (int i = 0; i < item.Generos.Count(); i++)
                         {
-                            gen += g.Nombre + ", ";
+                            var g = item.Generos.ElementAt(i);
+
+                            if (i == (item.Generos.Count() - 1))
+                            {
+                                gen += g.Nombre + ".";
+                            }
+                            else
+                            {
+                                gen += g.Nombre + ", ";
+                            }
+
                         }
                     }
 
@@ -69,7 +80,7 @@
                 <div>
                     <div id="duracion">
 
-                        @Html.ActionLink("+ Mi Lista", "Details", new { id = item.id }, new { @class = "btn btn-default" })
+                        <button id="btnMiLista" type="button" class="btn btn-default" onclick='AgregarLista(@item.id)'><strong>+</strong> Mi Lista</button>
 
                     </div>
                     <div id="fecha">
@@ -97,3 +108,35 @@
 <div class="container">
     @Html.Partial("_Paginator")
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function AgregarLista(id) {
+            var favorite = {
+                UserID: '@User.Identity.GetUserId()',
+                MediaId: parseInt(id)
+            };
+             $.ajax({
+                 url: '@Url.Action("AddLista", "Movie")',
+                 type: 'POST',
+                 dataType: 'JSON',
+                 contentType: "application/json",
+                 data: JSON.stringify(favorite),
+                 success: function (data) {
+                     if (data.Success) {
+                         $("#txtTituloError").html("Mi Lista");
+                         $("#txtError").html("<p>La pélicula se ha agregado a su lista con éxito</p>")
+                         $("#modalError").modal("show");
+                     } else {
+                         if (data.TypeError == 1) {
+                             $("#txtTituloError").html("Error: Mi Lista");
+                             $("#txtError").html("<p>Esta película ya existe en su lista</p>")
+                             $("#modalError").modal("show");
+                         }
+                     }
+                 }
+             });
+        }
+    </script>
+}

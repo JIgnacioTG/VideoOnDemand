@@ -19,7 +19,7 @@
     }
 </style>
 <div class="container">
-
+    
     <div id="general">
         <div id="imagen">
             <img src="~/images/sample.PNG" alt="" width="390" height="265" />
@@ -50,9 +50,19 @@
             </h4>
             @{
                 string gen = "";
-                foreach (var g in Model.Generos)
+                for (int i = 0; i < Model.Generos.Count(); i++)
                 {
-                    gen += g.Nombre + ", ";
+                    var g = Model.Generos.ElementAt(i);
+
+                    if (i == (Model.Generos.Count() - 1))
+                    {
+                        gen += g.Nombre + ".";
+                    }
+                    else
+                    {
+                        gen += g.Nombre + ", ";
+                    }
+
                 }
             }
             <h4>
@@ -61,8 +71,14 @@
             </h4>
             @{
                 string act = "";
-                foreach (var g in Model.Actores)
+                for (int i = 0; i < Model.Actores.Count(); i++)
                 {
+                    var g = Model.Actores.ElementAt(i);
+                    if (i == (Model.Actores.Count() - 1))
+                    {
+                        act += g.Nombre + ".";
+                        break;
+                    }
                     act += g.Nombre + ", ";
                 }
             }
@@ -72,7 +88,7 @@
             </h4>
             <div id="leftAll">
                 <h4>
-                    <button id="btnMiLista" type="button" class="btn btn-defaul">+ Mi Lista</button>
+                    <button id="btnMiLista" type="button" class="btn btn-defaul"><strong>+</strong> Mi Lista</button>
                 </h4>
             </div>
         </div>
@@ -226,7 +242,7 @@
                             {
                                 html += "<label style='font-size: 20px;'>★</label>";
                             }
-                            html += "</label><p>" + o.Descripcion +"</p> </div> </div>";
+                            html += "</label><div class='container'>" + o.Descripcion +"</div><br /> </div> </div>";
 
                             $("#listaResenias").append(html);
                         }

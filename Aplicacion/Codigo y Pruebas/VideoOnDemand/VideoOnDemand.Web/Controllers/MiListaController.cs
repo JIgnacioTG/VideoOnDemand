@@ -69,7 +69,7 @@ namespace VideoOnDemand.Web.Controllers
                 expr = expr.And(x => x.Generos.Any(y => y.Id == idg));
             }
 
-            expr = expr.And(m => m.nombre.Contains(nombre));
+            expr = expr.And(m => m.estado == EEstatusMedia.VISIBLE && m.nombre.Contains(nombre));
 
             var lst = mediaRepo.QueryPage(expr, out totalPages, out totalRows, "Nombre", page - 1, pageSize);
 
