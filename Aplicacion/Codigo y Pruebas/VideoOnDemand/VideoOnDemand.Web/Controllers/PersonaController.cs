@@ -174,8 +174,8 @@ namespace VideoOnDemand.Web.Controllers
 
                     foreach (var medi in actor.Medias)
                     {
-                        var mov = repository.Query(m => m.id == medi.id);
-                        var ser = repository2.Query(s => s.id == medi.id);
+                        var mov = repository.Query(m => m.id == medi.id && medi.estado != EEstatusMedia.ELIMINADO);
+                        var ser = repository2.Query(s => s.id == medi.id && medi.estado != EEstatusMedia.ELIMINADO);
 
                         if (mov.Count() == 1)
                         {
@@ -187,6 +187,14 @@ namespace VideoOnDemand.Web.Controllers
                         }
 
                     }
+
+                    if (lista.Count == 0)
+                    {
+                        repo.LogicalDelete(actor);
+                        context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
                     ViewData["inUsing"] = lista;
                     ViewBag.Error = 1;
                     model = MapHelper.Map<PersonaViewModel>(actor);

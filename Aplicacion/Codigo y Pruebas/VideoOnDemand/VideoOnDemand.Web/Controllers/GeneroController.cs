@@ -150,7 +150,8 @@ namespace VideoOnDemand.Web.Controllers
                     repo.LogicalDelete(genero);
                     context.SaveChanges();
                     return RedirectToAction("Index");
-                } else
+                }
+                else
                 {
                     List<lstMedias> lista = new List<lstMedias>();
                     var repository = new MovieRepository(context);
@@ -158,8 +159,8 @@ namespace VideoOnDemand.Web.Controllers
 
                     foreach (var media in genero.Medias)
                     {
-                        var mov = repository.Query(m => m.id == media.id);
-                        var ser = repository2.Query(s => s.id == media.id);
+                        var mov = repository.Query(m => m.id == media.id && media.estado != EEstatusMedia.ELIMINADO);
+                        var ser = repository2.Query(s => s.id == media.id && media.estado != EEstatusMedia.ELIMINADO);
 
                         if (mov.Count() == 1)
                         {
@@ -171,6 +172,14 @@ namespace VideoOnDemand.Web.Controllers
                         }
 
                     }
+
+                    if (lista.Count == 0)
+                    {
+                        repo.LogicalDelete(genero);
+                        context.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
                     ViewData["inUsing"] = lista;
                     ViewBag.Error = 1;
                     model = MapHelper.Map<GeneroViewModel>(genero);
