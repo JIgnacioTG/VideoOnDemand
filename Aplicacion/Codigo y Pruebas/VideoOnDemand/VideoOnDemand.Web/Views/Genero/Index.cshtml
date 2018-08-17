@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<VideoOnDemand.Web.Models.GeneroViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Administrar Géneros";
 }
 
-<h2>Administrar g&eacute;neros</h2>
-<h4>Lista de g&eacute;neros</h4>
+<h2>@ViewBag.Title</h2>
+
 <p>
-    @Html.ActionLink("Crear nuevo", "Create")
+    @Html.ActionLink("Registrar Nuevo Género", "Create")
 </p>
 <table class="table">
     <tr>

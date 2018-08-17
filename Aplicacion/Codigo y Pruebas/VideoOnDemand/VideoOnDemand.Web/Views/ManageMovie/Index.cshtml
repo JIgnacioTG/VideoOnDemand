@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<VideoOnDemand.Web.Models.MovieViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Administrar Películas";
 }
 
-<h2>Administrar Películas</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Nueva Película", "Create")
+    @Html.ActionLink("Registrar Nueva Película", "Create")
 </p>
 <br />
 
@@ -55,7 +55,6 @@
 
             <td>
                 @item.fechaLanzamiento.Value.ToString("dd/MM/yyyy")
-                
             </td>
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |

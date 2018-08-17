@@ -20,7 +20,7 @@ namespace VideoOnDemand.Web.Controllers
         public SelectList GeneroList(object selectecItem = null)
         {
             var repository = new GeneroRepository(context);
-            var genero = repository.Query(null, "Nombre").ToList();
+            var genero = repository.Query(g => g.Eliminado == false, "Nombre").ToList();
             genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
             return new SelectList(genero, "Id", "Nombre", selectecItem);
         }
@@ -30,7 +30,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             MovieRepository repository = new MovieRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
-            var genero = generoRepository.GetAll();
+            var genero = generoRepository.Query(g => g.Eliminado == false, "Nombre");
             
             Expression<Func<Movie, bool>> expr = m => m.estado != EEstatusMedia.ELIMINADO;
             if (idGenero != null)
@@ -42,9 +42,9 @@ namespace VideoOnDemand.Web.Controllers
             {
                 expr = expr.And(x => x.nombre.Contains(nombre));              
             }
-            var lst = repository.Query(expr);
+            var lst = repository.Query(expr, "Nombre");
             var model = MapHelper.Map<IEnumerable<MovieViewModel>>(lst);
-            var lstGenero = generoRepository.GetAll();
+            var lstGenero = generoRepository.Query(g => g.Eliminado == false, "Nombre");
 
 
             ViewBag.ListaGenero = GeneroList(lstGenero);
@@ -64,10 +64,11 @@ namespace VideoOnDemand.Web.Controllers
             var model = new MovieViewModel();
             GeneroRepository generoRepository = new GeneroRepository(context);
             PersonaRepository personaRepository = new PersonaRepository(context);
-            var lst = generoRepository.GetAll();
-            var lst2 = personaRepository.GetAll();
+            var lst = generoRepository.Query(g => g.Eliminado == false, "Nombre");
+            var lst2 = personaRepository.Query(p => p.Eliminado == false, "Nombre");
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
+            model.estado = EEstatusMedia.VISIBLE;
             return View(model);
         }
 
@@ -77,8 +78,8 @@ namespace VideoOnDemand.Web.Controllers
         {
             GeneroRepository generoRepository = new GeneroRepository(context);
             PersonaRepository personaRepository = new PersonaRepository(context);
-            var lst = generoRepository.GetAll();
-            var lst2 = personaRepository.GetAll();
+            var lst = generoRepository.Query(g => g.Eliminado == false, "Nombre");
+            var lst2 = personaRepository.Query(p => p.Eliminado == false, "Nombre");
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lst);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lst2);
 
@@ -118,7 +119,7 @@ namespace VideoOnDemand.Web.Controllers
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 
@@ -136,8 +137,8 @@ namespace VideoOnDemand.Web.Controllers
 
             var model = MapHelper.Map<MovieViewModel>(movie);
 
-            var generos = generoRepository.Query(null, "Nombre");
-            var personas = personaRepository.Query(null, "Nombre");
+            var generos = generoRepository.Query(g => g.Eliminado == false, "Nombre");
+            var personas = personaRepository.Query(p => p.Eliminado == false, "Nombre");
 
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(generos);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(personas);
@@ -162,7 +163,8 @@ namespace VideoOnDemand.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var movie = MapHelper.Map<Movie>(model);
+                    var movie = repository.Query(m => m.id == id).First();
+                    movie = Update(movie, model);
                     var lstmov = mov.Query(m => m.estado != EEstatusMedia.ELIMINADO);
                     foreach (var m in lstmov)
                     {
@@ -183,14 +185,14 @@ namespace VideoOnDemand.Web.Controllers
                     context.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                
-                var genero = generoRepository.Query(null, "Nombre");
-                var actores = personaRepository.Query(null, "Nombre");
-                model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(genero);
-                model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(actores);
+
+                var generos = generoRepository.Query(g => g.Eliminado == false, "Nombre");
+                var personas = personaRepository.Query(p => p.Eliminado == false, "Nombre");
+                model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(generos);
+                model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(personas);
                 return Edit(model.id);
             }
-            catch(Exception ex)
+            catch
             {
                 return Edit(model.id);
             }
@@ -220,8 +222,18 @@ namespace VideoOnDemand.Web.Controllers
             }
             catch
             {
-                return RedirectToAction("Index");
+                return Delete(id);
             }
         }
+
+        public Movie Update(Movie movie, MovieViewModel model)
+        {
+            movie.descripcion = model.descripcion;
+            movie.estado = model.estado;
+            movie.fechaLanzamiento = model.fechaLanzamiento;
+            movie.nombre = model.nombre;
+            return movie;
+        }
+
     }
 }

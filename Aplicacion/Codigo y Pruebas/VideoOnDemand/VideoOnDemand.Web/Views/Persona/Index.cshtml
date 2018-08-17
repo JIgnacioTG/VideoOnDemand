@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<VideoOnDemand.Web.Models.PersonaViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Administrar Actores";
 }
 
-<h2>Actores</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Nuevo Actor", "Create")
+    @Html.ActionLink("Registrar Nuevo Actor", "Create")
 </p>
 <table class="table">
     <tr>
@@ -32,7 +32,14 @@
             @Html.DisplayFor(modelItem => item.Descripcion)
         </td>
         <td>
-            @item.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+            @if (item.FechaNacimiento != null)
+            {
+                @item.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.FechaNacimiento)
+            }
         </td>
         <td>
             @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |

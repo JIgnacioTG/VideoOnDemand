@@ -26,7 +26,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             GeneroRepository repository = new GeneroRepository(context);
             //consulte los cursos del repositorio
-            var lst = repository.Query(g => g.Eliminado != true);
+            var lst = repository.Query(g => g.Eliminado != true, "Nombre");
             //mapeamos la lista de cursos con una lista de cursos view model
             var models = MapHelper.Map<IEnumerable<GeneroViewModel>>(lst);
             return View(models);

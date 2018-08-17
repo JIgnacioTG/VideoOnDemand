@@ -8,7 +8,7 @@
 
 <h3>Serie: @ViewBag.Serie</h3>
 <p>
-    @Html.ActionLink("Crear nuevo episodio", "Create", new { id = ViewBag.SerieId })
+    @Html.ActionLink("Registrar Nuevo Episodio", "Create", new { id = ViewBag.SerieId })
 </p>
 <table class="table">
     <tr>
@@ -21,12 +21,13 @@
         <th>
             @Html.DisplayNameFor(model => model.nombre)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaLanzamiento)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    if (item.id != 0)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -39,15 +40,17 @@
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
             <td>
+                @item.fechaLanzamiento.Value.ToString("dd/MM/yyyy")
+            </td>
+            <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
                 @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
             </td>
         </tr>
     }
-}
 
 </table>
 
 <div>
-    @Html.ActionLink("Regresar", "Index", "ManageSerie")
+    @Html.ActionLink("Regresar a la lista de series", "Index", "ManageSerie")
 </div>

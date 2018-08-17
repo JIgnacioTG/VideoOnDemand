@@ -88,6 +88,10 @@
     <Compile Include="Migrations\201808161607133_OpinionNewLength.Designer.cs">
       <DependentUpon>201808161607133_OpinionNewLength.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808170529280_DescriptionGeneroOptional.cs" />
+    <Compile Include="Migrations\201808170529280_DescriptionGeneroOptional.Designer.cs">
+      <DependentUpon>201808170529280_DescriptionGeneroOptional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -119,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808161607133_OpinionNewLength.resx">
       <DependentUpon>201808161607133_OpinionNewLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808170529280_DescriptionGeneroOptional.resx">
+      <DependentUpon>201808170529280_DescriptionGeneroOptional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -11,14 +11,13 @@ namespace VideoOnDemand.Web.Models
     {
         public int? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe ingresar un nombre para el género")]
         [MaxLength(50)]
-        [DisplayName("Nombre del género")]
+        [DisplayName("Nombre")]
         public string Nombre { get; set; }
-
-        [Required]
+        
         [MaxLength(500)]
-        [DisplayName("Descripción del género")]
+        [DisplayName("Descripción")]
         public string Descripcion { get; set; }
 
         public bool Eliminado { get; set; }

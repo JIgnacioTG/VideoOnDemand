@@ -101,7 +101,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
+                <input type="submit" value="Registrar" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -110,3 +110,19 @@
 <div>
     @Html.ActionLink("Regresar a la lista de episodios", "Index", new { id = Model.serieId })
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        if(@ViewBag.Error == 1) {
+            $("#txtError").html("<p>El episodio que usted insertó se encuentra repetido, favor de modificar su año o nombre.</p>");
+            $("#modalError").modal('show');
+        }
+        if(@ViewBag.Error == 2) {
+            $("#txtError").html("<p>El episodio que usted insertó contiene la misma temporada y número que otro episodio existente, favor de modificarlo.</p>");
+            $("#modalError").modal('show');
+        }
+    });
+</script>
+}

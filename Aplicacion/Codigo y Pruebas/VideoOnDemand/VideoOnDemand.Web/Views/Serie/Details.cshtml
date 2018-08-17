@@ -2,7 +2,7 @@
 @model VideoOnDemand.Web.Models.SerieViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Serie: " + Model.nombre;
 }
 <style>
     .star {
@@ -121,7 +121,7 @@
                     <div id="home_@g.Key" class="tab-pane @estilo">
                         @foreach (var d in g)
                         {
-                        <div><h4><strong>* Espisodio @d.numEpisodio: @d.nombre &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink("> Reproducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId() }, new { @class = "btn btn-default" })</strong></h4></div>
+                        <div><h4><strong>* Episodio @d.numEpisodio: @d.nombre &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Html.ActionLink("> Reproducir", "Index", "Play", new { MediaId = Model.id, UserId = User.Identity.GetUserId() }, new { @class = "btn btn-default" })</strong></h4></div>
                         }
 
                     </div>

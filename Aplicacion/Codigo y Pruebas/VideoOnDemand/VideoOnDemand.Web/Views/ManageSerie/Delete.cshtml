@@ -1,11 +1,10 @@
 ﻿@model VideoOnDemand.Web.Models.SerieViewModel
 
 @{
-    ViewBag.Title = "Delete";
-    string Title = "Eliminar Serie";
+    ViewBag.Title = "Eliminar Serie";
 }
 
-<h2>@Title</h2>
+<h2>@ViewBag.Title</h2>
 
 <h3>&iquest;Est&aacute;s seguro que deseas eliminar esta serie?</h3>
 <div>
@@ -40,7 +39,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.fechaRegistro)
+            @Model.fechaRegistro.Value.ToString("dd/MM/yyyy")
         </dd>
 
         <dt>
@@ -48,7 +47,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.fechaLanzamiento)
+            @Model.fechaLanzamiento.Value.ToString("dd/MM/yyyy")
         </dd>
 
     </dl>

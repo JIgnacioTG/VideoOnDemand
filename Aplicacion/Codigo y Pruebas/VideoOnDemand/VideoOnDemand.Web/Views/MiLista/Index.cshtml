@@ -3,10 +3,10 @@
 @model PaginatorViewModel<VideoOnDemand.Web.Models.MediaViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Mi Lista";
 }
 
-<h2>Mi Lista</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "MiLista", FormMethod.Get))
 {

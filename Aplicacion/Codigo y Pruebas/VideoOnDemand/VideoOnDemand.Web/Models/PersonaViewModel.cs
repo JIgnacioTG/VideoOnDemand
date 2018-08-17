@@ -11,14 +11,14 @@ namespace VideoOnDemand.Web.Models
     {
         public int? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe ingresar un nombre para el actor")]
         [MaxLength(100)]
         public string Nombre { get; set; }
 
         [DisplayName("Descripción")]
         [MaxLength(500)]
         public string Descripcion { get; set; }
-
+        
         [DisplayName("Fecha de Nacimiento")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

@@ -1,12 +1,12 @@
 ﻿@model VideoOnDemand.Web.Models.PersonaViewModel
 @using VideoOnDemand.Web.Controllers;
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Actor";
 }
 
-<h2>Administrar Actores</h2>
+<h2>@ViewBag.Title</h2>
 
-<h3>¿Estás seguro que deseas eliminar este actor?</h3>
+<h3>&iquest;Est&aacute;s seguro que deseas eliminar este actor?</h3>
 <div>
     <h4>Eliminar Actor</h4>
     <hr />
@@ -32,7 +32,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FechaNacimiento)
+            @if (Model.FechaNacimiento != null)
+            {
+                @Model.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.FechaNacimiento)
+            }
         </dd>
 
     </dl>

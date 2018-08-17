@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using VideoOnDemand.Data;
@@ -8,25 +9,36 @@ using VideoOnDemand.Entities;
 using VideoOnDemand.Repositories;
 using VideoOnDemand.Web.Helpers;
 using VideoOnDemand.Web.Models;
+using AppFramework.Expressions;
 
 namespace VideoOnDemand.Web.Controllers
 {
     public class ManageSerieController : BaseController
     {
         // GET: ManageSerie
-        public ActionResult Index()
+        public ActionResult Index(int? idGenero, string nombre = "")
         {
-            ViewBag.Error = 0;
+            SerieRepository serieRepository = new SerieRepository(context);
+            GeneroRepository generoRepository = new GeneroRepository(context);
+            var genero = generoRepository.Query(g => g.Eliminado == false, "Nombre");
 
-            VideoOnDemandContext context = new VideoOnDemandContext();
-            SerieRepository repository = new SerieRepository(context);
-            // Consultar las series
-            var lst = repository.Query(s => s.estado != EEstatusMedia.ELIMINADO);
+            Expression<Func<Serie, bool>> expr = m => m.estado != EEstatusMedia.ELIMINADO;
+            if (idGenero != null)
+            {
+                expr = expr.And(x => x.Generos.Any(y => y.Id == idGenero));
 
-            // Mapear la lista de series con una lista de SerieViewModel
-            var models = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
+            }
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                expr = expr.And(x => x.nombre.Contains(nombre));
+            }
+            var lst = serieRepository.Query(expr, "Nombre");
+            var model = MapHelper.Map<IEnumerable<SerieViewModel>>(lst);
+            var lstGenero = generoRepository.Query(g => g.Eliminado == false, "Nombre");
 
-            return View(models);
+            ViewBag.ListaGenero = GeneroList(lstGenero);
+
+            return View(model);
         }
 
         // GET: ManageSerie/Create
@@ -186,12 +198,20 @@ namespace VideoOnDemand.Web.Controllers
         {
             GeneroRepository generoRepository = new GeneroRepository(context);
             PersonaRepository personaRepository = new PersonaRepository(context);
-            var lstGeneros = generoRepository.GetAll();
-            var lstPersonas = personaRepository.GetAll();
+            var lstGeneros = generoRepository.Query(g => g.Eliminado == false, "Nombre");
+            var lstPersonas = personaRepository.Query(p => p.Eliminado == false, "Nombre");
             model.GenerosDisponibles = MapHelper.Map<ICollection<GeneroViewModel>>(lstGeneros);
             model.PersonasDisponibles = MapHelper.Map<ICollection<PersonaViewModel>>(lstPersonas);
 
             return model;
+        }
+
+        public SelectList GeneroList(object selectecItem = null)
+        {
+            var repository = new GeneroRepository(context);
+            var genero = repository.Query(g => g.Eliminado == false, "Nombre").ToList();
+            genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
+            return new SelectList(genero, "Id", "Nombre", selectecItem);
         }
 
     }

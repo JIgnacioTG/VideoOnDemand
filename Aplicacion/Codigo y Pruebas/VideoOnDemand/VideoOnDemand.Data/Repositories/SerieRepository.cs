@@ -86,7 +86,10 @@ namespace VideoOnDemand.Repositories
                     e.Generos.Clear();
                     e.Actores = serie.Actores;
                     e.Generos = serie.Generos;
-                    e.estado = serie.estado;
+                    if (e.estado != EEstatusMedia.ELIMINADO)
+                    {
+                        e.estado = serie.estado;
+                    }
                 }
             }
 

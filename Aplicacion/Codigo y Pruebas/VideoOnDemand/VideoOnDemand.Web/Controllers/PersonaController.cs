@@ -24,7 +24,7 @@ namespace VideoOnDemand.Web.Controllers
         {
             PersonaRepository repository = new PersonaRepository(context);
             //Consulte los Individuas del repositorio
-            var lst = repository.Query(g => g.Eliminado != true);
+            var lst = repository.Query(g => g.Eliminado != true, "Nombre");
             //Mapeamos la lista de Individuos
             var models = MapHelper.Map<IEnumerable<PersonaViewModel>>(lst);
 
@@ -68,7 +68,7 @@ namespace VideoOnDemand.Web.Controllers
                     #endregion
 
                     Persona persona = MapHelper.Map<Persona>(model);
-
+                    persona.Eliminado = false;
                     repository.Insert(persona);
 
                     context.SaveChanges();

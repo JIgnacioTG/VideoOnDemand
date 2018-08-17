@@ -23,16 +23,16 @@ namespace VideoOnDemand.Web.Models
         public string descripcion { get; set; }
 
         [Required]
-        [DisplayName("Duración(Minutos)")]
+        [DisplayName("Duración (en Minutos)")]
         [DataType(DataType.Duration)]
         public int? duracionMin { get; set; }
         
-        [DisplayName("Fecha registro")]
+        [DisplayName("Fecha de registro")]
         [DataType(DataType.Date)]
         public DateTime? fechaRegistro { get; set; }
 
         [Required]
-        [DisplayName("Fecha lanzamiento")]
+        [DisplayName("Fecha de lanzamiento")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? fechaLanzamiento { get; set; }

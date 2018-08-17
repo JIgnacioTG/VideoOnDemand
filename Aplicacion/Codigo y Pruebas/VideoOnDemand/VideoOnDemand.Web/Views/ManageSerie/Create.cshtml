@@ -1,11 +1,10 @@
 ﻿@model VideoOnDemand.Web.Models.SerieViewModel
 
 @{
-    ViewBag.Title = "Create";
-    string Title = "Nueva Serie";
+    ViewBag.Title = "Nueva Serie";
 }
 
-<h2>@Title</h2>
+<h2>@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm()) 
@@ -125,7 +124,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="btnGuardar" type="submit" value="Guardar" class="btn btn-default" />
+                <input id="btnGuardar" type="submit" value="Registrar" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -139,10 +138,6 @@
 @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            $(".datepicker").datepicker({
-                language: "es",
-                autoclose: true
-            });
 
             $("input[name='GenerosSeleccionados']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
             $("input[name='PersonasSeleccionadas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });

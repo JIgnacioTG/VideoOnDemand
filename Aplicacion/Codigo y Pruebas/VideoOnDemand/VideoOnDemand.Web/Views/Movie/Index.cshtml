@@ -3,11 +3,11 @@
 @model PaginatorViewModel<VideoOnDemand.Web.Models.MovieViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Películas";
     ViewBag.Action = "Index";
 }
 
-<h2>Películas</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "Movie", FormMethod.Get))
 {
