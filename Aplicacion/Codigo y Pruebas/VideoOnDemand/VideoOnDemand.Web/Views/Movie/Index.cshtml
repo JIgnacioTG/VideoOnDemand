@@ -26,25 +26,9 @@
     </div>
     <div id="rightAll">
         <h4>Núm. de Coincidencias: </h4>
-
-    <div class="container">
-        <div id="leftAll">
-            @Html.TextBox("nombre", "", new { @class = "form-control" })
-        </div>
-        <div id="leftAll">
-            <input type="submit" value="Buscar" class="btn btn-default" />
-        </div>
-        <div id="leftAll">
-            @Html.DropDownList("idg", (IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
-        </div>
-
-        <div id="rightAll">
-            @Html.TextBox("paginado", new { paginado = ViewBag.Paginado }, new { @type = "number", style = "width: 60px;" })
-        </div>
-        <div id="rightAll">
-            <h4>Núm. de Coincidencias: </h4>
-        </div>
     </div>
+</div>
+
 }
 
 
