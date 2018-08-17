@@ -239,12 +239,20 @@
                         if (data.TotalResenias != 1) {
                             Str += "s";
                         }
+
                         $("#NumResenias").append("<h4>" + data.TotalResenias + "  " + Str + " </h4>");
                         for (i = 0; i < opiniones.length; i++) {
                             var o = opiniones[i];
+                            var d = new Date(o.FechaRegistro),
+                                dformat = [d.getMonth() + 1,
+                                d.getDate(),
+                                d.getFullYear()].join('/') + ' ' +
+                                    [d.getHours(),
+                                    d.getMinutes(),
+                                    d.getSeconds()].join(':');
                             var html = "<div class='container' style='padding-top: 10px;'><div class='form-group' style = 'border: 1px solid; padding-left:15px; padding-right: 15px;'>";
                             html += "<label style='padding-top: 10px;'>" + o.Usuario.Nombre + "</label>";
-                            html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + o.FechaRegistro + " </label>";
+                            html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + dformat + " </label>";
                             html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>";
                             for (e = 0; e < o.Puntuacion; e++)
                             {
@@ -275,10 +283,19 @@
                         if (data.TotalResenias != 1) {
                             Str += "s";
                         }
+
+                        var d = new Date(o.FechaRegistro),
+                            dformat = [d.getMonth() + 1,
+                            d.getDate(),
+                            d.getFullYear()].join('/') + ' ' +
+                                [d.getHours(),
+                                d.getMinutes(),
+                                d.getSeconds()].join(':');
+
                         $("#NumResenias").append("<h4>" + data.TotalResenias + "  " + Str + " </h4>");
                         var html = "<div class='container' style='padding-top: 10px;'><div class='form-group' style = 'border: 1px solid; padding-left:15px; padding-right: 15px;'>";
                         html += "<label style='padding-top: 10px;'>" + o.Usuario.Nombre + "</label>";
-                        html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + o.FechaRegistro + " </label>";
+                        html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>" + dformat + " </label>";
                         html += "<label style='padding-top: 10px; padding-left: 20px; padding-right: 20px;'>";
                         for (e = 0; e < o.Puntuacion; e++) {
                             html += "<label style='font-size: 20px;'>★</label>";
