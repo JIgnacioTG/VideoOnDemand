@@ -19,7 +19,7 @@ namespace VideoOnDemand.Web.Controllers
         public SelectList GeneroList(object selectecItem = null)
         {
             var repository = new GeneroRepository(context);
-            var genero = repository.Query(null, "Nombre").ToList();
+            var genero = repository.Query(g => g.Eliminado == false, "Nombre").ToList();
             genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
             return new SelectList(genero, "Id", "Nombre", selectecItem);
         }
@@ -40,7 +40,7 @@ namespace VideoOnDemand.Web.Controllers
 
             MovieRepository repository = new MovieRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
-            var genero = generoRepository.GetAll();
+            var genero = generoRepository.Query(g => g.Eliminado == false);
 
             Expression<Func<Movie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE && m.nombre.Contains(nombre);
 
