@@ -73,7 +73,7 @@ namespace VideoOnDemand.Web.Controllers
                             if (s.fechaLanzamiento == serie.fechaLanzamiento)
                             {
                                 ViewBag.Error = 1;
-                                return View(model);
+                                return Create();
                             }
                         }
                     }
@@ -84,12 +84,12 @@ namespace VideoOnDemand.Web.Controllers
                 }
                 else
                 {
-                    return View(model);
+                    return Create();
                 }
             }
             catch
             {
-                return View();
+                return Create();
             }
         }
 
@@ -133,7 +133,7 @@ namespace VideoOnDemand.Web.Controllers
                                     model = MapHelper.Map<SerieViewModel>(serie);
                                     model = LinkLists(model);
                                     ViewBag.Error = 1;
-                                    return View(model);
+                                    return Edit(id);
                                 }
                             }
                         }
@@ -143,11 +143,11 @@ namespace VideoOnDemand.Web.Controllers
                     return RedirectToAction("Index");
                 }
 
-                return View(model);
+                return Edit(id);
             }
             catch
             {
-                return View(model);
+                return Edit(id);
             }
         }
 

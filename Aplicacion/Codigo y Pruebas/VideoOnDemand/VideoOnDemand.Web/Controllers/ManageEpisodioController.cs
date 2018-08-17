@@ -68,28 +68,6 @@ namespace VideoOnDemand.Web.Controllers
 
                     var lstEpisodios = episodioRepository.Query(e => e.serieId == model.id);
 
-                    #region Validaciones
-                    foreach (var e in lstEpisodios)
-                    {
-                        if (e.nombre.ToLower() == episodio.nombre.ToLower())
-                        {
-                            if (e.fechaLanzamiento == episodio.fechaLanzamiento)
-                            {
-                                ViewBag.Error = 1;
-                                return View(model);
-                            }
-                        }
-                        if (e.temporada == episodio.temporada)
-                        {
-                            if (e.numEpisodio == episodio.numEpisodio)
-                            {
-                                ViewBag.Error = 2;
-                                return View(model);
-                            }
-                        }
-                    }
-                    #endregion
-
                     context.Entry(serie).Collection(s => s.Generos).Load();
                     context.Entry(serie).Collection(s => s.Actores).Load();
 
@@ -99,20 +77,42 @@ namespace VideoOnDemand.Web.Controllers
                     episodio.Generos = serie.Generos;
                     episodio.fechaRegistro = DateTime.Now;
 
+                    ViewBag.Serie = serie.nombre;
+
+                    #region Validaciones
+                    foreach (var e in lstEpisodios)
+                    {
+                        if (e.nombre.ToLower() == episodio.nombre.ToLower())
+                        {
+                            if (e.fechaLanzamiento == episodio.fechaLanzamiento)
+                            {
+                                ViewBag.Error = 1;
+                                return Create(model.id);
+                            }
+                        }
+                        if (e.temporada == episodio.temporada)
+                        {
+                            if (e.numEpisodio == episodio.numEpisodio)
+                            {
+                                ViewBag.Error = 2;
+                                return Create(model.id);
+                            }
+                        }
+                    }
+                    #endregion
+
                     episodioRepository.Insert(episodio);
 
                     context.SaveChanges();
 
-                    ViewBag.Serie = serie.nombre;
-
                     return RedirectToAction("Index", new { id = episodio.serieId });
                 }
 
-                return View(model);
+                return Create(model.id);
             }
             catch
             {
-                return View(model);
+                return Create(model.id);
             }
         }
 
@@ -148,6 +148,8 @@ namespace VideoOnDemand.Web.Controllers
 
                     var lstEpisodios = episodioRepository.Query(e => e.serieId == episodio.serieId);
 
+                    ViewBag.Serie = episodio.Serie.nombre;
+
                     #region Validaciones
                     foreach (var e in lstEpisodios)
                     {
@@ -158,7 +160,7 @@ namespace VideoOnDemand.Web.Controllers
                                 if (e.fechaLanzamiento == episodio.fechaLanzamiento)
                                 {
                                     ViewBag.Error = 1;
-                                    return View(model);
+                                    return Edit(id);
                                 }
                             }
                         }
@@ -167,7 +169,7 @@ namespace VideoOnDemand.Web.Controllers
                             if (e.numEpisodio == episodio.numEpisodio)
                             {
                                 ViewBag.Error = 2;
-                                return View(model);
+                                return Edit(id);
                             }
                         }
                     }
@@ -178,19 +180,17 @@ namespace VideoOnDemand.Web.Controllers
                     context.Entry(episodio).Collection(e => e.Opiniones).Load();
                     context.Entry(episodio).Reference(e => e.Serie).Load();
 
-                    ViewBag.Serie = episodio.Serie.nombre;
-
                     episodioRepository.Update(episodio);
                     context.SaveChanges();
                     return RedirectToAction("Index", new { id = episodio.serieId });
                 }
 
-                return View(model);
+                return Edit(id);
 
             }
             catch
             {
-                return View(model);
+                return Edit(id);
             }
         }
 
