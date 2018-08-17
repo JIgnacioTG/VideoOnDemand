@@ -95,7 +95,7 @@
                     <div class="checkbox">
                         <label>
                             <input id="SeleccionarGeneros"  name="SeleccionarGeneros" 
-                                   type="checkbox" required value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                                   type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
                         </label>
                     </div>
                 }
@@ -124,7 +124,7 @@
                     }
                     <div class="checkbox">
                         <label>
-                            <input id="SeleccionarPersonas" name="SeleccionarPersonas" required type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
+                            <input id="SeleccionarPersonas" name="SeleccionarPersonas" type="checkbox" value="@item.Id.Value.ToString()" @selecionado> @item.Nombre
                         </label>
                     </div>
                     <div id="personas"></div>
