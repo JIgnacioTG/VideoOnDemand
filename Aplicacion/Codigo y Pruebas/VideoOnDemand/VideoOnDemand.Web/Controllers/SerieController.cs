@@ -19,7 +19,7 @@ namespace VideoOnDemand.Web.Controllers
         public SelectList GeneroList(object selectecItem = null)
         {
             var repository = new GeneroRepository(context);
-            var genero = repository.Query(null, "Nombre").ToList();
+            var genero = repository.Query(g => g.Eliminado == false, "Nombre").ToList();
             genero.Insert(0, new Genero { Id = null, Nombre = "Seleccione" });
             return new SelectList(genero, "Id", "Nombre", selectecItem);
         }
@@ -40,7 +40,7 @@ namespace VideoOnDemand.Web.Controllers
 
             SerieRepository repository = new SerieRepository(context);
             GeneroRepository generoRepository = new GeneroRepository(context);
-            var genero = generoRepository.GetAll();
+            var genero = generoRepository.Query(g => g.Eliminado == false);
 
             Expression<Func<Serie, bool>> expr = m => m.estado == EEstatusMedia.VISIBLE && m.nombre.Contains(nombre);
 
@@ -209,6 +209,16 @@ namespace VideoOnDemand.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            // Descripción mayor de 200
+            if (model.Descripcion.Length > 200)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    TypeError = 3
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             //Puntuacion Requerida - Si no califica se vuelve 0
             if (model.Puntuacion == null)
             {
@@ -250,6 +260,8 @@ namespace VideoOnDemand.Web.Controllers
                     TypeError = 1
                 }, JsonRequestBehavior.AllowGet);
             }
+
+
             #endregion
             var favorito = MapHelper.Map<Favorito>(model);
 

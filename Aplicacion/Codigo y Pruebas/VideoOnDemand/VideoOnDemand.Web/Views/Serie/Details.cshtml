@@ -102,10 +102,12 @@
 
     <ul class="nav nav-tabs">
 @{
+
     var tab = "active";
-    for(int i = 1; i <= temp.AsDecimal(); i++)
-        {
-        <li class="@tab"><a href="#home_@i">Temporada @i </a></li>
+    var agrup = Model.Episodios.GroupBy(g => g.temporada);
+    foreach (var d in agrup)
+    {
+        <li class="@tab"><a href="#home_@d.Key">Temporada @d.Key </a></li>
         tab = "";
     }
 }
@@ -206,6 +208,12 @@
                                  $("#txtTituloError").html("Error: Campos Vacios");
                                  $("#txtError").html("<p>El área de la reseña no puede estar vacío</p>")
                                  $("#modalError").modal("show");
+                             } else {
+                                 if (data.TypeError == 3) {
+                                     $("#txtTituloError").html("Error: Tamaño");
+                                     $("#txtError").html("<p>El tamaño máximo de caracteres para la reseña es de 200</p>")
+                                     $("#modalError").modal("show");
+                                 }
                              }
                          }
 

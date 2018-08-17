@@ -102,7 +102,7 @@ namespace VideoOnDemand.Web.Controllers
                             if(m.fechaLanzamiento == movie.fechaLanzamiento)
                             {
                                 ViewBag.Error = 1;
-                                return View(model);
+                                return Create();
                             }
                         }
                     }
@@ -114,12 +114,12 @@ namespace VideoOnDemand.Web.Controllers
                 else
                 {
                     
-                    return View(model);
+                    return Create();
                 }
             }
             catch
             {
-                return View(model);
+                return Create();
             }
         }
 
