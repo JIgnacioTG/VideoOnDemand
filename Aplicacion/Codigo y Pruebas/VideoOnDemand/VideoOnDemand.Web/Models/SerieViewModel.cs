@@ -44,9 +44,13 @@ namespace VideoOnDemand.Web.Models
         public virtual ICollection<OpinionViewModel> Opiniones { get; set; }
 
         public ICollection<GeneroViewModel> GenerosDisponibles { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar por lo menos un género.")]
         public int[] GenerosSeleccionados { get; set; }
 
         public ICollection<PersonaViewModel> PersonasDisponibles { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar por lo menos un actor.")]
         public int[] PersonasSeleccionadas { get; set; }
 
         public virtual ICollection<EpisodioViewModel> Episodios { get; set; }

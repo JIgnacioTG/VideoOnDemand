@@ -147,7 +147,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
+<script>
     //$(function () {
     //    $(".datepicker").datepicker({
     //        language: "es",
@@ -155,10 +155,10 @@
     //    });
     //});
     $(function () {
-        $("input[name='SeleccionarGeneros']").rules("add", { required: true, messages: { required: "Debe seleccionar un género." } });
+        $("input[name='SeleccionarGeneros']").rules("add", { required: true, messages: { required: "Debe seleccionar por lo menos un género." } });
     });
     $(function () {
-        $("input[name='SeleccionarPersonas']").rules("add", { required: true, messages: { required: "Debe seleccionar un actor." } });
+        $("input[name='SeleccionarPersonas']").rules("add", { required: true, messages: { required: "Debe seleccionar por lo menos un actor." } });
     });
     if(@ViewBag.Error == 1) {
         $("#txtError").html("<p>La película que usted insertó se encuentra repetida, favor de modificar su año o nombre.</p>");
