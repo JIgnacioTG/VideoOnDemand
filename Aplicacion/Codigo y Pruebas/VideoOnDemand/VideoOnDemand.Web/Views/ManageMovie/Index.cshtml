@@ -13,19 +13,17 @@
 
 @using (Html.BeginForm("Index","ManageMovie", FormMethod.Get))
 {
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Busqueda por nombre o genero
-        </div>
+    <div class="container">
+            <div id="leftAll">
+                @Html.TextBox("nombre", "", new { @class = "form-control", placeholder = "Nombre de la película" })
+            </div>
+            <div id="leftAll">
+                @Html.DropDownList("idGenero", (IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
+            </div>
+            <div id="leftAll">
+                <button type="submit" class="btn btn-default">Buscar</button>
+            </div>
         
-        <div class="panel-body">
-            Nombre:
-            @Html.TextBox("nombre","",new {@class="form-control"})
-            <br />
-            @Html.DropDownList("idGenero",(IEnumerable<SelectListItem>)ViewBag.ListaGenero, new { @class = "form-control" })
-            <br />
-            <button type="submit" class="btn btn-default">Buscar</button>
-        </div>
     </div>
 
 }

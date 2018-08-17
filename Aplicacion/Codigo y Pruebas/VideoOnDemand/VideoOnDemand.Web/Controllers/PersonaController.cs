@@ -134,7 +134,14 @@ namespace VideoOnDemand.Web.Controllers
             var actor = repository.Query(t => t.Id == id).First();
 
             var model = MapHelper.Map<PersonaViewModel>(actor);
-
+            if (ViewBag.Error == 1)
+            {
+                ViewBag.Salto = 1;
+            }
+            else
+            {
+                ViewBag.Salto = 0;
+            }
             return View(model);
         }
 

@@ -1,12 +1,12 @@
 ﻿@model VideoOnDemand.Web.Models.PersonaViewModel
-
+@using VideoOnDemand.Web.Controllers;
 @{
     ViewBag.Title = "Delete";
 }
 
 <h2>Administrar Actores</h2>
 
-<h3>¿Estás Seguro Que Desea Eliminar Este Actor?</h3>
+<h3>¿Estás seguro que deseas eliminar este actor?</h3>
 <div>
     <h4>Eliminar Actor</h4>
     <hr />
@@ -48,10 +48,28 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
+<script type="text/javascript">
+        @{string html = "";}
+        var errorMessage = "<p style='color: red'>El actor @Model.Nombre esta siendo utilizado por una película o serie y no se puede eliminar.</p>";
+        var peliculas = "";
         if(@ViewBag.Error == 1) {
-            $("#txtError").html("<p style='color: red'>El actor @Model.Nombre esta siendo utilizado por una película o serie y no se puede eliminar.</p>");
+            @{ if (ViewBag.Salto != 0) {
+                    foreach (var std in ViewData["inUsing"] as List<PersonaController.lstMedias>)
+                    {
+                        html += @std.nombre + " - " + @std.tipo + ",";
+
+                    }
+                }
+            }
+            peliculas = "@html.ToString()"
+            var arregloMedias = peliculas.split(",");
+            var listado = "<ul>";
+            for(var i = 0; i < arregloMedias.length - 1; i++){
+                listado = listado + "<li>" + arregloMedias[i] + "</li>"
+            }
+            listado = listado + "</ul>"
+            $("#txtError").html(errorMessage + listado)
             $("#modalError").modal('show');
         }
-    </script>
+</script>
     }
